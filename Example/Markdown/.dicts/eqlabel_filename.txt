@@ -1,0 +1,5 @@
+eq:gf_pyramids?gf_pyramids
+eq:Qs?Qs
+eq:Ps?Ps
+eq:S?S
+eq:motzkin_meanders_animals?motzkin_meanders_animals

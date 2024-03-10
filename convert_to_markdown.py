@@ -34,6 +34,7 @@ class Counter:
 
     def new_section(self):
         self.theorem = 1
+        self.subsection = 0
 
 def translate_textstyles(content):
     math = False
@@ -79,6 +80,7 @@ def basic_syntax_translation(content):
     content = re.sub("``(.+?)''", r'"\1"', content)
     content = re.sub("`(.+?)'", r"'\1'", content)
     content = re.sub("--", "–", content)
+    content = re.sub("\\\\textelp\{\}", "...", content)
     content = re.sub("\\\\phantom\{\}", "\n", content)
     content = re.sub("(\\\\tag\*)", r"%\1\n", content)
     content = re.sub("\\\\chapter\*\{(.*?)\}", r"# \1", content)

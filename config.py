@@ -23,8 +23,8 @@ highest_level_of_document_structure = 0
 
 # LaTeX files
 
-latex_path = "LaTeX/Thesis/"
-latex_main_file = "Analytic Combinatorics and Bijections for Directed Lattice Paths.tex"
+latex_path = "Example/LaTeX"
+latex_main_file = "main.tex"
 bib_file = "literature.bib"
 
 # Files to save dictionaries between LaTeX labels and corresponding markdown file names

@@ -1,0 +1,42 @@
+Catastrophes?Lattice paths with catastrophes|Banderier & Wallner, 2017
+DyckWords?On the enumeration and generation of generalized Dyck words|Duchon, 2000
+Basic?Basic analytic combinatorics of directed lattice paths|Banderier & Flajolet, 2002
+ContinuedFractions?Combinatorial aspects of continued fractions|Flajolet, 1980
+ImagesAndPreimages?Images and preimages in random mappings|Drmota & Soria, 1997
+Basketball?Explicit formulas for enumeration of lattice paths basketball and the kernel method|Banderier et. al., 2019
+BoundedWalks?Bounded discrete walks|Banderier & Nicodème, 2010
+GamblersRuin?Gambler’s ruin with catastrophes and windfalls|Hunter et. al., 2008
+LatticeAnimals?Lattice animals and heaps of dimers|Bousquet-Mélou & Rechnitzer, 2002
+LinearRecurrences?Linear recurrences with constant coefficients the multivariate case|Bousquet-Mélou & Petkovšek, 2000
+RationalSlope?The kernel method for lattice paths below a line of rational slope|Banderier & Wallner, 2019
+QueueingTheory?Dual processes to solve single server systems|Krinik et. al., 2005
+Bijections?Bijections from Dyck and Motzkin meanders with catastrophes to pattern avoiding Dyck paths|Baril & Kirgizov, 2021
+Percolation?On two-dimensional percolation|Conway & Guttmann, 1995
+Polymers?Statistics of collapsing lattice animals|Flesia et. al., 1994
+Heaps?Problèmes combinatoires posés par la physique statistique|Viennot, 1985
+DirectedAnimals?Equivalence of the two-dimensional directed-site animal problem to Baxter's hard-square lattice-gas model|Dhar, 1982
+ReflectionPrinciple?Lost (and found) in translation André's actual method and its application to the generalized ballot problem|Renault, 2008
+FirstLatticePath?Arrangements of m things of one sort and n things of another sort, under certain conditions of priority|Whitworth, 1878
+HistoryLatticePathEnumeration?A history and a survey of lattice path enumeration|Humphreys, 2010
+DrmotaSoria?Images and preimages in random mappings|Drmota & Soria, 1997
+Bizley?Bizley|Bizley, 1954
+RandomWalksResetting?First order transition for the optimal search time of Lévy flights with resetting|Kusmierz et. al., 2014
+SingularityAnalysis?Singularity analysis of generating functions|Flajolet & Odlyzko, 1990
+SmallSteps?Walks with small steps in the quarter plane|Bousquet-Mélou & Mishna, 2010
+BallotTheorems?Ballot theorems, old and new|Addario-Berry & Reed, 2008
+AnalyticCombinatorics?Analytic combinatorics|Flajolet & Sedgewick, 2009
+CatalanNumbers?Catalan numbers|Stanley, 2015
+ComplexFunctions?Theory of complex functions|Remmert, 1991
+EnumerativeCombinatorics?Enumerative Combinatorics Volume 2|Stanley, 2023
+Funktionentheorie?Funktionentheorie Eine Einführung Sechste Auflage|Jänich, 2004
+Knuth?The Art of Computer Programming Vol 1; Fundamental algorithms|Knuth, 1997
+Hadamard?The Psychology of Invention in the Mathematical Field|Hadamard, 1945
+GeneratingFunctionology?generatingfunctionology|Wilf, 2005
+Riordan?Combinatorial Identities|Riordan, 1968
+Berge?Principes de combinatoire|Berge, 1968
+Lang?Linear Algebra|Lang, 1966
+Schoutens?Lévy Processes in Finance Pricing Financial Derivatives|Schoutens, 2003
+Mingatu?Quick Methods for Accurate Values of Circle Segments|Myangat
+Invitation?An invitation to analytic combinatorics and lattice path counting|Lackner & Wallner, 2015
+Wallner?Lattice path combinatorics|Wallner, 2013
+OEIS?The On-Line Encyclopedia of Integer Sequences|OEIS Foundation Inc., 2024
