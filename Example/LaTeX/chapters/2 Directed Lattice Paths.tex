@@ -1,0 +1,1407 @@
+\chapter{Directed lattice paths and the kernel method}
+\label{chapter:directed_lattice_paths_kernel_method}
+
+This chapter is devoted to the analysis of the four basic types of simple lattice paths; see Table \ref{table:4paths}.
+We begin in Section \ref{section:kernel_method} with providing a thorough treatment, including its historical developments, of the central technique in the theory of lattice path enumeration: the \textit{kernel method}. 
+Following up, in Section \ref{section:generating_functions} we apply this method to derive general formulae for the generating functions of the four basic types for arbitrary simple step sets. 
+The first two sections are mainly based on the seminal article
+\textit{Basic analytic combinatorics of directed lattice paths} by Banderier and Flajolet \cite{Basic}.
+Further, in Section \ref{section:singularity_analysis} we present an introduction into the theory of singularity analysis and their application for determining the asymptotic behavior of the counting sequences for directed lattice paths. 
+For this part we follow closely the clear presentation in the definite treatment on the topic: 
+The monograph \textit{Analytic Combinatorics} by Flajolet and Sedgewick \cite{AnalyticCombinatorics}.
+
+\begin{table}[hbt!]
+  \centering
+  \begin{tabular}{|c|c|c|}
+  \hline
+  & ending anywhere & ending at $0$ \\ \hline
+  \makecell{unconstrained \\ (on $\Z$)} &
+  \makecell{\\ \includegraphics[width = 0.25\linewidth]{images/ipe/walk.pdf} \\ walk/path ($\mathcal{W}$) \vspace{2mm} \\ $W(z) = \frac{1}{1-zP(1)}$ \vspace{2mm}} &
+  \makecell{\\ \includegraphics[width = 0.25\linewidth]{images/ipe/bridge.pdf} \\ bridge ($\mathcal{B}$) \vspace{2mm} \\ $B(z) = z \sum_{i=1}^c\frac{u_i'(z)}{u_i(z)}$ \vspace{2mm}} \\ \hline
+  \makecell{constrained \\ (on $\Z_+$)} &
+  \makecell{\\ \includegraphics[width = 0.25\linewidth]{images/ipe/meander.pdf} \\ meander ($\mathcal{M}$) \vspace{2mm} \\ $M(z) = \frac{1}{1-zP(1)} \prod_{i=1}^c(1-u_i(z))$ \vspace{2mm}} &
+  \makecell{\\ \includegraphics[width = 0.25\linewidth]{images/ipe/excursion.pdf} \\ excursion ($\mathcal{E}$) \vspace{2mm} \\ $E(z) = \frac{(-1)^{c-1}}{p_{-c}z}\prod_{i=1}^c u_i(z)$ \vspace{2mm}} \\ \hline
+  \end{tabular}
+  \caption[The four types of directed paths.]{The four types of directed paths: walks, bridges, meanders and excursions and the corresponding generating functions \cite[Fig.~1]{Basic}.}
+  \label{table:4paths}
+\end{table}
+
+\begin{definition}[Common families of lattice paths]
+  In this definition we give an overview over all the families of lattice paths used in this thesis. We state the specific simple step set and the corresponding kernel equation, which will be defined in the next section, respectively.
+  \begin{itemize}
+    \item \textit{Dyck walks}: The step set is given by $\mathcal{D} := \{-1,1\}$ and the kernel equation reads 
+    $$
+      K(z,u) = u - z(1 + u^2).
+    $$
+    \item \textit{Motzkin walks:} The step set is given by $\mathcal{M} := \{-1,0,1\}$ and the kernel equation reads 
+    $$
+      K(z,u) = u - z(1 + u + u^2).
+    $$
+    \item \textit{$k$-Motzkin walks:} The step multiset is given by $\mathcal{M}_k := \{-1,\underbrace{0,\dots,0}_{k \text{ times}},1\}$ and the kernel equation reads 
+    $$
+      K(z,u) = u - z(1 + k u + u^2).
+    $$
+    They are commonly interpreted as lattice paths with $k$ different colors for the horizontal step. Hence, we model them as simple lattice paths with a horizontal step of weight $p_0 = k$.
+    \item \textit{Basketball walks:} The step set is given by $\mathcal{B} := \{-2,-1,1,2\}$ and the kernel equation reads 
+    $$
+      K(z,u) = u^2 - z(1 + u + u^3 + u^4).
+    $$
+  \end{itemize}
+  Throughout this thesis, we will use the following notation rules for generating functions:
+  \begin{enumerate}
+    \item $W(z), B(z), M(z)$ and $E(z)$ denote the generating functions for walks, bridges, meanders and excursions, respectively.
+    \item The subscript encodes the corresponding step set.
+    \item Additional extensions, like catastrophes, will be noted in the superscript.
+  \end{enumerate}
+  For example, $M_{\mathcal{D}}^{\mathrm{cat}}(z,u)$ will denote the bivariate generating function of Dyck meanders with catastrophes.  
+\end{definition}
+
+\section{Kernel method}
+\label{section:kernel_method}
+
+To derive most of these general formulae for the generating functions, the technique of choice will be the so-called \textit{kernel method}. As Banderier and Flajolet note in \cite[p.~55]{Basic}, this method has been part of the folklore of combinatorialists for some time.
+It deals with a functional equation of the form
+$$
+  K(z,u)F(z,u) = A(z,u) + B(z,u)G(z),
+$$
+with $F(z,u)$ and $G(z)$ being the unknown functions. The core idea is now to solve the \textit{kernel equation} $K(z,u) = 0$ for $u$. In its simplest form, the equation admits exactly one \textit{small branch} $u_1(z)$ that is characterized by the property that $\lim_{z \to 0} u_1(z) = 0$. In that case, a single substitution does the job, and we get
+\begin{align*}
+  G(z) = - \frac{A(z,u_1(z))}{B(z,u_1(z))}, \qquad
+  F(z,u) = \frac{1}{K(z,u)}\left( A(z,u) - \frac{B(z,u) \cdot A(z,u_1(z))}{B(z,u_1(z))}\right).
+\end{align*}
+
+\begin{example}[Origin of the kernel method]
+  One of the first known applications of this technique appears in Knuth's \textit{The Art of Computer Programming} \cite[Answer to Exercise 2.2.1.4, pp.~536--537]{Knuth}, 
+  where he counts permutations obtainable via admissible sequences of operations on stacks. The two operations on a stack are to move an element from the input into the stack and to move an element from the stack into the output. We note that this counting problem is equivalent to counting the number of Dyck meanders, as the number of removals from the stack may never exceed the number of insertions. 
+  The special case that the total number of insertions equals the total number of removals then fits neatly into the long list of objects counted by the Catalan numbers, as we have shown in \ref{ex:ballot_problem}.
+  To address the general case, Knuth introduces a new technique that we now call the kernel method.
+
+  Let $g_{n,k}$ be the number of admissible sequences of stack operations of length $n$, with $k$ more insertions than removals and define the bivariate generating function $G(z,u) := \sum_{n, k = 0}^\infty g_{n,k} u^k z^n$.
+  By partitioning these sequences based on whether their last operation is an insertion or a removal, we see that the counting sequence satisfies, for $n, m \geq 0$,
+  $$
+    g_{n+1,m} = g_{n,m-1} + g_{n,m+1}, \qquad g_{0,m} = \delta_{0,m},
+    \qquad g_{n,-1} := 0,
+  $$
+  where $\delta_{0,m}$ denotes the Kronecker\footnote{Leopold Kronecker (1823--1891)} symbol defined via
+  $$
+    \delta_{i,j} = 
+    \begin{cases}
+      1, & i = j, \\
+      0, & i \neq j.
+    \end{cases}
+  $$
+  We multiply the recurrence relation with $z^n u^k$ and sum over $n$ and $k$. This yields the functional equation
+  \begin{align*}
+    \frac{1}{z}(G(z,u) - 1) = u \cdot G(z,u) + \frac{1}{u}(G(z,u) - G(z,0)).
+  \end{align*}
+  Rearranging the terms of this equation and multiplying to get rid of the denominators, the kernel structure of this equation becomes apparent, as
+  \begin{equation}\label{eq:functional_equation_knuth}
+    \underbrace{(z(u^2 + 1) - u)}_{=: K(z,u)} G(z,u) = zG(z,0) - u.
+  \end{equation}
+  We are now looking to find an expression for $G(z,0)$ such that $G(z,u)$ admits a power series expansion in $z$ and $u$ at $ (z,u) = (0,0)$. The most straightforward ansatz is to set the kernel $K(z,u) = 0$.
+  Solving this equation for $u$ yields two conjugated solutions
+  $$
+    u_1(z) = \frac{1 - \sqrt{1 - 4z^2}}{2z}, \qquad
+    v_1(z) = \frac{1 + \sqrt{1 - 4z^2}}{2z}.
+  $$
+  Plugging them into the functional equation \eqref{eq:functional_equation_knuth} we get
+  the two candidate solutions $u_1(z)/z$ and $u_2(z)/z$ for $G(z,0)$.
+  By expanding 
+  $$
+    \sqrt{1 - 4z^2} = 1 - 2z^2 + \mathcal{O}(z^4)
+  $$
+  we see that only $u_1(z)/z$ admits a proper power series expansion at $z = 0$. Hence, only $G(z,0) = u_1(z)/z$ conforms with the fact that $G(z,0)$ is a generating function of a combinatorial class. 
+  Further, we observe that
+  $$
+    u_1(z) + u_2(z) = \frac{1}{z}, \qquad u_1(z) \cdot u_2(z) = 1.
+  $$
+  Thus, together with $G(z,0) = u_1(z)/z$, we find
+  $$
+    G(z,u) = \frac{zu_1(z) - u}{z(u^2 + 1) - u}
+    = \frac{zu_1(z) - u}{z(1 - u_1(z) \cdot u)(1 - u_2(z) \cdot u)} = \frac{u_1(z)}{z(1 - u_1(z) \cdot u)},
+  $$
+  which can then be used in conjunction with the expansion
+  $$
+    u_1(z) = \sum_{n = 0}^\infty \frac{1}{2n + 1}\binom{2n + 1}{n}z^{2n+1}
+  $$
+  to determine the general solution
+  \begin{alignat*}{3}
+    &g_{2n,2k} &&= \frac{2k + 1}{2n + 1}\binom{2n + 1}{n - k} 
+    &&= \binom{2n}{n - k} - \binom{2n}{n - k - 1}, \\
+    &g_{2n + 1, 2k + 1} &&= \binom{2k + 2}{2n + 2}
+    &&= \binom{2n + 1}{n - m} - \binom{2n + 1}{n - k - 1}. \tag*{\qedhere}
+  \end{alignat*}
+\end{example}
+
+Further developments pertaining the kernel method can be found in the article by Bousquet-Mélou and Petkovšek \cite{LinearRecurrences}, concerned with the subject of multi-dimensional walks, linear recurrences and kernels. 
+Let us now provide a formal definition for the kernel equation and analyze a few basic properties regarding its solutions.
+
+% \begin{itemize}
+%   \item 
+%   \item The asymptotics are coming from the dominant roots $u_1$ and $v_1$, which are singular at $\rho$, the product of the other roots is analytical at $\rho$ and therefore, these other roots only affect the multiplicative constant of the asymptotics. Some easy modifications have to be made here if the walk is ``periodic''.
+%   \item The roots $u_1$ and $v_1$ share a square root behavior at $z = \rho$:
+%   $$
+%     u_1(z) \sim \tau + \sum_{n = 1}^\infty a_n (\rho - z)^{n/2}, \qquad
+%     v_1(z) \sim \tau + \sum_{n = 1}^\infty (-1)^n a_n (\rho - z)^{n/2}.
+%   $$
+%   \item The drift $\delta := P'(1)$ of the walk plays a role for the asymptotics of meanders ($\delta > 0$ when $\tau > 1; \delta = 0$ when $\tau = 1; \delta < 0$ when $\tau < 1$).
+% \end{itemize}
+
+\begin{definition}[Kernel equation]
+  Let $\mathcal{S} = \{s_1,\dots,s_m\}$ be a simple step set with a corresponding system of weights $\Pi = \{\, p_s\mid s \in \mathcal{S} \,\}$ and let $c = - \min_j s_j$ and $d = \max_j s_j$ be the two extreme vertical amplitudes of any jump. Throughout this section we will assume $c, d > 0$, as well as $p_s > 0$, for $s \in \mathcal{S}$. Further, let 
+  $$
+    P(u) = \sum_{k=-c}^d p_k u^k
+  $$ 
+  be the matching jump polynomial.
+  Then we define the \textit{kernel equation} for $(\mathcal{S},\Pi)$ as 
+  \begin{equation*}
+    K(z,u) := 1 - zP(u) = 0,
+  \end{equation*}
+  where $K(z,u)$, or equivalently $u^c - z(u^cP(u)) = 0$ (as an entire function without negative powers) is called the \textit{kernel}. 
+  The kernel equation then defines the so-called \textit{characteristic curve} of the family of lattice paths with step set $\mathcal{S}$.
+\end{definition}
+
+Before we proceed with analyzing the most important properties of this characteristic curve, we interject a useful little lemma for Laurent series with non-negative coefficients.
+
+\begin{lemma}[Strong triangle inequality] \label{lemma:strong_triangle_inequality}
+  Let $Q(z)$ be an aperiodic Laurent series with non-negative coefficients that is not a monomial. Then, by the strong form of the triangle inequality it holds that
+  $$
+    |Q(z)| < Q(|z|)\quad \text{for all $u \in \mathbb{C}\setminus \mathbb{R}_{\geq 0}$}.
+  $$
+\end{lemma}
+
+\begin{proof}
+  Firstly we note that
+  $$ |Q(z)| = \Big|\sum_{n \geq 0}q_n z^n\Big| \leq \sum_{n \geq 0}|q_n z^n| = \sum_{n \geq 0}q_n|z|^n = Q(|z|).
+  $$
+  The strict version of this inequality clearly holds for any $z$ such that $z/|z|$ is not a root of unity since no two summands can be collinear in this case.
+  Now assume that $(z/|z|)^k = 1$ and suppose that $|Q(z)| = Q(|z|)$. Hence the equality condition of the triangle inequality tells us that all summands must be collinear, i.e.~there must be an $i < k$ with $q_n = 0$ for all $n \in \mathbb{N}: n \not\equiv j \mod k$. However, that would imply
+  $$
+    Q(z) = z^j\sum_{n \in N}q_{k n + j}z^{k n} = z^jH(z^k),
+  $$
+  contradicting the aperiodicity of $Q(z)$.
+\end{proof}
+
+In the following proposition we collect a handful of useful results from \cite{Basic} by Banderier and Flajolet pertaining the kernel equation. 
+
+\begin{proposition}[Properties of the characteristic curve] \label{prop:kernel_method}
+  Let $K(z,u)$ be the kernel equation corresponding to a simple step set $\mathcal{S} = \{s_1, \dots, s_m\}$ augmented with a system of weights $\Pi = \{\, p_s \mid s \in \mathcal{S} \,\}$ and let $c = - \min_j s_j$ and $d = \max_j s_j$ denote the two extremal vertical amplitudes of any jump.
+  Further, let $\omega_c = \exp\left(2 \pi i/c\right)$ and $\omega_d = \exp\left(2 \pi i / d\right)$ denote the respective roots of unity. 
+  Then, the following statements hold:
+  \begin{enumerate}
+    \item The kernel equation $K(z,u) = 0$ defines $c + d$ branches of a single algebraic curve. Of these branches, there are $c$ distinct \textit{small roots} $u_1, \dots, u_c$, conjugated to each other at zero, satisfying
+    \begin{equation*}\label{eq:small_roots_expansion}
+      u_j(z) \sim \omega_c^{j-1}(p_{-c})^{1/c}z^{1/c} \qquad \text{as $z \to 0$.}
+    \end{equation*}
+    More precisely, this means that there exists a function $A$ analytic at zero, such that, in a neighborhood of zero, one has
+    \begin{equation*}
+        u_j(z) = \omega_c^{j-1} z^{1/c} 
+        A\left(
+          \omega_c^{j-1}z^{1/c}
+        \right) , \quad j = 1, \dots, c.
+        % = u_1\left(\omega_c^{j-1} z\right), \quad j = 1, \dots, c.
+    \end{equation*}
+    The remaining $d$ distinct \textit{large roots} are conjugated to each other at $\infty$ and satisfy
+    \begin{equation*}
+      v_k(z) \sim \omega_d^{1-k}(p_d)^{-1/d}z^{-1/d} \qquad \text{as $z \to 0$.}
+    \end{equation*}
+    More precisely, there exists an analytic function $B$, such that, in a neighborhood of zero, one has
+    \begin{equation*}
+        v_k(z) = \omega_d^{1-k}z^{-1/d} 
+        B\left(
+          \omega_d^{1-k}z^{1/d}
+        \right), \quad k = 1, \dots, d.
+        % = v_1\left(\omega_d^{k-1}z\right), \quad k = 1, \dots, d.
+    \end{equation*}
+    In summary, the $u_j$ and $v_k$ organize themselves into two cycles of $c$ and $d$ elements; see Figure \ref{fig:characteristic_curve} for an example.
+    For determinacy, one restricts attention to the complex plane slit along the negative real axis, which allows us to talk freely of the individual branches in the sequel.
+    \item The characteristic polynomial $P(u)$ admits a unique positive minimum at a real number $\tau > 0$, called the \textit{structural constant}. This value then defines the \textit{structural radius} $\rho := 1/P(\tau)$. 
+    \item There is a \textit{dominant small root} $u_1(z)$ and a \textit{dominant large root} $v_1(z)$, determined by the reality conditions
+    $$
+      u_1(z) \sim \gamma z^{1/c}, \qquad v_1(z) \sim \delta z^{-1/d}, \qquad (z \to 0^+)
+    $$
+    with $\gamma := (p_{-c})^{1/c}, \delta := (p_d)^{-1/d} \in \R_{> 0}$,
+    such that, for $|z| < \rho, ~ i = 2,\dots,c$ and $j = 2,\dots,d$, one has
+    \begin{equation*}
+      |u_i(z)| < u_1(|z|) < v_1(|z|) < |v_j(z)|.
+    \end{equation*}
+    Further, on the circle of convergence $|z| = \rho$ we have
+    $$
+    |u_i(z)| < u_1(\rho) = v_1(\rho) < |v_j(z)|.
+    $$
+    \item The dominant small root $u_1(z)$ and the dominant large root $v_1(z)$ are conjugated to each other at their dominant singularity occuring at the structural radius $\rho$:
+    \begin{equation*}
+      u_1(z) \sim \tau + \sum_{n = 1}^\infty a_n (\rho - z)^{n/2}, \qquad 
+      v_1(z) \sim \tau + \sum_{n = 1}^\infty (-1)^n a_n (\rho - z)^{n/2}.
+    \end{equation*}
+    \item The product 
+    $$
+      Y_1(z) := \prod_{i=2}^c u_i(z)
+    $$ 
+    of the non-dominant small roots, as well as the product 
+    $$
+      \overline{Y_1}(z,u) := \prod_{j = 2}^d \frac{1}{u - v_j(z)}
+    $$
+    of the non-dominant large roots, is analytic in the closed disk including the structural radius $|z| \leq \rho$.
+  \end{enumerate}
+\end{proposition}
+
+\begin{figure}
+  \centering
+  \begin{subfigure}{.47\textwidth}
+    \includegraphics[width=\textwidth]{images/P(u).eps}
+    \caption{Graph of $P(u)$.}
+  \end{subfigure}
+  \begin{subfigure}{.47\textwidth}
+    \includegraphics[width=\textwidth]{images/P(u)^-1.eps}
+    \caption{Graph of $1/P(u)$.}
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}{.47\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/char_curve.eps}
+    \caption{Graph of the two small branches $u_1, u_2$ of order $\pm z^{1/2}$ and the only real large branch $v_1$ of order $z^{-1/3}$ of the characteristic curve.}
+  \end{subfigure}
+  \caption[Graphs of the characteristic curve.]{Graphs of $P(u) = u^{-2} + u^{-1} + 1 + u + u^2 + u^3$, the inverse $1/P(u)$ and the three real branches of the characteristic curve $1 - zP(u)$ associated with the set of jumps $\mathcal{S} = \{-2,-1,0,1,2,3\}$ {\cite[Figure 3]{Basic}}.}
+  \label{fig:characteristic_curve}
+\end{figure}
+
+\begin{proof}
+  \phantom{}
+  \begin{enumerate}
+    \item As the characteristic equation is a polynomial of degree $c + d$ (in its entire form) it generically admits $c + d$ roots that constitute the branches of a single algebraic curve.
+    We will now provide an argument from \cite[Proposition 6.9, p.~104]{Basketball} that shows this conjugation principle for small roots. The case of large roots can then be handled analogously.
+    The kernel equation yields
+    $$
+      u = X(p_{-c} + p_{-c+1}u + \cdots + p_{d-1}u^{c+d-1} + p_d u^{c+d})^{1/c}
+    $$
+    with $X = \omega_c^j z^{1/c}$ for $j = 0,\dots, c - 1$. In this form, we see that the Lagrange inversion formula (Theorem \ref{thm:lagrange_inversion}) guarantees a unique power series solution $u(X)$ to this equation. Substituting $X = \omega_c^j z^{1/c}$ into this power series yields the claim.
+    \item Since we assumed all weights to be positive, we have
+    $$
+      P''(u) = \sum_{k = -c}^d k(k - 1) p_k u^{k - 2} > 0
+    $$
+    for $u > 0$. As $\lim_{u \to 0} P(u) = \lim_{u \to + \infty} P(u) = \infty$ it must admit a unique real, positive minimum attained at some $\tau > 0$. 
+    \item The proof given here follows the lines of \cite[Lemma 2, pp.~59--60]{Basic}. As $P(\tau)$ is the unique positive minimum of $P(u)$, it follows immediately that $1/P(u)$ is monotonically increasing for $u \in [0, \tau]$. 
+    Hence, there exists a unique function $u^+(z): [0, \rho] \to [0,\tau]$ satisfying
+    $$
+      z = \frac{1}{P(u^+(z))} \qquad \text{for $z \in [0,\rho]$}.
+    $$
+    Due to the reality condition on $u_1(z)$ we see that this positive solution $u^+(z)$ must coincide with the branch $u_1(z)$ of the characteristic curve for $z \to 0^+$. 
+    Further, the implicit function theorem \ref{thm:implicit_function} guarantees the analyticity of $u^+(z)$ in the interval $(0, \rho)$ and with the identity theorem \ref{thm:identity} we obtain $u^+ \equiv u_1$ in $(0, \rho)$. 
+    Next, we use the fact that $P(u)$ is an aperiodic Laurent polynomial with positive coefficients, which according to Lemma \ref{lemma:strong_triangle_inequality} leads to the strict inequality
+    \begin{equation}\label{eq:strong_triangle_inequality}
+      |P(r \cdot \exp(i \theta))| < P(r) \qquad \text{for all $\theta \not\equiv 0 \mod 2\pi$}.
+    \end{equation}
+    Let $x \leq \rho$ be a real positive number and fix $z = x$. Then, let $w$ be an arbitrary solution of the kernel equation $1 - xP(w) = 0$ that is at most $\tau$ in modulus and \textbf{not} equal to $u_1(x)$. Hence $w \notin \R_{> 0}$ and by \eqref{eq:strong_triangle_inequality} one has
+    $$
+      x = \frac{1}{P(u_1(x))} = \frac{1}{P(w)} > \frac{1}{P(|w|)},
+    $$
+    implying $|w| < u_1(x)$, since $1/P(u)$ monotonically increases in the interval $[0, \tau]$. Further, by construction all non-dominant small branches are majorized by $\tau$ for $x \to 0^+$. Thus, they must satisfy $|u_i(x)| < u_1(x)$ for $x$ sufficiently close to zero. By continuity of the modulus of any branch the domination property cannot cease to hold on $(0,\rho)$, as otherwise that would imply $u_1(x)$ reaches $\tau$ for some $x < \rho$, yielding a clear contradiction. Then, for $x = \rho$ we can apply \eqref{eq:strong_triangle_inequality} again to see that the strict domination must continue to hold at $\rho$. 
+    Similar arguments can then be used to demonstrate $|v_j(z)| > v_1(|z|)$ for $|z| < \rho$.
+    Finally, we observe $|u_1(z)| < |v_1(z)|$, except for $z = \rho$, closing our chain of inequalities.
+    \item A part of the proof to \cite[Theorem 3]{Basic} gives insight 
+    into the conjugation principle for the dominant small and large root.
+    We start by considering the kernel equation
+    \begin{equation*}
+      z = \frac{1}{P(u)}
+    \end{equation*}
+    at the structural constant $\tau$. By construction one has $P'(\tau) = 0$ and $P''(\tau) > 0$. Then, the local expansion at $u = \tau$ reads\footnote{The formula in the proof of \cite[Theorem 3, p.~62]{Basic} is missing the factor $\rho^2$.}
+    $$
+      z = \rho - \frac{\rho^2}{2}P''(\tau)(u - \tau)^2 + 
+      \mathcal{O}\left(
+        (u - \tau)^3
+    \right).
+    $$
+    Solving above equation for $u$ yields two local solutions
+    \begin{equation*}
+      \begin{split}
+        u_1(z) &= \tau - \sqrt{2\frac{P(\tau)}{P''(\tau)}}\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho), \\
+        v_1(z) &= \tau + \sqrt{2\frac{P(\tau)}{P''(\tau)}}\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho),
+      \end{split} \qquad z \to \rho^{-},
+    \end{equation*}
+    corresponding to the dominant small root $u_1$ and the dominant large root $v_1$. In order to expand this informal discussion into a full proof, we refer to the theory of Newton-Puiseux expansions presented in Theorem \ref{thm:puiseux}.
+    \item See \cite[Theorem 3, p.~61--64]{Basic} and \cite[Theorem 6, pp.~72--75]{Basic}. \qedhere
+  \end{enumerate}
+\end{proof}
+
+These properties are vindicated by the classical theory of Newton-Puiseux expansions. For completeness sake, we will state and prove this fundamental result in the elementary theory of algebraic curves that determines constructively all the possible behaviors of solutions of polynomial equations.
+
+\begin{theorem}[Newton-Puiseux theorem {\cite[Theorem VII.7, p.~498]{AnalyticCombinatorics}}]\label{thm:puiseux}
+  Let $f(z)$ be a branch of an algebraic function $P(z,f(z)) = 0$. In a circular neighborhood of a singularity $\zeta$, slit along a ray emanating from $\zeta$, the function $f(z)$ admits a fractional series expansion, called a \textit{Puiseux series}, that is locally convergent and of the form $$ f(z) = \sum\limits_{k \geq k_{0}} c_{k}(z - \zeta)^{k/\kappa},$$
+  for a fixed determination of $(z - \zeta)^{1/\kappa}$, where $k_{0} \in \Z$ and $\kappa \in \N_{\geq 1}$.
+\end{theorem}
+
+\begin{proof}
+  Let $P(z,y)$ be an irreducible polynomial of degree $d$ in $y$ with 
+  $$
+    P(z,y) = p_{0}(z)y^{d}+ p_{1}(z)y^{d-1} + \dots + p_{d}(z).
+  $$
+  For each $z$ there are exactly $d$ distinct values for $y$ such that $P(z,y) = 0$ except for two cases:
+  \begin{itemize}
+    \item Firstly, if $p_{0}(z_0) = 0$, then there is a reduction in the degree of $y$ and hence a reduction in the number of finite $y$-solutions for that particular value.
+    \item Secondly, $P(z_0,y)$ may have a multiple root in $y$ and some of the values of $y$ will coalesce.
+  \end{itemize}
+  Hence, we define the exceptional set $\Xi[P]$ of $P$ as 
+  $$
+    \Xi[P] := \{\, z \mid p_{0}(z) = 0 \lor \exists y: P(z,y) = \partial_{y}P(z,y) = 0 \,\}.
+  $$
+  For each $z \notin \Xi[P]$ the implicit function theorem \ref{thm:implicit_function} guarantees that each of the solutions $y_j$ lifts into a locally analytic function $y_j(z)$.
+  The exceptional set thus provides a set of possible candidates for the singularities of an algebraic function.
+  Any $y(z)$, analytic at the origin, satisfying $P(z,y) = 0$, can be analytically continued along any simple path emanating from the origin that does not cross any point of $\Xi[P]$.
+  Consider an exceptional point at the origin and assume that $P(0,y)$ has $k$ equal roots $y_1,\dots,y_k$ at $y = 0$.
+  Consider a punctured disk $|z| < r$ that does not include any other exceptional point relative to $P$.
+  Continue $y_1(z)$ analytically along a curve starting from an arbitrary value $z$ in the interior of $(0,r)$, encircling the origin and returning to $z$.
+  By permanence of analytic relations $y_1(z)$ will be taken into another root.
+  Repeat this process until one has obtained a collection of roots $y_{1}(z) = y_1^{(0)}(z), y_{1}^{(1)}(z), \dots, y_{1}^{(\kappa)}(z) = y_{1}(z)$.
+  In this case, $y_{1}(t^\kappa)$ is an analytic function in $t$ except possibly at zero where it is continuous and has value zero.
+  By general principles (Morera's theorem) it is in fact analytic at zero.
+  This implies the existence of a convergent power series expansion at zero: $$y_{1}(t^{\kappa}) = \sum\limits_{n=1}^{\infty}c_{n}t^{n}.$$
+  Each determination of $z^{1/\kappa}$ yields one of the branches of the multivalued analytic function:
+  % $$
+  %   y_{1}(z) = \sum\limits_{n=1}^{\infty}c_{n}z^{n/\kappa}.
+  % % $$
+  % Alternatively, with $\omega = \exp(2\pi \mathrm{i}/\kappa)$ the $\kappa$ determinations are obtained as 
+  $$
+    y_{1}^{(j)}(z) = \sum\limits_{n=1}^{\infty}c_{n}\omega^n z^{n/\kappa}, \qquad j = 0,\dots,\kappa - 1,
+  $$
+  with $\omega = \exp(2\pi \mathrm{i}/\kappa)$.
+  If $\kappa = k$, then the cycle accounts for all the roots which tend to zero. 
+  Otherwise, we repeat the process with another root and, in this fashion, eventually exhaust all roots that tend to zero. 
+  Thus, all the $k$ roots that have value zero at $z = 0$ are grouped into cycles of size $\kappa_{1},\dots,\kappa_\ell$.
+  Finally, values of $y$ at infinity are brought to zero by means of the change of variables $y = 1/u$, leading to negative exponents in the expansion of $y$.
+\end{proof}
+
+\section{Generating functions}
+\label{section:generating_functions}
+
+The aim of this section is to present the derivations of the generating functions depicted in Table~\ref{table:4paths} in a manner that is easily accessible. Hence, we will present the proofs in the seminal work \cite{Basic} by Banderier and Flajolet with all necessary calculations being made explicit. 
+We begin with the easiest class of lattice paths to analyze. Walks or paths are lattice paths not confined to the upper-right quadrant that may end anywhere. Hence they are only restricted by their step set.
+
+\begin{theorem}[Generating function of walks {\cite[Theorem 1, p.~45]{Basic}}]
+  \label{thm:gf_walks}
+  The bivariate generating function of directed paths ($z$ marking size and $u$ marking final altitude) relative to a simple step set $\mathcal{S}$ with characteristic polynomial $P(u)$ is a rational function. It is given by
+  $$
+    W(z,u) = \frac{1}{1-zP(u)}.
+  $$
+\end{theorem}
+
+\begin{proof}
+  Let $w_n(u) = [z^n]W(z,u)$ count the number of paths ending at altitude $k$ after a total of $n$ steps. By decomposing a path before its very last step, we find the recursive description
+  $$
+    w_0(u) = 1, \qquad w_1(u) = P(u), \qquad w_{n+1}(u) = w_n(u) \cdot P(u).
+  $$
+  Hence, we have $w_n(u) = P(u)^n$ for all $n$. Therefore it holds that
+  $$
+  W(z,u) = \sum_{n = 0}^\infty z^n w_n(u) = \sum_{n=0}^\infty z^nP(u)^n = \frac{1}{1 - zP(u)},
+  $$
+  converging for $|z| < 1/P(|u|)$.
+\end{proof}
+
+Next, we want to determine the generating function of walks ending at a particular altitude $k$, and in particular, the generating function of bridges. In this proof we will initiate the demonstration on how the complex-analytic framework proves crucially useful to the theory of lattice path enumeration.
+
+\begin{theorem}[Generating function of bridges and walks ending at altitude $k$ {\cite[Theorem~1, p.~45]{Basic}}]
+  \label{thm:gf_bridges}
+  Let 
+  $$
+    P(u) = \sum_{k = -c}^d p_k u^k
+  $$ 
+  be the characteristic polynomial of a simple set of jumps.
+  The generating function of bridges is an algebraic function given by 
+  \begin{equation*}
+    B(z) = z\sum_{j=1}^c\frac{u_j'(z)}{u_j(z)} = z \frac{\mathrm{d}}{\mathrm{d}z} \log(u_1(z)\cdots u_c(z)),
+  \end{equation*}
+  where $u_1(z),\dots,u_c(z)$ are the small branches of the characteristic curve.
+  Generally, the generating function $W_k(z)$ of paths ending at altitude $k$ for $-\infty < k < c$ is given by,
+  \begin{equation*}
+    W_k(z) = z\sum_{j=1}^c \frac{u'_j(z)}{u_j(z)^{k+1}} = 
+    -\frac{z}{k} \frac{\mathrm{d}}{\mathrm{d}z}
+    \left(
+      \sum_{j=1}^c u_j(z)^{-k}
+    \right)
+  \end{equation*}
+  and for $-d < k < \infty$,
+  \begin{equation} \label{eq:Wk2}
+    W_k(z) = -z\sum_{\ell=1}^d \frac{v'_\ell(z)}{v_\ell(z)^{k+1}} = \frac{z}{k}\left(\sum_{\ell=1}^d v_\ell(z)^{-k}\right),
+  \end{equation}
+  where $v_1, \dots, v_d$ are the large branches of the characteristic curve.
+\end{theorem}
+
+\begin{proof}
+  As the number of bridges is trivially upper-bounded by the number of walks, we see that the radius of convergence of $B(z)$ is at least $1/P(1)$. Further, in Proposition \ref{prop:kernel_method} we observed that the jump polynomial $P(u)$ is a convex function for $u > 0$ and that
+  $$
+    \lim_{u \to 0} \frac{1}{P(u)} = \lim_{u \to \infty} \frac{1}{P(u)} = 0.
+  $$
+  Hence, $1/P(u)$ attains its unique positive maximum at $\tau$ and we can find an interval such that for all $u \in [\alpha, \beta]$ it holds that
+  $r := \frac{1}{2P(1)} < \frac{1}{P(u)}$. Then, for $|z| < r$, one finds
+  $$
+    |z \cdot P(u)| \leq |z| P(|u|) \leq 1.
+  $$
+  Thus we observe that $W(z,u)$ is analytic in 
+  $$
+    \{\, z: |z| < r \,\} \times \{\, u: \alpha < |u| < \beta \,\}.
+  $$
+  Now choose $z$ sufficiently small such that all large branches lie outside and all small branches remain inside the circle $|u| \leq (\alpha + \beta)/2$. Note that due to
+  $$
+    W(z,u) = \frac{1}{1 - zP(u)} = \frac{u^c}{-zp_d \prod_{i=1}^{c+d}(u - u_i(z))} = \mathcal{O}(u^c), \qquad u \to 0,
+  $$
+  we see that $W(z,u)/u$ does not possess a singularity at $u = 0$ for any fixed $z \neq 0$.
+  Then, applying Cauchy's coefficient formula to $W(z,u)$ as a Laurent series in $u$ yields
+  $$ 
+    B(z) = [u^0] W(z,u) 
+    = \frac{1}{2\pi \mathrm{i}}\int_{|u| 
+    = (\alpha + \beta)/2} W(z,u) \frac{\mathrm{d}u}{u} 
+    = \sum_{j = 1}^c \mathrm{Res}_{u = u_j(z)}
+    \left(
+      \frac{1}{u(1-zP(u))}
+    \right). 
+  $$
+  To calculate the residue, we factor the characteristic curve 
+  $$
+    u^c(1 - zP(u)) = -z p_d\prod_{i = 1}^{c+d}(u - u_i(z)).
+  $$
+  Since the small branches only contribute simple poles, we obtain
+  $$
+    \mathrm{Res}_{u = u_j(z)}\left(\frac{1}{u(1-zP(u))}\right) 
+    = -\frac{u_j(z)^{c-1}}{p_d z}\frac{1}{\prod_{i\neq j}(u_j(z) - u_i(z))}.
+  $$
+  Next, we recognize that 
+  \begin{align*}
+      \prod_{i\neq j}(u_j(z) - u_i(z)) &= \sum_{k=1}^{c+d}\prod_{i\neq k}(u_j(z) - u_i(z))
+      = \left.\frac{\partial}{\partial u} \left(\prod_{i=1}^{c+d}(u - u_i(z))\right)\right|_{u=u_j(z)} \\
+      &= \frac{1}{p_d} \left.\frac{\partial}{\partial u} \left(u^cP(u) - \frac{u^c}{z}\right)\right|_{u=u_j(z)} \\
+      &= \frac{1}{p_d}\left(cu_j(z)^{c-1}P(u_j(z)) + u_j(z)^cP'(u_j(z)) - u_j(z)^{c-1}\frac{c}{z}\right).
+  \end{align*}
+  Using the kernel equation we further simplify
+  \begin{align*}
+    \prod_{i\neq j}(u_j(z) - u_i(z)) 
+    &= \frac{1}{p_d}\left(u_j(z)^cP'(u_j(z)) -\frac{cu_j(z)^{c-1}}{z}\left(1 - zP(u_j(z))\right)\right) \\
+    &= \frac{1}{p_d}u_j(z)^cP'(u_j(z)).
+  \end{align*}
+  Thus, our residue works out to be 
+  $$
+    \mathrm{Res}_{u = u_j(z)}\left(\frac{1}{u(1-zP(u))}\right) = -\frac{1}{zu_j(z)P'(u_j(z))}.
+  $$
+  Differentiating the characteristic equation we can further simplify
+  \begin{align*}
+      0 = \frac{\mathrm{d}}{\mathrm{d}z}(1 - zP(u(z))) = -P(u(z)) - zP'(u(z))u'(z)
+      \iff P'(u(z)) = - \frac{1}{z^2u'(z)}.
+  \end{align*}
+  This finally yields 
+  $$
+    B(z) = \sum_{j = 1}^c \mathrm{Res}_{u = u_j(z)}\left(\frac{1}{u(1-zP(u))}\right) 
+    = z\sum_{j=1}^{c}\frac{u'_j(z)}{u_j(z)}.
+  $$
+  The same procedure is applicable to 
+  $$
+    W_k(z) = [u^k]W(z,u) = \frac{1}{2\pi \mathrm{i}}\int_{|u| = (\alpha + \beta)/2} W(z,u) \frac{\mathrm{d}u}{u^{k+1}},
+  $$
+  where the additional factor $u^{-k}$ can simply be treated as a constant in the residue calculation as long as $k < c$. For $k \geq c$, Cauchy's residue theorem would need to account the additional polar singularity at zero, messing up our formula. 
+  For that reason, when $k > -d$, the residue calculation is completed by performing a change of variables; in this case, the large branches contribute. 
+  We note that $W(z,u)$ satisfies
+  $$
+  W(z,u) = \frac{1}{1 - zP(u)} = \frac{u^c}{-zp_d \prod_{i=1}^{c+d}(u - u_i(z))} = \mathcal{O}(u^{-d}), \qquad u \to \infty.
+  $$
+  Hence, applying Cauchy's residue theorem for $k > -d$ to $\overline{W}(z,u) := W(z,1/u)$ and performing an analogous residue calculation yields
+  \begin{align*}
+    W_k(z) &= [u^{-k}]\overline{W}\left(z,u\right)
+    = \frac{1}{2\pi \mathrm{i}} \int_{|u| = 2/(\alpha + \beta)} \overline{W}\left(z,u\right) \cdot u^{k+1}~\mathrm{d}u \\
+    &= \sum_{\ell = 1}^d \mathrm{Res}_{u = v_\ell(z)^{-1}}
+    \left(
+      \frac{u^{k+1}}{1-zP(u^{-1})}
+    \right) \\
+    &= \sum_{\ell = 1}^d \frac{v_\ell'(z)}{v_\ell(z)^{k+1}},
+  \end{align*}
+  as $\overline{W}\left(z,u\right) \cdot u^{k+1}$ does not possess a singularity at $u = 0$.
+  This argument shows the formulae to be valid in a small neighborhood of the origin, which then implies the identities between the formal Laurent series a posteriori.
+  The algebraic character of $B(z)$ and the $W_k(z)$ finally results from the well-known fact that algebraic functions are closed under sums, products and multiplicative inverses.
+\end{proof}
+
+\begin{corollary}[Dyck bridges]
+  The generating function $B_{\mathcal{D}}(z) = \sum_{n = 0}^\infty b_n z^n$ for Dyck bridges satisfies 
+  $$
+    B_{\mathcal{D}}(z) = \frac{1}{\sqrt{1 -  4z^2}} = \sum_{n = 0}^\infty \binom{2n}{n} z^{2n}.
+  $$
+  Its coefficients $b_n$ are also known as the central binomial numbers, see \href{https://oeis.org/A000984}{\texttt{OEIS A000984}}\footnote{Such references are links to the web-page by N. J. A. Sloane dedicated to the corresponding sequence in the On-Line Encyclopedia of Integer Sequences, \url{https://oeis.org}.}.
+\end{corollary}
+
+\begin{proof}
+  The characteristic polynomial of Dyck bridges is given by $P(u) = 1/u + u$ and hence the kernel equation reads 
+  $$
+    K(z,u) = 1 - z\left(\frac{1}{u} + u \right) = 0.
+  $$
+  There exists one small and one large branch of the characteristic curve: 
+  $$
+    u_1(z) = \frac{1- \sqrt{1 - 4z^2}}{2z} \sim_{z \to 0} z, \quad
+    u_2(z) = \frac{1 + \sqrt{1 - 4z^2}}{2z} \sim_{z \to 0} \frac{1}{z},
+  $$
+  since 
+  $$
+    \sqrt{1 - 4z^2} = \sum_{n \geq 0} \binom{1/2}{n} (-4)^n z^{2n} = 1 - 2z^2 + \mathcal{O}(z^4).
+  $$
+  After applying Theorem \ref{thm:gf_bridges} we get 
+  \begin{align*}
+    B_\mathcal{D}(z) &= z \frac{u_1'(z)}{u_1(z)} 
+    = \frac{1}{\sqrt{1 - 4z^2}} \\
+    &= 1 + 2z^2 + 6z^4 + 20z^6 + 70z^8 + 252z^{10} + 924z^{12} + 3432z^{14} + \mathcal{O}(z^{16}).
+  \end{align*}
+  Using Newton's generalized binomial theorem \ref{thm:newton} we extract
+  \begin{align*}
+    [z^n] \frac{1}{\sqrt{1 - 4z}} &=
+    [z^n] \left(\sum_{k \geq 0} \binom{-1/2}{k}(-4z)^k\right) 
+    = \frac{(-1/2)\cdot(-3/2)\cdots  (-(2n-1)/2)}{n!}(-4)^n \\
+    &= 2^n \frac{(2n-1)!!}{n!} 
+    = 2^n \frac{(2n)!}{n!(2n)!!}
+    = \binom{2n}{n}
+    = [t^n](1+t^2)^n.
+  \end{align*}
+  The coefficients are called the central binomial numbers and are closely related to the Catalan numbers. This result can be explained very easily: In order to uniquely characterize a Dyck bridge consisting of $n$ \textbf{NE}-steps and $n$ \textbf{SE}-steps, we simply need to choose the positions of the  \textbf{NE}-steps (or equivalently of the \textbf{SE}-steps). For this, there are $\binom{2n}{n}$ possibilities.
+\end{proof}
+
+\begin{corollary}[Motzkin bridges]
+  The generating function $B_{\mathcal{M}}(z) = \sum_{n = 0}^\infty b_nz^n$ for Motzkin bridges satisfies
+  $$
+    B_{\mathcal{M}}(z) = \frac{1}{\sqrt{1 - 2z -  3z^2}} = 1 + z + 3z^2 + 7z^3 + 19z^4 + 51z^5 + 141z^6 + 393z^7 + \mathcal{O}(z^8)
+  $$ 
+  and its coefficients $b_n = [u^n](1+u+u^2)^n$ are also known as the
+  central trinomial numbers; see \href{https://oeis.org/A002426}{\texttt{OEIS A002426}}.
+\end{corollary}
+
+\begin{proof}
+  The characteristic curve of Motzkin paths reads $u - z - zu - zu^{2} = 0$.
+  Solving this quadratic function for $u$ yields the two branches
+  \begin{equation*} 
+    u_1(z) = \frac{1}{2z}\left(1 - z - \sqrt{1-2z-3z^{2}}\right), \qquad 
+    u_2(z) = \frac{1}{2z}\left(1 - z + \sqrt{1-2z-3z^{2}}\right). 
+  \end{equation*}
+  Due to $\sqrt{1-2z-3z^{2}} = 1 - z + \mathcal{O}(z^2)$, we conclude that $u_1(z)$ is the only small branch of the characteristic curve.
+  Now we may apply Theorem \ref{thm:gf_bridges} to obtain the generating function 
+  \begin{equation*} 
+    B_\mathcal{M}(z) = z\frac{u_1'(z)}{u_{1}(z)}
+    = z\frac{1-z-\sqrt{1-2z-3z^{2}}}{2z^{2}\sqrt{1-2z-3z^{2}}} \frac{2z}{1-z-\sqrt{1-2z-3z^{2}}} 
+    = \frac{1}{\sqrt{1-2z-3z^{2}}}.
+  \end{equation*}
+  Further, recalling that the generating function for bridges is simply the coefficient of $u^0$ in the generating function of all walks $W_{\mathcal{M}}(z,u)$, we see that
+  \begin{equation*}
+    b_n = [z^n u^0] W(z,u) = [z^n u^0] \frac{1}{1 - z(1/u + 1 + u)}
+    % = [u^0] (1/u + 1 + u)^n 
+    = [u^n] (1 + u + u^2)^n. \qedhere
+  \end{equation*}
+\end{proof}
+
+\begin{theorem}[Generating function of meanders and excursions {\cite[Theorem 2, p.~49]{Basic}}]
+\label{thm:gf_meanders_excursions}
+  The bivariate generating function of meanders ($z$ marking size and $u$ marking final altitude) relative to a simple step set $\mathcal{S}$ with characteristic polynomial $P(u)$, is an algebraic function. It is given by
+  \begin{equation} \label{eq:gf_meanders}
+    M(z,u) = \frac{\prod_{j=1}^c (u - u_j(z))}{u^c(1-zP(u))} = -\frac{1}{p_dz} \prod_{\ell = 1}^d \frac{1}{u - v_\ell(z)}.
+  \end{equation}
+  In particular, the generating function of excursions, $E(z) = M(z,0)$ satisfies
+  \begin{equation} \label{eq:gf_excursions}
+    E(z) = \frac{(-1)^{c-1}}{p_{-c}z}
+    \prod_{j=1}^c u_j(z) = \frac{(-1)^{d-1}}{p_dz} \prod_{\ell=1}^d \frac{1}{v_\ell(z)}.
+  \end{equation}
+\end{theorem}
+
+\begin{proof}
+  Let $m_{n,k}$ be the number of meanders of size $n$ that end at altitude $k$. 
+  By the combinatorial origin of the problem, $M(z,u) = \sum_{n,k \in \mathbb{N}} m_{n,k}u^kz^n$ is bivariate analytic for $|u| \leq 1$ and $z < 1/P(1)$. 
+  Decomposing a path based on the last step added yields the recurrence $$
+  m_0(u) = 1, \quad m_{n+1}(u) = P(u)m_n(u) - \{u^{<0}\}P(u)m_n(u).
+  $$
+  Multiplying both sides by $z^{n+1}$ and summing over $n$ then leads to the fundamental functional equation defining meanders:
+  \begin{equation}\label{eq:fundamental_functional_equation_meanders}
+    \begin{split}
+      \sum_{n \geq 0} m_{n+1}(u)z^{n+1} &= zP(u)\sum_{n \geq 0} m_n(u)z^n - z\{u^{<0}\}P(u)\sum_{n \geq 0}z^n m_n(u) \\
+      \iff \qquad
+      M(z,u) - 1 &= zP(u)M(z,u) - z\{u^{<0}\}(P(u)M(z,u)).
+    \end{split}
+  \end{equation}
+  Since the characteristic polynomial $P(u)$ involves only a finite number of negative powers it can be rewritten to 
+  $$
+    M(z,u)(1 - zP(u)) = 1 - z\sum_{k=0}^{c-1}r_k(u)M_k(z).
+  $$
+  The Laurent polynomials $r_k(u)$ are immediately computable from $P(u)$ via $$
+    r_k(u) := \{u^{<0}\}(u^k P(u)) = \sum_{j=-c}^{-k-1}p_j u^{j+k}.
+  $$
+  For instance, if $P(u) = p_{-2}u^{-2} + p_{-1}u^{-1} + \mathcal{O}(1)$, one has
+  $$
+    r_0(u) = \frac{p_{-2}}{u^2} + \frac{p_{-1}}{u}, \qquad
+    r_1(u) = \frac{p_{-2}}{u}.
+  $$
+  The fundamental functional equation \eqref{eq:fundamental_functional_equation_meanders} appears to be grossly underdetermined with one unknown bivariate generating function and $c$ unknown ordinary generating functions involved. 
+  Luckily, the kernel method comes to the rescue. In order to substitute the small branches into the functional equation we choose $|z| < 1/P(1)$ sufficiently small such that
+  \begin{itemize}
+    \item all small branches are distinct and
+    \item all small branches satisfy $|u_i(z)| \leq 1$.
+  \end{itemize}
+  Under these conditions it is analytically legitimate to substitute any small branch of the characteristic equation in the fundamental functional equation in \eqref{eq:fundamental_functional_equation_meanders} to reduce the number of unknowns.
+  The substitution yields the following system of $c$ equations for the $c$ unknown functions $M_0, \dots, M_{c-1}$:
+  \begin{equation*}
+    z \cdot
+    \underbrace{\begin{pmatrix}
+      u_1(z)^c r_0(u_1(z)) & \cdots & u_1(z)^c r_{c-1}(u_1(z)) \\
+      \vdots & \ddots & \vdots \\
+      u_c(z)^c r_0(u_c(z)) & \cdots & u_c(z)^c r_{c-1}(u_c(z)) \\
+    \end{pmatrix}}_{:= A}
+    \begin{pmatrix}
+      M_0(z) \\ \vdots \\ M_{c-1}(z)
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+      u_1(z)^c \\ \vdots \\ u_c(z)^c
+    \end{pmatrix}.
+  \end{equation*}
+  If we expand the Laurent polynomials $r_k(u)$ in the matrix $A$ we get a clearer picture of its structure, as 
+  \begin{equation*}
+    A = \begin{pmatrix}
+      p_{-c} + p_{-c+1}u_1(z) + \cdots + p_{-2}u_1(z)^{c-2} + p_{-1}u_1(z)^{c-1} & \cdots & p_{-c} u_1(z)^{c-1} \\
+      \vdots & \ddots & \vdots \\
+      p_{-c} + p_{-c+1}u_c(z) + \cdots + p_{-2}u_c(z)^{c-2} + p_{-1}u_c(z)^{c-1} & \cdots & p_{-c} u_c(z)^{c-1} \\
+    \end{pmatrix}.
+  \end{equation*}
+  In this form, we can see that the matrix $A$ can be transformed into a Vandermonde matrix by iteratively adding $-p_{-c + (j - k)}/p_{-c}$ times the $j$-th column to the $k$-th column, starting from the rightmost column.
+  Since the determinant is invariant under these elementary column operations and we have chosen $z$ such that all small branches are distinct, we find that 
+  $$
+    \det(A) = p_{-c}^c \prod_{1 \leq i \leq j \leq c}(u_j(z) - u_i(z)) \neq 0.
+  $$
+  Thus, the system is non-singular and admits a unique solution.
+  To avoid further determinantal calculation, we make use of a cute observation by Bousquet-Mélou, introduced in~\cite{LinearRecurrences}, and define
+  \begin{equation}
+    \label{eq:constant_term1}
+    N(z,u) = u^c - z\sum_{k=0}^{c-1}u^c r_k(u)M_k(z).
+  \end{equation}
+  We observe that the roots of $N(z,u)$ are precisely $u_1,\dots,u_c$ and the leading monomial of $N(z,u)$ is $u^c$, hence we obtain the alternative expression of
+  \begin{equation}
+    \label{eq:constant_term2}
+    N(z,u) =  \prod_{j=1}^c (u - u_j(z)).
+  \end{equation}
+  Now we compare the constant terms in both equations. 
+  Due to \eqref{eq:constant_term2} the constant term of $N(z,u)$ equals $\prod_{j=1}^c (-u_j(z))$. 
+  On the other hand, \eqref{eq:constant_term1} implies that the constant term equals $-zp_{-c}M_0(z)$.
+  Hence, we find that $M_0(z)$ satisfies 
+  $$
+    M_0(z) = \frac{(-1)^{c-1}}{zp_{-c}}\prod_{j=1}^cu_j(z)
+  $$
+  and finally we get
+  \begin{equation*}
+    M(z,u) = \frac{N(z,u)}{u^c(1 - zP(u))}. \qedhere
+  \end{equation*}
+\end{proof}
+
+\begin{corollary}[Generating function for walks with non-negative final altitude {\cite[p.~51]{Basic}}]
+  Let $W^+(z,u) = \sum_{k,n = 0}^\infty w_{n,k} z^n u^k$ denote the bivariate generating function of paths, whose intermediate steps may be negative, but that end at a non-negative final altitude $k \geq 0$. Then $W^+(z)$ satisfies
+  $$
+    W^+(z,u) = z \sum_{\ell = 1}^d \frac{v_\ell'(z)}{u - v_\ell(z)}
+    = 1 + z \frac{\mathrm{d}}{\mathrm{d}z}(\log M(z,u)),
+  $$
+  where $v_1, \dots, v_d$ are the large branches of the characteristic curve.
+\end{corollary}
+
+\begin{proof}
+  We start with the formula \eqref{eq:Wk2} for the generating function for walks ending at altitude $-d < k < \infty$ and derive
+  \begin{align*}
+    W^+(z,u) &= \sum_{k = 0}^\infty W_k(z)u^k
+    = -z \sum_{k = 0}^\infty 
+    \left(
+      \sum_{\ell = 1}^d \frac{v_\ell'(z)}{v_\ell(z)^{k+1}}
+    \right)
+    u^k \\
+    &= -z \sum_{\ell = 1}^d 
+    \left(
+      \frac{v_\ell'(z)}{v_\ell(z)}
+      \sum_{k = 0}^\infty \frac{u^k}{v_j(z)^k}
+    \right)
+    = -z \sum_{\ell = 1}^d \frac{v_\ell'(z)}{v_\ell(z)} \frac{1}{1 - u/v_\ell(z)} \\
+    &= z \sum_{\ell = 1}^d \frac{v_\ell'(z)}{u - v_\ell(z)}.
+  \end{align*}
+  Further, using formula \eqref{eq:gf_meanders}, we note that
+  \begin{align*}
+    \frac{\mathrm{d}}{\mathrm{d}z} M(z,u) &= 
+    \left(\frac{1}{p_d z^2} - \frac{1}{p_d z} \sum_{\ell = 1}^d \frac{v_\ell'(z)}{u - v_\ell(z)}\right) \prod_{\ell = 1}^d \frac{1}{u - v_\ell(z)} \\
+    &= -\frac{1}{z}\left(1 - \sum_{\ell = 1}^d \frac{v_\ell'(z)}{u - v_\ell(z)}\right)M(z,u)
+  \end{align*}
+  and thus
+  \begin{equation*}
+    1 + z \frac{\mathrm{d}}{\mathrm{d}z}(\log M(z,u)) = z \sum_{j = 1}^d \frac{v_j'(z)}{u - v_j(z)}. \qedhere
+  \end{equation*}
+\end{proof}
+
+\begin{corollary} \cite[Corollary 3, p.~51]{Basic} \label{corr:gf_meanders_k}
+  The generating function of meanders terminating at altitude $k$ is given by
+  \begin{equation*}
+    M_{k}(z) = \frac{1}{p_{d}z}\sum_{\ell = 1}^{d} \xi_\ell^d(z) v_{\ell}^{-k-1}(z), \qquad  \xi_\ell^d(z) := \prod_{\substack{j = 1 \\ j \neq l}}^{d} \frac{1}{v_\ell(z) - v_{j}(z)}.
+  \end{equation*}
+\end{corollary}
+
+\begin{proof}
+  Since $M(z,u)$ is a rational function in $u$ with a simple product expression in terms of the large branches in \eqref{eq:gf_meanders}, its expansion with respect to $u$ is accessible via a partial fraction decomposition. 
+  Starting with the generating function 
+  $$
+    M(z,u) = - \frac{1}{p_{d}z}\prod_{\ell = 1}^{d} \frac{1}{u-v_{\ell}(z)}
+  $$
+  from \eqref{eq:gf_meanders}, we claim the following partial fraction decomposition via induction over $d$:
+  $$
+  \prod_{\ell=1}^{d} \frac{1}{u-v_{\ell}(z)} = \sum_{\ell=1}^{d} \frac{\xi_\ell^d(z)}{u-v_{\ell}(z)}.
+  $$
+  A single partial fraction decomposition shows the claim to be true for $d = 2$, as
+  $$
+  \frac{1}{(u-v_{1}(z))(u-v_{2}(z))} = \frac{1}{v_{1}(z) - v_{2}(z)} \cdot \frac{1}{u - v_{1}(z)} + \frac{1}{v_{2}(z) - v_{1}(z)} \cdot \frac{1}{u - v_{2}(z)}.  
+  $$
+  For the induction step, let the claimed formula hold for $d$. Then we have
+  \begin{align*}
+    \prod_{\ell = 1}^{d+1} \frac{1}{u-v_{\ell}(z)} &= 
+    \left(
+      \sum_{\ell=1}^{d}
+      \frac{\xi_\ell^d(z)}{u-v_{\ell}(z)}
+    \right) 
+    \frac{1}{u-v_{d+1}(z)} \\
+    &= \sum_{\ell=1}^{d}
+    \xi_\ell^d(z)
+    \left(
+      \frac{1}{v_{\ell}(z) - v_{d+1}(z)} \frac{1}{u - v_{\ell}(z)} + 
+      \frac{1}{v_{d+1}(z) - v_{\ell}(z)} \frac{1}{u - v_{d+1}(z)}
+    \right)\\
+    &= \sum_{\ell=1}^{d}
+    \left(
+      \frac{\xi_\ell^{d+1}(z)}{u - v_{\ell}(z)} + 
+      \frac{\xi_\ell^{d}(z)}{v_{d+1}(z) - v_{\ell}(z)} \cdot
+      \frac{1}{u - v_{d+1}(z)}
+    \right).
+  \end{align*}
+  Now we apply the induction hypothesis a second time with $v_{d+1}(z)$ replacing $u$ and obtain
+  \begin{align*}
+    \prod_{\ell = 1}^{d+1} \frac{1}{u-v_{\ell}(z)} &= 
+    \sum_{\ell=1}^{d}
+    \left(
+      \frac{\xi_\ell^{d+1}(z)}{u - v_{\ell}(z)} + 
+      \frac{\xi_\ell^{d}(z)}{v_{d+1}(z) - v_{\ell}(z)} \cdot
+      \frac{1}{u - v_{d+1}(z)}
+    \right) \\
+    &= 
+    \left(
+      \sum_{\ell=1}^{d}
+      \frac{\xi_\ell^{d+1}(z)}{u - v_{\ell}(z)}
+    \right) +
+    \left(
+      \prod_{\ell=1}^{d} \frac{1}{v_{d+1}(z) - v_{\ell}(z)}
+    \right) 
+    \frac{1}{u-v_{d+1}(z)} \\
+    &= \sum_{\ell=1}^{d+1}
+    \frac{\xi_\ell^{d+1}(z)}{u - v_{\ell}(z)}.
+  \end{align*}
+  Finally, we extract the coefficient of $u^{k}$ in this newly derived expression:
+  \begin{align*}
+    M_k(z) &= [u^{k}] M(z,u) = 
+    - \frac{1}{p_{d}z}[u^{k}] 
+    \left(
+      \sum_{\ell=1}^{d} \frac{\xi_\ell^d(z)}{u-v_{\ell}}
+    \right)
+    = \frac{1}{p_{d}z} \sum_{\ell=1}^{d} \xi_\ell^d(z) [u^{k}]
+    \left(
+      \frac{1}{v_{\ell}(1-\frac{u}{v_{\ell}})}
+    \right) \\
+    &= \frac{1}{p_{d}z} \sum_{\ell=1}^{d} \xi_\ell^d(z) v_{\ell}^{-k-1}(z).
+    \qedhere
+  \end{align*}
+\end{proof}
+
+\begin{corollary}[Dyck meanders]
+  The bivariate generating function $M_{\mathcal{D}}(z,u)$ for Dyck meanders satisfies 
+  $$
+    M_{\mathcal{D}}(z,u) = \frac{1 - 2zu - \sqrt{1 - 4z^2}}{2z(z(1 + u^2) - u)}.
+  $$
+  Further, the generating function $M_{\mathcal{D}}(z, 1) = \sum_{n=0}^\infty m_n z^n$ of meanders ending at any altitude satisfies
+  $$
+    M_{\mathcal{D}}(z, 1) = \frac{1 - 2z - \sqrt{1 - 4z^2}}{4z^2-2z} = 1 + z + 2z^2 + 3z^3 + 6z^4 + 10z^5 + 20z^6 + 35z^7 + \mathcal{O}(z^8).
+  $$
+  and its coefficients $m_n = \binom{n}{\lfloor n/2 \rfloor}$ correspond to \href{https://oeis.org/A001405}{\texttt{OEIS A001405}}.
+  Even further, the generating functions 
+  $$
+    G_{\mathcal{D}}(z) = \sum_{n=0}^\infty m_{2n}z^n, \qquad U_{\mathcal{D}}(z) = \sum_{n=0}^\infty m_{2n+1}z^n
+  $$
+  of even and odd meanders, respectively, satisfy
+  $$
+    G_\mathcal{D}(z) = \frac{1}{\sqrt{1 - 4z^2}}, \qquad U_{\mathcal{D}}(z) = \frac{1}{2z}\left(\frac{1}{\sqrt{1 - 4z^2}} - 1\right).
+  $$
+\end{corollary}
+
+\begin{proof}
+  The kernel equation for Dyck walks reads $1 - z\left(\frac{1}{u} + u\right) = 0.$
+  Solving this equation for $u$ yields the unique small branch 
+  $$
+    u_{1} = \frac{1 - \sqrt{1 - 4z^{2}}}{2z}.
+  $$
+  Applying Theorem \ref{thm:gf_meanders_excursions} we find the generating function for Dyck meanders to be 
+  $$
+    M_\mathcal{D}(z,u) = \frac{u - u_1(z)}{u(1 - zP(u))}
+    = \frac{1 - 2zu - \sqrt{1 - 4z^2}}{2z(z(1 + u^2) - u)}.
+  $$
+  Setting $u = 1$ then yields
+  \begin{equation*}
+    M_\mathcal{D}(z,1) = \frac{1 - 2z - \sqrt{1 - 4z^2}}{4z^2 - 2z}.
+  \end{equation*}
+  To obtain the generating function for meanders of even length, we apply a last passage decomposition. Let $\omega_0$ be an arbitrary meander of even length. Hence, it must end at an even altitude. Now we split $\omega_0$ every time it leaves altitude $2k$ for a last time. That means, $\omega_0$ is composed of a Dyck excursion, followed by a sequence of subpaths, starting at altitude~$k$ and ending at $k + 2$ without returning to altitude $k$ at any point after the start. Each of these subpaths can thus be described as a \textbf{NE}-step up to altitude $k + 1$, followed by an excursion and finally another \textbf{NE}-step up to altitude $k + 2$. Considering that the variable $z$ counts twice the length of a meander (or equivalently the number of \textbf{NE}-steps of a meander) the generating function for one of these subpaths reads $z(uD(z))^2$. Thus, we obtain the generating function
+  $$
+    G(z,u) = \frac{D(z)}{1 - z(uD(z))^2}.
+  $$
+  Setting $u = 1$ yields
+  \begin{equation*}
+    G(z,1) = \frac{D(z)}{1 - zD(z)^2} = \frac{D(z)}{2 - D(z)} = \frac{1 - \sqrt{1 - 4z}}{\sqrt{1 - 4z} - (1 - 4z)} = \frac{1}{\sqrt{1 - 4z}}
+    = \sum_{n = 0}^\infty \binom{2n}{n} z^n.
+  \end{equation*}
+  Further, a last passage decomposition on Dyck meanders of odd length splits $\omega_0$ into a Dyck excursion, followed by the last \textbf{NE}-step to leave from altitude $0$ and a final Dyck meander of even length. This translates to the formula
+  $$
+    U(z,u) = u D(z) G(z,u).
+  $$
+  Setting $u = 1$ yields
+  \begin{equation*}
+    U(z,1) = \frac{D(z)}{\sqrt{1 - 4z}} = \frac{1}{2z}\left(\frac{1}{\sqrt{1 - 4z}} - 1\right)
+    = \sum_{n = 0}^\infty \frac{1}{2} \binom{2n + 2}{n + 1} z^n
+    = \sum_{n = 0}^\infty \binom{2n + 1}{n} z^n. \qedhere
+  \end{equation*}
+\end{proof}
+
+\begin{corollary}[Motzkin meanders] \label{cor:motzkin_meanders}
+  The bivariate generating function $M_{\mathcal{M}}(z,u)$ for Motzkin meanders satisfies 
+  $$
+    M_{\mathcal{M}}(z,u) = \frac{2z(u + 1) - 1 + \sqrt{1 - 2z - 3 z^{2}}}{2z\left(u - z \left(u^{2}+u + 1\right)\right)}.
+  $$
+  Further, the generating function $M_{\mathcal{M}}(z, 1)$ of meanders ending at any altitude satisfies
+  \begin{align*}
+    M_{\mathcal{M}}(z, 1) &= \frac{1 - 3z - \sqrt{1 - 2z - 3z^2}}{6z^2 - 2z} \\
+    &= 1 + 2z + 5z^{2} + 13z^{3} + 35z^{3} + 96z^{5} + 267z^{6} + 750z^7 + \mathcal{O}(z^8).
+  \end{align*}
+  This counting sequence corresponds to \href{https://oeis.org/A005773}{\texttt{OEIS A005773}}, which tells us that it also counts the number of directed animals of size $n$. We will explore this connection further in the last chapter of this thesis.
+\end{corollary}
+
+\begin{proof}
+  Solving the kernel equation
+  $$
+    1 - z(1 + u + u^2) = 0
+  $$
+  for the Motzkin family of directed lattice paths yields the unique small branch
+  $$
+    u_1(z) = \frac{1 - z - \sqrt{1 - 2z - 3z^2}}{2z}.
+  $$
+  Now, all that remains is to plug $u_1(z)$ into Equation \eqref{eq:gf_meanders} and we obtain
+  $$
+    M_{\mathcal{M}}(z,u) = \frac{u - u_1(z)}{u(1 - zP(u))} = \frac{2z(u + 1) - 1 + \sqrt{1 - 2z - 3 z^{2}}}{2z\left(u - z \left(u^{2}+u + 1\right)\right)}.
+  $$
+  Setting $u = 1$ then yields
+  \begin{equation*}
+    M_{\mathcal{M}}(z,1) = \frac{1 - 3z - \sqrt{1 - 2z - 3z^2}}{6z^2 - 2z}. \qedhere
+  \end{equation*}
+\end{proof}
+
+We conclude this section with the two short applications of the formula \eqref{eq:gf_excursions} for the generating function of excursions. In particular, after Example \ref{ex:ballot_problem} and Example \ref{ex:catalan_numbers}, we now give a third distinct derivation of the fact that the number of Dyck excursions of length $2n$ equals the $n$-th Catalan number $C_n$.
+
+\begin{corollary}[Dyck excursions]
+   The generating function $E_{\mathcal{D}}(z)$ for Dyck excursions satisfies 
+  $$
+    E_{\mathcal{D}}(z) = \frac{u_1(z)}{z} = \frac{1 - \sqrt{1 - 4z^2}}{2z^2} = \sum_{n=0}^\infty \frac{1}{n+1}\binom{2n}{n}z^{2n}.
+  $$
+\end{corollary}
+
+\begin{corollary}[Motzkin excursions]
+  The generating function $E_{\mathcal{M}}(z,1)$ for Motzkin excursions satisfies 
+  \begin{align*}
+    E_{\mathcal{M}}(z,1) &= \frac{u_1(z)}{z} = \frac{1 - z - \sqrt{1 - 2z - 3z^2}}{2z^2} \\
+    &= 1 + z + 2z^{2} + 4z^{3} + 9z^{4} + 21z^{5} + 51z^{6} + 127z^{7} + \mathcal{O}(z^{8})
+  \end{align*}
+  and its coefficients are known as the \textit{Motzkin numbers}; see \href{https://oeis.org/A001006}{\texttt{OEIS A001006}}
+\end{corollary}
+
+\section{Singularity analysis}
+\label{section:singularity_analysis}
+
+\epigraph
+{
+  \textbf{First Principle of Coefficient Asymptotics.} The location of a function's singularities dictates the exponential growth ($A^n$) of its coefficients.
+
+  \textbf{Second Principle of Coefficient Asymptotics.} The nature of a function's singularities determines the associate subexponential factor ($\theta(n)$).
+}{\textsc{Philippe Flajolet} and \textsc{Robert Sedgewick} \cite[p.~227]{AnalyticCombinatorics}}
+
+In this section, we present a concise introduction to the general approach to the analysis of coefficients of generating functions. We will base our exposition on the excellent presentation on this topic by Flajolet and Sedgewick in \cite[Chapter VI]{AnalyticCombinatorics}.
+
+Through the lens of complex analysis a generating function becomes a geometric transformation of the complex plane. While this transformation is very regular at the origin, when we move away from it, singularities start to appear that distort this smooth picture. As it turns out, the nature and the location of a function's singularities hold the key for determining the asymptotic growth rates of the coefficients. Precisely, the method of singularity analysis applies to functions, whose singular expansion involves fractional powers and logarithms. In order not to clutter the important conceptual points with tedious technical details, we will restrict our attention to only fractional powers and give notice whenever the results may be generalized to so-called ``algebraic-logarithmic'' singularities. The process relies on two central ingredients:
+
+\begin{enumerate}
+  \item A catalogue of asymptotic expansions for coefficients of the standard functions that occur in such singular expansions.
+  \item Transfer theorems, which allow us to extract the asymptotic order of coefficients of error terms in singular expansions.
+\end{enumerate}
+
+Before we introduce the catalogue known as the \textit{standard function scale}, let us return to the basics for a second.
+Remember the Newton expansion
+$$
+  (1 - z)^{-\alpha} = \sum_{n = 0}^\infty \binom{n + \alpha - 1}{n} z^n.
+$$
+For $\alpha = r \in \Z_{\geq 1}$ this quickly leads to the asymptotic formula
+$$
+  [z^n](1 - z)^{-r} = \frac{(n+1)(n+2)\cdots(n + r -1)}{(r - 1)!}
+  = \frac{n^{r-1}}{(r-1)!}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right).
+$$
+The standard function scale will generalize this result to arbitrary complex $\alpha$ with the help of special contours of integration, known as \textit{Hankel contours}. The motivation behind them is to come very close to the singularities, but to steer away at the last moment, thus capturing the essential asymptotic information contained in the functions' singularities.
+
+\begin{figure}[hbt!]
+  \begin{subfigure}{.45 \textwidth}
+    \centering
+    \includegraphics{images/ipe/ContourC1}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{.45 \textwidth}
+    \centering
+    \includegraphics{images/ipe/ContourC2}
+  \end{subfigure}
+  \caption[The contours $\mathcal{C_R}(n)$ and $\mathcal{H}(n)$.]{The contours $\mathcal{C_R}(n)$ and $\mathcal{H}(n)$ used for estimating the coefficients of functions from the standard function scale \cite[Figure VI.2, p.~381]{AnalyticCombinatorics}.}
+  \label{fig:contours}
+\end{figure}
+
+\begin{theorem}[Standard function scale {\cite[Theorem VI.1, p.~381]{AnalyticCombinatorics}}]\label{thm:standard_function_scale}
+  Let $\alpha$ be an arbitrary complex number in $\mathbb{C} \setminus \mathbb{Z}_{\leq 0}$. The coefficient of $z^n$ in $f(z) = (1-z)^{-\alpha}$ admits for large $n$ a complete asymptotic expansion in descending powers of $n$:
+  $$
+    [z^n]f(z) \sim \frac{n^{\alpha -1}}{\Gamma(\alpha)}\left(1 + \sum_{k=1}^{\infty} \frac{e_k}{n^k}\right),
+  $$
+  where $e_k$ is a polynomial in $\alpha$ of degree $2k$. In particular: 
+  \begin{equation*}
+    \begin{split}
+      [z^n]f(z) \sim \frac{n^{\alpha-1}}{\Gamma(\alpha)}\left(1 + \frac{\alpha(\alpha - 1)}{2n} + \frac{\alpha(\alpha - 1)(\alpha - 2)(3\alpha - 1)}{24n^2} \right. \\
+      \left. + \ \frac{\alpha^2(\alpha -1)^2(\alpha -2)(\alpha - 3)}{48n^3} + \mathcal{O}\left(\frac{1}{n^4}\right)\right).
+    \end{split}
+  \end{equation*}
+  The quantity $e_k$ is a polynomial in $\alpha$ that is divisible by $\alpha(\alpha - 1)\cdots(\alpha -k)$, in accordance with the fact that the asymptotic expansion terminates when $\alpha \in \mathbb{Z}_{\geq 0}$. The formula is even valid (but not very meaningful) for $\alpha \in \Z_{\leq 0}$, as $1/\Gamma(\alpha) = 0$ and the coefficients $[z^n](1-z)^{-\alpha}$ are zero for $n > -\alpha$.
+\end{theorem}
+
+\begin{proof}
+  We start by applying Cauchy's coefficient formula, with a sufficiently small contour $\mathcal{C}_0$ encircling the origin, to obtain
+  $$
+    f_{n} = \frac{1}{2\pi \mathrm{i}}\int_{\mathcal{C}_{0}}(1-z)^{-\alpha} \frac{\mathrm{d}z}{z^{n+1}}.
+  $$
+  We now deform $\mathcal{C}_0$ to a large circle with radius $R > 1$ that does not cross the half-line $[1,\infty[$.
+  More precisely, the new contour $\mathcal{C}_{R}(n)$ consists of the following parts (see Figure~\ref{fig:contours}):
+  \begin{enumerate}
+    \item $\mathcal{C}_{R}^{\circ}(n) := \{\, z \in \C: |z| = R \,\} \setminus \{\, z \in \C: (\mathfrak{I}(z) < 1/n) \land (\mathfrak{R}(z) > 0) \,\}$
+    \item $\mathcal{H}_R^{+}(n) := \{\, z \in \C: z = x + i/n, x \in [1,R] \,\}$
+    \item $\mathcal{H}_R^{-}(n) := \{\, z \in \C: z = x - i/n, x \in [1,R] \,\}$
+    \item $\mathcal{H}^{\circ}(n) := \{\, z \in \C: z = 1 - (1/n) \cdot \exp(i\varphi), \varphi \in [-\pi/2,\pi/2]\,\}$
+  \end{enumerate}
+  As $R$ tends to infinity the integrand along $C_{R}^{\circ}(n)$ decreases as $\mathcal{O}(R^{-n-1-\alpha})$.
+  Hence the limit process produces the Hankel contour $\mathcal{H}(n)$ consisting of
+  \begin{enumerate}
+    \item $\mathcal{H}^{+}(n) := \{\, z \in \C: z = x + i/n, x \geq 1 \,\}$
+    \item $\mathcal{H}^{-}(n) := \{\, z \in \C: z = x - i/n, x \geq 1 \,\}$
+    \item $\mathcal{H}^{\circ}(n) := \{\, z \in \C: z = 1 - (1/n) \cdot \exp(i\varphi), \varphi \in [-\pi/2,\pi/2] \,\}$
+  \end{enumerate}
+  We apply a change of variables by introducing $z = 1 + t/n$. This leads to 
+  $$
+    f_{n} = \frac{n^{\alpha-1}}{2\pi \mathrm{i}}\int_{\mathcal{H}(n)} (-t)^{-\alpha}\left(1 + \frac{t}{n}\right)^{-n-1}\mathrm{d}t.
+  $$
+  Next we calculate the asymptotic estimate
+  \begin{equation}\label{eq:asymptotic_expansion}
+    \begin{split}
+      \left(1+\frac{t}{n}\right)^{-n-1} 
+      &= \exp\left(-(n+1)\log\left(1 + \frac{t}{n}\right)\right) \\ 
+      &= \exp(-t)\left(1 + \frac{t^{2} - 2t}{2n} + \frac{3t^{4} - 20t^{3} + 24t^{2}}{24n^{2}} +  \mathcal{O}\left(\frac{1}{n^{3}}\right)\right).
+    \end{split}
+  \end{equation}
+  Hence, we can see that the integrand converges pointwise to $\exp(-t)$ and even uniformly in any bounded domain.
+  Applying Hankel's formula for the Gamma function \cite[Theorem B.1, p.~745]{AnalyticCombinatorics} yields 
+  $$
+    \frac{1}{\Gamma(\alpha)} =
+    \frac{1}{2\pi \mathrm{i}} \int_{\mathcal{H}(n)}(-t)^{-\alpha}\exp(-t)~\mathrm{d}t.
+  $$
+  Hence, it only remains to argue that integration and limit can be interchanged.
+  For that purpose we split the contour at the half-line $\mathfrak{R}(z)  = \log^{2}(n)$. Firstly, we establish that the part corresponding to $\mathfrak{R}(z) \geq \log^{2}(n)$ is indeed negligible in the scale of the problem. 
+  % We have 
+  % $$
+  % \lim_{n \to \infty} (1 + t/n)^{-n-1} = \exp(-t),
+  % $$
+  % and due to the estimate
+  % $$
+  %   |f_n(t)| := \left|(-t)^{-\alpha} \left(1 + \frac{t}{n}\right)^{-n-1}\right| \leq\left| \frac{t}{1 + t/n}\right|^{-\alpha} \cdot \left(1 + \frac{t}{n}\right)^2 \leq C \left(1 + \frac{t}{n}\right)^2 =: g(t)
+  % $$
+  After substituting $u = t + \log^2 n$ and observing
+  \begin{align*}
+  \exp(\log^2 n) \left(1 + \frac{u + \log^2 n}{n}\right)^{-n-1} &=
+  \exp\left(\log^2 n - (n+1) \log\left(1 + \frac{u + \log^2 n}{n}\right)\right) \\
+  &= \exp\left(\log^2 n - (n+1) \left(\frac{u + \log^2 n}{n} + \mathcal{O}\left(\frac{\log^4 n}{n^2}\right) \right) \right) \\
+  &= \exp\left(- u + \mathcal{O}\left(\frac{\log^4 n}{n}\right) \right) \\
+  &\xrightarrow[n \to \infty]{} \exp(-u),
+  \end{align*}
+  we may apply the dominated convergence theorem. This yields, for $\alpha < 0$,
+  \begin{align*}
+    &\lim_{n \to \infty} \left|\, \exp(\log^2 n) \log^{2\alpha} n\int_{\log^2 n}^\infty (-t)^{-\alpha} \left(1 + \frac{t}{n}\right)^{-n-1} \mathrm{d}t\, \right| \\
+    % \lim_{n \to \infty}  \exp(\log^2 n) \int_{0}^\infty (-u -\log^2 n)^{-\alpha} \left(1 + \frac{u + \log^2 n}{n}\right)^{-n} \mathrm{d}u \\
+    &\leq \lim_{n \to \infty} \left(\int_{0}^\infty u^{-\alpha} \exp(\log^2 n) \left(1 + \frac{u + \log^2 n}{n}\right)^{-n-1} \mathrm{d}u\right)
+    \\
+    &= \int_{0}^\infty u^{-\alpha} \exp(-u)~\mathrm{d}u
+    = \Gamma(1 - \alpha) < \infty.
+  \end{align*}
+  For $\alpha \geq 0$, we have 
+  \begin{align*}
+    &\lim_{n \to \infty} \left|\, \exp(\log^2 n) \int_{\log^2 n}^\infty (-t)^{-\alpha} \left(1 + \frac{t}{n}\right)^{-n-1} \mathrm{d}t\, \right| \\
+    % \lim_{n \to \infty}  \exp(\log^2 n) \int_{0}^\infty (-u -\log^2 n)^{-\alpha} \left(1 + \frac{u + \log^2 n}{n}\right)^{-n} \mathrm{d}u \\
+    &\leq \lim_{n \to \infty} \left(\int_{0}^\infty \exp(\log^2 n) \left(1 + \frac{u + \log^2 n}{n}\right)^{-n-1} \mathrm{d}u\right)
+    \\
+    &= \int_{0}^\infty \exp(-u)~\mathrm{d}u
+    = 1 < \infty.
+  \end{align*}
+  Finally, we observe that
+  $$
+    \exp\left(-\log^2 n\right) = o(\exp( - k \log n)) = o\left(n^{-k}\right)
+  $$
+  for any fixed $k$. Further, $f_n(t)$ converges uniformly to $(-t)^{-\alpha}\exp(-t)$ for $|t| \leq \log^2(n)$ and thus we have the asymptotic estimate
+  \begin{align*}
+    f_{n} 
+    % &= \frac{n^{\alpha-1}}{2\pi \mathrm{i}}\int_\mathcal{H} (-t)^{-\alpha}\left(1 + \frac{t}{n}\right)^{-n-1} \mathrm{d}t \\
+    &= \frac{n^{\alpha-1}}{2\pi \mathrm{i}}
+    \left(
+      \int_{\mathcal{H}(n)_{< \log^2 n}} (-t)^{-\alpha}\left(1 + \frac{t}{n}\right)^{-n-1}\mathrm{d}t +
+      \int_{\mathcal{H}(n)_{\geq \log^2 n}} (-t)^{-\alpha}\left(1 + \frac{t}{n}\right)^{-n-1} \mathrm{d}t
+    \right) \\
+    &= \frac{n^{\alpha-1}}{2\pi \mathrm{i}}
+    \left(
+      \left(
+        1 + \mathcal{O}\left(\frac{\log^2 n}{n}\right)
+      \right)
+      \left(
+        \int_{\mathcal{H}(n)_{< \log^2 n}} (-t)^{-\alpha}\exp(-t)~\mathrm{d}t
+      \right) +
+      o\left(n^{-k} \log^{2|\alpha|} n \right)
+      % \int_{\mathcal{H}_{\geq \log^2 n}} (-t)^{-\alpha}\left(1 + \frac{t}{n}\right)^{-n-1} \mathrm{d}t
+    \right) \\
+    &\xrightarrow[n \to \infty]{} \frac{n^{\alpha-1}}{\Gamma(\alpha)}\left(1 + \mathcal{O}\left(\frac{\log^2 n}{n}\right)\right).
+  \end{align*}
+  Now we can use a terminating form of the asymptotic expansion in \eqref{eq:asymptotic_expansion} to develop an expansion to any predetermined order. This is possible because $t/n = \mathcal{O}((\log^2 n) /n)$ is small.
+  To simplify the expansion we make use of the property of the Gamma function that 
+  $$
+    \frac{1}{\Gamma(\alpha - k)} = \frac{1}{\Gamma(\alpha)}(\alpha - 1)\cdots(\alpha - k).
+  $$
+  We develop it as an example up to $\mathcal{O}\left(n^{-2}\right)$:
+  \begin{align*}
+    f_{n} &\sim \frac{n^{\alpha-1}}{2\pi \mathrm{i}}\int_\mathcal{H} (-t)^{-\alpha}\exp(-t)\left(1+\frac{t^{2}-2t}{2n}\right)\mathrm{d}t\\
+    &= \frac{n^{\alpha-1}}{\Gamma(\alpha)}\left(1 + \frac{1}{2n}(\alpha - 1)\left(\alpha -2\right) + \frac{1}{n}(\alpha - 1)\right)\\
+    &= \frac{n^{\alpha-1}}{\Gamma(\alpha)}\left(1 + \frac{\alpha(\alpha-1)}{2n}\right). \qedhere
+  \end{align*}
+\end{proof}
+
+As indicated in the beginning of the section, the standard function scale can be extended to a wider class of functions. We state the corresponding result here without proof and refer the inclined reader to \cite{SingularityAnalysis} for a thorough treatment.
+
+\begin{theorem}[Standard function scale, logarithms {\cite[Theorem VI.2, p.~385]{AnalyticCombinatorics}}]
+  Let $\alpha \in \C \setminus \Z_{\leq 0}$. Then, the coefficient of $z^n$ in the function
+  $$
+    f(z) = (1 - z)^{-\alpha} \left(\frac{1}{z} \log \frac{1}{1-z}\right)^\beta
+  $$
+  admits for large $n$ a full asymptotic expansion in descending powers of $\log n$ with
+  $$
+    f_n = [z^n] f(z) \sim \frac{n^{\alpha - 1}}{\Gamma(\alpha)}(\log n)^\beta \left(1 + \frac{C_1}{\log n} + \frac{C_2}{\log^2 n} + \cdots\right),
+  $$
+  where
+  $$
+    C_k = \binom{\beta}{k} \Gamma(\alpha) \left.\left(\frac{\mathrm{d}^k}{\mathrm{d}s^k} \frac{1}{\Gamma(s)}\right)\right|_{s = \alpha}.
+  $$
+\end{theorem}
+
+In Table \ref{tab:standard_function_scale} we illustrate the asymptotic form of coefficients of the most commonly encountered functions belonging to the standard function scale.
+
+\begin{table}[hbt!]
+  \centering
+  \[\def\arraystretch{1.5}
+  \begin{array}{c|c}
+    \hline
+    \hline
+    \textbf{Function} & \textbf{Coefficients} \\ \hline
+    (1 - z)^{3/2} & \frac{1}{\sqrt{\pi n^{5}}}
+    \left(
+      \frac{3}{4} + \frac{45}{32n} + \frac{1155}{512n^{2}} + \mathcal{O}\left(\frac{1}{n^{3}}\right)
+    \right)  \\
+    (1 - z) & (0) \\ 
+    (1 - z)^{1/2} & - \frac{1}{\sqrt{\pi n^{3}}}\left(\frac{1}{2} + \frac{3}{16n} + \frac{25}{256n^{2}} + \mathcal{O}\left(\frac{1}{n^{3}}\right)\right) \\
+    1 & (0) \\
+    (1 - z)^{-1/2} & \frac{1}{\sqrt{\pi n}}\left(1 - \frac{1}{8n} + \frac{1}{128n^{2}} + \frac{5}{1024n^{3}} + \mathcal{O}\left(\frac{1}{n^{4}}\right)\right) \\
+    (1 - z)^{-1} & 1 \\
+    (1 - z)^{-3/2} & \sqrt{\frac{n}{\pi}}\left(2 + \frac{3}{4n}- \frac{7}{64n^{2}} + \mathcal{O}\left(\frac{1}{n^{3}}\right)\right) \\
+    (1 - z)^{-2} & n + 1 \\
+    (1 - z)^{-3} & \frac{n^2}{2} + \frac{3n}{2} + 1 \\
+    \hline
+    \hline
+  \end{array}
+  \]
+  \caption[Table of standard function scale.]{Table of commonly encountered functions within the standard function scale \cite[Figure VI.5, p.~388]{AnalyticCombinatorics}.}
+  \label{tab:standard_function_scale}
+\end{table}
+
+A technical aid to establish the transfer theorems necessary to bound the perturbation in the asymptotics of the coefficients, introduced by error terms in the singular expansions, is the concept of a $\Delta$-domain.
+
+\begin{definition}[$\Delta$-domain]
+  Given two numbers $\phi, R$ with $R > 1$ and $0 < \phi < \frac{\pi}{2}$, the open \textit{$\Delta$-domain} $\Delta(\phi,R)$ at one is defined as 
+  $$
+  \Delta(\phi,R) = \{\, z : |z| < R, z \neq 1, |\arg(z - 1)| > \phi \,\}.
+  $$
+  For a complex number $\zeta \neq 0$, a $\Delta$-domain at $\zeta$ is the image by the mapping $z \mapsto \zeta z$ of a $\Delta$-domain at 1. A function is $\Delta$-analytic if it is analytic in some $\Delta$-domain.
+\end{definition}
+
+\begin{theorem}[$\mathcal{O}$-Transfer {\cite[Theorem VI.3, p.~390]{AnalyticCombinatorics}}] 
+\label{thm:transfer}
+  Let $\alpha \in \R$ be an arbitrary real number and let $f(z)$ be a function that is $\Delta$-analytic. 
+  Assume that $f(z)$ satisfies in the intersection of a neighborhood of one with its $\Delta$-domain the condition   
+  $$
+    f(z) = \mathcal{O}\left((1-z)^{-\alpha}\right).
+  $$
+  Then it holds that $[z^n]f(z) = \mathcal{O}(n^{\alpha-1}).$
+\end{theorem}
+
+\begin{figure}[hbt!]
+  \centering
+  \includegraphics{images/ipe/delta_domain.pdf}
+  \caption{The integration contour $\gamma$ in the domain $\Delta(\phi,R)$.}
+  \label{fig:integration_contour_transfer_theorem}
+\end{figure}
+
+\begin{proof}
+  Assume that $f$ is analytic in the domain $\Delta(\phi,R)$, let $1 < r < R$ and $\phi < \theta < \pi/2$. Then we define the contour $\gamma = \gamma_{1} \cup \gamma_{2} \cup \gamma_{3} \cup \gamma_{4}$ (see Figure \ref{fig:integration_contour_transfer_theorem}) through
+  \begin{align*}
+    \gamma_{1} &= \left\{\, z: |z-1| = 1/n, |\arg(z-1)| \geq \theta \,\right\}, \\
+    \gamma_{2} &= \left\{\, z: 1/n \leq |z-1|, |z| \leq r, \arg(z-1)=\theta \,\right\}, \\
+    \gamma_{3} &= \{\, z: |z| = r, |\arg(z-1)| = \theta \,\}, \\
+    \gamma_{4} &= \left\{\, z: 1/n \leq |z-1|, |z| \leq r, \arg(z-1) = -\theta \,\right\}.
+  \end{align*}
+  Under these assumption, the contour $\gamma$ lies entirely inside the domain of analyticity of $f$. Now we apply Cauchy's coefficient formula to obtain
+  $$
+    f_{n} = [z^{n}]f(z) = \frac{1}{2\pi \mathrm{i}}\int_{\gamma}f(z) \frac{\mathrm{d}z}{z^{n+1}}.
+  $$ 
+  Next, we proceed by bounding the absolute value of the integral along each of the four partial contours seperately. For that purpose we define
+  $$
+    f_n^{(j)} = \frac{1}{2 \pi \mathrm{i}} \int_{\gamma_j} f(z) \frac{\mathrm{d}z}{z^{n+1}}.
+  $$
+  By assumption, there exists a $K > 0$ such that $|f(z)| < K \cdot |1 - z|^{-\alpha}$ in the intersection of a neighborhood of one with $\Delta(\phi, R)$.
+
+  \begin{enumerate}
+    \item We start by considering the inner circle $\gamma_1$. Since the integrand is bounded by $K \cdot n^\alpha$ we obtain the simple estimate $\big|f_n^{(1)}\big| \leq K \cdot n^{\alpha - 1}$.
+    \item Next, we bound the rectilinear parts along $\gamma_2$ and $\gamma_4$. Setting $\omega = \exp(\mathrm{i} \theta)$ and performing the change of variable $z = 1 + \omega t / n$, we find
+    $$
+      \big|f_n^{(2)}\big| \leq \frac{n}{2\pi} \int_1^\infty K \cdot \left(\frac{t}{n}\right)^{-\alpha} \left| 1 + \frac{\omega t}{n}\right|^{-n-1} \mathrm{d}t.
+    $$
+    From the relation
+    $$
+      \left|1 + \frac{\omega t}{n} \right| \geq 1 + \mathfrak{R}\left(\frac{\omega t}{n}\right) = 1 + \frac{t}{n} \cos \theta,
+    $$
+    there results the inequality
+    $$
+      \big| f_n^{(2)}\big| \leq \frac{K \cdot n^{\alpha - 1}}{2 \pi} J_n, \qquad \text{with} \qquad J_n = \int_1^\infty t^{-\alpha}\left(1 + \frac{t \cos \theta}{n}\right)^{-n-1} ~\mathrm{d}t.
+    $$
+    For any given $\alpha$, the integrals $J_n$ are all bounded above by some constant since they admit the limit
+    $$
+      J_n \xrightarrow[n \to \infty]{} \int_1^\infty t^{-\alpha} \exp(-t \cos \theta) ~\mathrm{d}t < \infty,
+    $$
+    where the condition $0 < \theta < \pi/2$ ensures convergence of the integral. Thus, we obtain the bound
+    $$
+       \big| f_n^{(2)} \big| = \mathcal{O}(n^{\alpha - 1})
+    $$
+    and similar arguments show the same bound for $f_n^{(4)}$.
+    \item Finally we consider the contribution from the integral along the outer circle $\gamma_3$. There the integrand remains bounded while $z^{-n}$ is of order $\mathcal{O}(r^{-n})$. Hence, $f_n^{(3)}$ is exponentially small and negligible in the scale of the problem.
+  \end{enumerate}
+
+  In summary, each of the four integrals of the split contour are bounded by $\mathcal{O}\left(n^{\alpha - 1}\right)$ and thus the statement of the theorem follows.
+\end{proof}
+
+As we indicated at the start of this section, this theorem even holds for a larger class of functions, which the theorem below captures.
+
+\begin{theorem}[$\mathcal{O}$-Transfer, logarithms {\cite[Theorem VI.3, p.~390]{AnalyticCombinatorics}}]
+  Let $\alpha, \beta \in \R$ be arbitrary real numbers and let $f(z)$ be a function that is $\Delta$-analytic. Assume that $f(z)$ satisfies in the intersection of a neighborhood of one with its $\Delta$-domain the condition   
+  $$
+    f(z) = \mathcal{O}\left((1-z)^{-\alpha} \left( \log \frac{1}{1-z}\right)^\beta\right).
+  $$
+  Then it holds that $[z^n]f(z) = \mathcal{O}(n^{\alpha-1}(\log n)^\beta).$
+\end{theorem}
+
+A similar proof also shows another variant of the Transfer Theorem.
+
+\begin{theorem}[$o$-Transfer, logarithms {\cite[Theorem VI.3, p.~390]{AnalyticCombinatorics}}] 
+\label{remark:o_transfer}
+  Let $\alpha, \beta \in \R$ be arbitrary real numbers and let $f(z)$ be a function that is $\Delta$-analytic. 
+  Assume that $f(z)$ satisfies in the intersection of a neighborhood of one with its $\Delta$-domain the condition 
+  $$
+    f(z) = o\left((1-z)^{-\alpha} \left(\log \frac{1}{1-z}\right)^\beta\right)
+  $$
+  Then it holds that $[z^n]f(z) = o(n^{\alpha-1}(\log n)^\beta).$
+\end{theorem}
+
+An immediately corollary of the $\mathcal{O}$- and the $o$-transfer combined is the transfer of asymptotic equivalence from singular forms to coefficients.
+
+\begin{corollary}[$\sim$-Transfer {\cite[Corollary VI.1, p.~392]{AnalyticCombinatorics}}]
+  Assume that $f(z)$ is $\Delta$-analytic and
+  $$
+    f(z) \sim (1 - z)^{-\alpha}
+  $$
+  for $z \to 1, z \in \Delta_1$ with $\alpha \notin \Z_{\leq 0}$. Then, the coefficients of $f$ satisfy
+  $$
+    [z^n]f(z) \sim \frac{n^{\alpha - 1}}{\Gamma(\alpha)}.
+  $$
+\end{corollary}
+
+\begin{proof}
+  It suffices to observe that, with $g(z) = (1 - z)^{-\alpha}$, one has
+  $$
+    f(z) \sim g(z) \qquad \iff \qquad f(z) = g(z) + o(g(z)).
+  $$
+  Then we apply the $\mathcal{O}$-Transfer Theorem \ref{thm:transfer} to the first term and the $o$-Transfer Theorem~\ref{remark:o_transfer} to the remainder, yielding the claim.
+\end{proof}
+
+We summarize these finding in the following proposition, which describes a procedural approach for applying singularity analysis to a function with a single dominant singularity.
+
+\begin{proposition}[Process of singularity analysis {\cite[Figure VI.7, p.~394]{AnalyticCombinatorics}}]
+  Let $f(z)$ be a function, analytic at zero, whose coefficients are to be analyzed.
+  \begin{enumerate}
+    \item Determine the dominant singularity $\rho$ of $f(z)$ and check that $f(z)$ has no other singularities on its circle of convergence.
+    \item Establish that $f(z)$ is analytic in a $\Delta$-domain $\Delta_\rho$ around $\rho$.
+    \item Analyze the function $f(z)$ as $z \to \rho$ in $\Delta_\rho$ and determine a singular expansion of the form
+    $$
+      f(z) = \sigma(z/\rho) + \mathcal{O}(\tau(z/\rho)) 
+      \qquad \text{with}
+      \qquad \tau(z) = o(\sigma(z)),
+      \qquad \text{as $z \to \rho$}.
+    $$
+    In order to proceed to the next step, the functions $\sigma$ and $\tau$ should belong to the standard scale of functions.
+    \item Translate the main term $\sigma(z)$ using the standard function scale (Theorem \ref{thm:standard_function_scale}), transfer the error term using the Transfer Theorem \ref{thm:transfer} and conclude that
+    $$
+      [z^n] f(z) = \rho^{-n}\sigma_n + \mathcal{O}(\rho^{-n}\tau_n),
+    $$
+    where $\sigma_n = [z^n] \sigma(z)$ and $\tau_n = [z^n] \tau(z)$.
+  \end{enumerate}
+\end{proposition}
+
+As a first application of the process of singularity analysis we derive the asymptotic behavior of the most famous sequence in combinatorics, the Catalan numbers.
+
+\begin{corollary}
+  The Catalan numbers satisfy the following asymptotic expansion: 
+  $$
+    C_n = \frac{1}{n+1}\binom{2n}{n} =  \frac{4^n}{\sqrt{\pi n^3}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right).
+  $$
+\end{corollary}
+
+\begin{proof}
+  Due to Example \ref{ex:catalan_numbers} we know the generating function of the Catalan numbers to be 
+  $$
+    C(z) = \sum_{n = 0}^\infty \frac{1}{n+1}\binom{2n}{n}z^n = \frac{1 - \sqrt{1 - 4z}}{2z}.
+  $$
+  Due to its simple form, we immediately recognize its dominant singularity at $\rho = 1/4$. 
+  Using the functional equation $C(z) - C^{2}(z) - 1 = 0$ we can now derive an asymptotic expansion at the singularity. Substituting $z = 1/4 - Z$ and $C(z) = 2 + Y$ we shift the singularity to zero and eliminate the constant term in the expansion. The functional equation now reads
+  $$
+  Q(Z,Y) = - \frac{1}{4}Y^{2} + 4Z + 4ZY + ZY^{2}.
+  $$
+  The theory of Puiseux expansions now gives us a priori the existence of solutions of the type 
+  $$
+    Y = cZ^{\alpha}(1 + o(1))
+  $$ 
+  for some $c \neq 0, \alpha \in \Q$. Plugging this asymptotic estimate into our functional equation yields 
+  $$
+    Q(Z,Y) \sim - \frac{c^{2}}{4}Z^{2\alpha} + 4Z + 4cZ^{1+\alpha} + cZ^{1+2\alpha}. 
+  $$
+  To satisfy this equation identically, two exponents need to coincide and the corresponding monomials need to cancel each other. This is only possible for $2\alpha = 1$ and $c^{2}= 16$. Hence, $Q(Z,Y) = 0$ is asymptotically consistent with
+  $$
+    Y \sim 4Z^{1/2}, \quad Y \sim -4Z^{1/2},
+  $$
+  corresponding to the two branches of the algebraic equation. Reversing the substitutions we thus obtain the asymptotic expansion
+  $$
+    C(z) = 2 - 2\sqrt{1 - 4z} + \mathcal{O}(1-4z).
+  $$
+  This process can be iterated upon subtracting dominant terms to obtain a complete asymptotic expansion.
+  For that we take the ansatz $Y \sim -4Z^{1/2} +  cZ$. Plugging this asymptotic estimate into $Q(Z,Y)$ we obtain
+  \begin{align*}
+    Q(Z,Y) &\sim - \frac{1}{4}\left(-4Z^{1/2}+cZ\right)^{2} + 4Z + 4Z\left(-4Z^{1/2} + cZ\right) + Z\left(-4Z^{1/2}+cZ\right)^{2} \\\\
+    &= - \frac{1}{4} \left(16Z + c^{2}Z^{2} - 8cZ^{3/2}\right) + 4Z - 16Z^{3/2}+ 4cZ^{2} + Z\left(16Z + c^{2}Z^{2} - 8cZ^{3/2}\right) \\\\
+    &= (2c-16)Z^{3/2} - \left(\frac{c^{2}}{4}+4c+16\right)Z^{2}- 8cZ^{5/2}+c^2Z^{3}.
+  \end{align*}
+  This then immediately yields $c = 8$. One more: 
+  $$
+    Y \sim -4Z^{1/2} + 8Z + cZ^{3/2}.
+  $$
+  We get
+  $$
+    Q(Z,Y) \sim (2c+32)Z^{2} + \mathcal{O}\left(Z^{3/2}\right).
+  $$
+  Finally, we get $c = -16$ and
+  $$
+    C(z) = 2 - 2\sqrt{1-4z} + 2(1-4z) - 2(1-4z)^{3/2} + \mathcal{O}((1-4z)^{2}).
+  $$
+  Define $\sigma(u) = 2 - 2\sqrt{1 - u} + 2(1-u) -2(1-u)^{3/2} + 2(1-u)^{2}$  and $\tau(u) = (1-u)^{5/2}$. Now that we have expanded $C(z)$ into the form 
+  $$
+  C(z) = \sigma(4z) + \mathcal{O}(\tau(4z)),
+  $$
+  we can start translating via the standard function scale (Theorem \ref{thm:standard_function_scale}): 
+  \begin{align*}
+    \sigma_{n} &= [z^{n}]\sigma(z) = -2[z^{n}]\left(\sqrt{1 -4z} + (1-4z)^{3/2}\right) \\
+    &\sim -2\frac{n^{-3/2}}{\Gamma(-1/2)}\left(1 + \sum_{k \geq 0} \frac{e_{k}\left(-\frac{1}{2}\right)}{n^k}\right) -2\frac{n^{-5/2}}{\Gamma(-3/2)}\left(1 + \sum_{k \geq 0} \frac{e_{k}\left(- \frac{3}{2}\right)}{n^k}\right)\\
+    &= \frac{1}{\sqrt{\pi n^{3}}} \left(1 + \frac{3}{8n} + \mathcal{O}\left(\frac{1}{n^{2}}\right)\right) - \frac{3}{2\sqrt{\pi n^{5}}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right).\\
+    &= \frac{1}{\sqrt{\pi n^{3}}} \left(1 - \frac{9}{8n} + \mathcal{O}\left(\frac{1}{n^{2}}\right)\right).
+  \end{align*}
+  Similarly, we have
+  $$
+    \tau_n = [z^n] \tau(z) \sim \frac{n^{-7/2}}{\Gamma(-3/2)}\left(1 + \sum_{k \geq 0} \frac{e_k}{n^k}\right)
+    = \mathcal{O}\left(\frac{3}{4\sqrt{\pi n^{7}}}\right).
+  $$
+  After translating the error via the Transfer Theorem \ref{thm:transfer}, we thus get
+  \begin{align*}
+    [z^n]D(z) &= 4^n\sigma_n + 4^n \cdot \mathcal{O}(\tau_n)
+    = \frac{4^{n}}{\sqrt{\pi n^{3}}}\left(1 - \frac{9}{8n} + \mathcal{O}\left(\frac{1}{n^{2}}\right)\right). \qedhere
+  \end{align*}
+\end{proof}
+
+We conclude this section with a helpful tool for the identification of dominant singularities, which was originally formulated by Giulio Vivanti in 1893 and proved by Alfred Pringsheim in 1894. The proof of the so-called Pringsheim Theorem is based on the following lemma, which guarantees the existence of a singular point on the circle of convergence.
+
+\begin{lemma}[Existence of singular points {\cite[p.~234]{ComplexFunctions}}]
+\label{lemma:singular_points}
+  On the boundary of the disk of convergence of a power series $f(z) = \sum_{n=0}^\infty f_n(z-z_0)^n$ there is always at least one singular point of $f$.
+\end{lemma}
+
+\begin{proof}
+  Let the radius of convergence be bounded and let $B := B_R(z_0)$ be the disk of convergence.
+  Assume that there are no singular points of $f$ on $B$.
+  For every $w \in \partial B$ there is a disc $B_r(w)$ of positive radius $r(w)$ and a holomorphic function $g$ in $B_r(w)$ such that $f$ and $g$ coincide in $B \cap B_r(w)$.
+  Choose a finite cover $B_r(w_1) \cup \dots \cup B_r(w_n) \supseteq \partial B$ of the compact boundary of the disk.
+  There exists an $\tilde{R} > R$ such that 
+  $$
+    \tilde{B} := B_{\tilde{R}}(z_0) \subseteq B \cup B_r(w_1) \cup \dots \cup B_r(w_n).
+  $$
+  Let $g_j$ be holomorphic in $B_r(w_j)$ with 
+  $$
+    f|(B \cap B_r(w_j)) = g|(B \cap B_r(w_j)).
+  $$
+  Now we define $\tilde{f}\colon \tilde{B} \to \mathbb{C}$ as an extension of $f$.
+  If $z \in \tilde{B} \setminus B$, choose a disk $B_r(w_j) \ni z$ and set $\tilde{f}(z) = g_j(z)$.
+  This function is well-defined, because for $B_r(w_j) \cap B_r(w_k) \neq \emptyset$ there is also 
+  $$
+    D := B_r(w_j) \cap B_r(w_k) \cap B  \neq \emptyset.
+  $$
+  By definition both $g_j$ and $g_k$ must coincide with $f$ in $D$ and due to the Identity Theorem~\ref{thm:identity} they must also coincide in $B_r(w_j) \cap B_r(w_k)$.
+  Now $\tilde{f}$ is a holomorphic function in $\tilde{B}$ coinciding with $f$ in $B$ with a larger radius of convergence than $f$ contradicting our assumption.
+\end{proof}
+
+\begin{theorem}[Pringsheim's theorem {\cite[p.~235]{ComplexFunctions}}]
+  Let $f(z) = \sum_{n = 0}^\infty f_nz^n$ be a power series with positive finite radius of convergence $R$ and suppose that all but finitely many of its coefficients $f_n$ are non-negative real numbers. Then $z = R$ is a singularity of $f(z)$.
+\end{theorem}
+
+\begin{proof}
+  Without loss of generality we assume $R = 1$.
+  Suppose $f$ were not singular at $z = 1$.
+  Then its Taylor series centered at $1/2$ would be holomorphic at one.
+  Hence, by Lemma \ref{lemma:singular_points} its radius of convergence would be $r > 1/2$.
+  Further, for every $\zeta$ with $|\zeta| = 1/2$ we have: 
+  $$ 
+    \left| 
+      \frac{1}{n!}f^{(n)}(\zeta)
+    \right| = 
+    \frac{1}{n!} \frac{\mathrm{d}^n}{\mathrm{d}\zeta^n}
+    \left|
+      \sum_{k = 0}^\infty a_k\zeta^k
+    \right| = 
+    \left|
+      \sum_{k = n}^\infty \binom{k}{n}a_k\zeta^{k - n}
+    \right| \leq 
+    \sum_{k = n}^\infty \binom{k}{n}a_{k}
+    \left(\frac{1}{2}\right)^{k - n} = 
+    \frac{1}{n!}f^{(n)}
+    \left(\frac{1}{2}\right). 
+  $$
+  Hence, for every $\zeta$ with $|\zeta| = 1/2$ the radius of convergence of the Taylor series centered at $\zeta$ would be at least $r > 1/2$.
+  As a result there would be no singular point of $f$ on $\partial \mathbb{E}$ contradicting the previous Lemma \ref{lemma:singular_points}.
+\end{proof}

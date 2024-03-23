@@ -1,3 +1,24 @@
+eq:euler_formula?euler_formula
+eq:segner_recurrence?segner_recurrence
+eq:functional_equation_knuth?functional_equation_knuth
+eq:strong_triangle_inequality?strong_triangle_inequality
+eq:Wk2?Wk2
+eq:gf_meanders?gf_meanders
+eq:gf_excursions?gf_excursions
+eq:fundamental_functional_equation_meanders?fundamental_functional_equation_meanders
+eq:constant_term1?constant_term1
+eq:constant_term2?constant_term2
+eq:asymptotic_expansion?asymptotic_expansion
+eq:kernel_basketball?kernel_basketball
+eq:time_reversal?time_reversal
+eq:Gj1?Gj1, Gj2, Gj
+eq:Gj2?Gj1, Gj2, Gj
+eq:Gj?Gj1, Gj2, Gj
+eq:fundamental_functional_equation?fundamental_functional_equation
+eq:G0k?G0k, Gjk
+eq:Gjk?G0k, Gjk
+eq:Gjk_alternative?Gjk_alternative
+eq:meanders_asymptotics?meanders_asymptotics
 eq:gf_pyramids?gf_pyramids
 eq:Qs?Qs
 eq:Ps?Ps

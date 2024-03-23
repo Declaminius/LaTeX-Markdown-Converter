@@ -1,0 +1,696 @@
+\chapter{Introduction}
+\label{chapter:introduction}
+
+\section{Lattice paths}
+
+In this section we will build up the basic framework necessary for the study of lattice paths, where the notations and definitions are mostly based on the introduction of Wallner's master thesis \cite{Wallner}. We will breathe life into these definitions with classical examples that have been studied since the earliest days of lattice path enumeration.
+
+\begin{figure}[hbt!]
+  \centering
+  \begin{subfigure}{0.32 \textwidth}
+    \centering
+    \includegraphics{images/ipe/square_lattice.pdf}
+    \caption{Lattice path on a square lattice.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.32 \textwidth}
+    \centering
+    \includegraphics{images/ipe/triangular_lattice.pdf}
+    \caption{Lattice path on a triangular lattice.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.32 \textwidth}
+    \centering
+    \includegraphics{images/ipe/hexagonal_lattice.pdf}
+    \caption{Lattice path on a hexagonal lattice.}
+  \end{subfigure}
+  \caption{Examples of lattices.}
+  \label{fig:lattices}
+\end{figure}
+
+\begin{definition}[Lattice path]
+  A \textit{lattice} $\Lambda = (V,E)$ is a mathematical model of a discrete space. It consists of a set $V \subset \mathbb{R}^n$ of vertices and a set $E \subset V^2$ of directed edges. An $n$-step \textit{lattice path} or \textit{lattice walk} or \textit{walk} in $\Lambda$ from $s \in V$ to $t \in V$ is a sequence $\omega = (\omega_0,\omega_1,\dots,\omega_n)$ of elements in $V$ such that 
+  \begin{itemize}
+    \item $\omega_0 = s, \omega_n = t$ and
+    \item $(\omega_i,\omega_{i+1}) \in E$ for $i = 0, \dots, n - 1$.
+  \end{itemize}
+  The \textit{length} $|\omega|$ of a lattice path is the number of edges in the sequence $\omega$.
+  A lattice $\Lambda$ is called \textit{homogenous}, if the number of $n$-step walks starting from $s \in V$ is independent from the starting point $s$ for all values of $n$.
+\end{definition}
+
+In Figure \ref{fig:lattices} we illustrate a few common examples of lattices.
+The most important lattice for this thesis will be the Euclidean or square lattice.
+In this case, the infinite edge set can be induced by a finite set of steps or jumps, which describe how a path may move from one vertex to the next.
+
+\begin{definition}[Euclidean lattice] 
+  The \textit{Euclidean lattice} consists of the vertices $\mathbb{Z}^d$. The edges are defined indirectly via the step set $\mathcal{S} \subset \mathbb{Z}^d$. Two vertices $v, w \in \mathbb{Z}^d$ are connected by an edge $(v,w) \in E$ iff\footnote{``iff'' is Paul Halmos' convenient abbreviation for ``if and only if''.} $w - v \in \mathcal{S}$.
+  An $n$-step lattice path on the Euclidean lattice from $s \in \Z^d$ to $t \in \Z^d$ is consequently equivalently characterized by a sequence $\omega = (\omega_0,\dots,\omega_n)$ of elements in $\Z^d$ such that
+  \begin{itemize}
+    \item $\omega_0 = s, \omega_n = t$ and
+    \item $\omega_{i + 1} - \omega_i \in \mathcal{S}$ for $i = 0,\dots,n-1$.
+  \end{itemize}
+\end{definition}
+
+A fascinating part of lattice path combinatorics is the fact that despite their easily accessible definitions, most of their properties still remain unproven or unknown. Hence, most step sets of lattice paths analyzed in this thesis satisfy further restrictions.
+
+\begin{definition}[Directed paths] 
+  \textit{Directed paths} are lattice paths on the two-dimensional Euclidean lattice with a fixed direction of increase which we choose to be the positive horizontal axis. This is described by the allowed steps: If $(i,j) \in \mathcal{S}$, then $i > 0.$ 
+  This implies that the geometric realization of the path always lives in the right half-plane $\mathbb{Z}_+ \times \mathbb{Z}$.
+  Further, for any given step set $\mathcal{S}$ we commonly distinguish four subclasses of directed paths.
+  \begin{itemize}
+    \item \textit{Walks/paths} are directed paths that
+    \begin{itemize}
+      \item are \textbf{not} constrained to stay above the $x$-axis,
+      \item may end at any altitude.
+    \end{itemize}
+    \item \textit{Bridges} are directed paths
+    \begin{itemize}
+      \item that are \textbf{not} constrained to stay above the $x$-axis,
+      \item whose endpoint $\omega_n$ lies on the $x$-axis.
+    \end{itemize}
+    \item \textit{Meanders} are directed paths that
+    \begin{itemize}
+      \item are constrained to stay above the $x$-axis,
+      \item may end at any altitude.
+    \end{itemize}
+    \item \textit{Excursions} are directed paths
+    \begin{itemize}
+      \item that are constrained to stay above the $x$-axis,
+      \item whose endpoint $\omega_n$ lies on the $x$-axis.
+    \end{itemize}
+  \end{itemize}
+\end{definition}
+
+\begin{definition}[Simple paths] 
+  We call a family of directed paths or a set of steps \textit{simple}, if the step set satisfies $\mathcal{S} = \{(1,b_1),\dots,(1,b_k)\}$ with $b_i \in \Z$.
+  In this case, we shorten the notation to $\mathcal{S} = \{b_1,\dots,b_k\}$.
+\end{definition}
+
+Since the steps in simple paths are always of the form $(1,b)$, simple paths are essentially one-dimensional objects. This stands in contrast to step sets including generic steps of the form $(x,y)$, where we do need the whole two-dimensional plane to represent such paths. This reduction in dimensionality allows us to understand simple lattice paths in much greater detail.
+In many applications, step sets may be augmented with a system of weights.
+
+\begin{definition}[System of weights]
+  For a given step set $\mathcal{S}$ we define the respective \textit{system of weights} as $\Pi = \{\, p_s \mid s \in \mathcal{S} \,\}$, where $p_s > 0$ is the weight associated to step $s \in \mathcal{S}$.
+  The \textit{weight} of a lattice path is then defined as the product of the weights of its individual steps.
+  Some useful choices are:
+  \begin{itemize}
+    \item $\forall \, s \in \mathcal{S} \colon p_s = 1$, representing combinatorial paths in the standard sense.
+    \item $\forall \, s \in \mathcal{S} \colon p_s \in \mathbb{N}$, representing paths with colored steps, for example, $p_s = 2$ means that the associated step has two possible colors.
+    \item $\sum_{s \in \mathcal{S}} p_s = 1$, representing a probabilistic model of paths, where step $s$ is chosen with probability $p_s$. 
+  \end{itemize}
+\end{definition}
+
+With this definition, a central concept in the analysis of linear recurrences can be adapted to the theory of lattice paths.
+
+\begin{definition}[Characteristic polynomial]
+  The \textit{characteristic polynomial} or \textit{jump polynomial} of a simple step set $\mathcal{S} \subset \mathbb{Z}$ is defined as the Laurent polynomial
+  $$
+    P(u) = \sum_{s \in \mathcal{S}} p_s u^s,
+  $$
+  where $p_s > 0$ is the weight associated to the step $s \in \mathcal{S}$.
+  If we define $c = - \min(\mathcal{S})$ and $d = \max(\mathcal{S})$ as the two extremal vertical amplitudes of any jump, it is often convenient to rewrite the jump polynomial to
+  $$
+    P(u) = \sum_{k = -c}^d p_k u^k,
+  $$
+  with the convention that $p_k = 0$ if $k \notin \mathcal{S}$.
+\end{definition}
+
+The field of lattice path enumeration allows for countless connections to other areas of combinatorics. In particular, plane trees are closely related to lattice paths. 
+Any plane tree can be traversed starting from the root, proceeding depth-first and left-to-right, and backtracking upwards once a subtree has been completely traversed. 
+This order is known as a \textit{preorder} or \textit{prefix order}, since a node is preferentially visited before its children. 
+Given a tree, the listing of the outdegrees of nodes in prefix order is called the preorder degree sequence. 
+Note that a plane tree can be uniquely determined by its preorder degree sequence. 
+For the example tree depicted in Figure \ref{fig:plane_tree}, the preorder degree sequence reads 
+$$
+  \sigma = (3,1,2,0,0,1,0,2,0,0).
+$$
+This degree sequence can then be interpreted as a word over a finite alphabet. 
+Each value $j$ for the outdegree of a node is represented by a symbol $f_j$. 
+Then, after adding parentheses, the word can be interpreted as a functional term, where $f_j$ represents a function of arity $j$. 
+In our example this yields the functional term
+$$
+  f_3(f_1(f_2(f_0,f_0)),f_1(f_0),f_2(f_0,f_0)).
+$$
+Such codes are known as \textit{Łukasiewicz codes} after the polish logician\footnote{Jan Łukasiewicz (1878--1956)} with the same name.
+Finally, we make the connection to lattice paths by associating any symbol $f_j$ to the simple step $(1, j - 1)$. 
+Then, by starting at the origin and adding steps according to the preorder degree sequence we get a lattice path, associated with a simple step set $\mathcal{S} \subset \{-1,0,1,2,\dots\}$, also known as a \textit{Łukasiewicz walk}.
+Further, since every tree satisfies $|E| = |V| - 1$, the lattice path never crosses below the $x$-axis except at the very last step; see Figure \ref{fig:Łukasiewicz correspondence}. 
+Thus, by omitting the last step we get a correspondence between plane trees with $n + 1$ nodes and Łukasiewicz excursions of length $n$ \cite[p.~74--75]{AnalyticCombinatorics}.
+
+\begin{figure}[hbt!]
+  \centering
+  \begin{subfigure}{0.45 \textwidth}
+    \centering
+    \includegraphics{images/ipe/plane_tree}
+    \caption[Plane tree.]{A plane tree, with its vertices labeled according to their prefix order.}
+    \label{fig:plane_tree}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.45 \textwidth}
+    \centering
+    \includegraphics{images/ipe/luka_correspondence}
+    \caption[Łukasiewicz excursion.]{The corresponding Łukasiewicz excursion.}
+    \label{fig:Łukasiewicz correspondence}
+  \end{subfigure}
+  \caption[Łukasiewicz correspondence.]{The bijection between plane trees and Łukasiewicz excursions.}
+\end{figure}
+
+In particular, binary trees are associated in this way to the possibly most famous example of a family of directed lattice paths, named after the German mathematician Dyck\footnote{Walther Franz Anton von Dyck (1856--1934)}.
+
+\begin{definition}[Dyck walks]
+  \textit{Dyck walks} are lattice paths associated with the simple step set $\mathcal{S} = \{-1,1\}$. Throughout this thesis we will denote these steps with $\textbf{NE} := (1,1)$ and $\textbf{SE} := (1,-1)$.
+\end{definition}
+
+We now present an elementary counting argument to derive the number of Dyck excursions of length $2n$.
+
+\begin{example}[André’s reflection principle] \label{ex:ballot_problem}
+  The formula for the number $d_{2n}$ of Dyck excursions consisting of $2n$ steps can be derived using a counting argument that is now referred to as André’s reflection principle, even though André himself never employed the method \cite{ReflectionPrinciple}.
+  The idea is the following: We count lattice paths consisting of $n$ \textbf{NE}-steps and $n$ \textbf{SE}-steps and then subtract the number of such paths that are not Dyck paths.
+  
+  A lattice path consisting of $n$ \textbf{NE}-steps and $n$ \textbf{SE}-steps can be uniquely identified by the position of the \textbf{NE}-steps, which yields $\binom{2n}{n}$ possible such lattice paths.
+  Hence, the number of Dyck bridges of length $2n$ is given by $\binom{2n}{n}$. Now we subtract all paths that go below the $x$-axis at some point.
+  
+  \begin{figure}
+    \centering
+    \includegraphics{images/ipe/reflected_path}
+    \caption[The reflection principle.]{A Dyck excursion reflected after the first step that crosses below the $x$-axis.}
+    \label{fig:reflected_path}
+  \end{figure}
+
+  Let $p$ be a lattice path with $n$ \textbf{NE}-steps and $n$ \textbf{SE}-steps that is not a Dyck path. Then pick the first step that lies beneath the $x$-axis and change all \textbf{NE}-steps occurring afterwards into \textbf{SE}-steps and vice-versa. 
+  These reflected paths must all end at $(2n,-2)$ since we reflect the path after the point when it hits $y = -1$ for the first time; see Figure \ref{fig:reflected_path}. This means that one net \textbf{NE}-step gets flipped to one net \textbf{SE}-step. The number of paths consisting of $(n-1)$ \textbf{NE}-steps and $(n+1)$ \textbf{SE}-steps can be counted via $\binom{2n}{n-1}.$ By subtracting these unwanted reflected paths we see that the number of Dyck excursions with $2n$ steps satisfies
+  $$
+  d_{2n} = \binom{2n}{n} - \binom{2n}{n-1} = \binom{2n}{n} - \frac{n}{n+1}\binom{2n}{n} = \frac{1}{n+1}\binom{2n}{n}.
+  $$
+  In addition, if we interpret a \textbf{NE}-step as a vote for candidate $A$ and a \textbf{SE}-step as a vote for candidate $B$ we see that we rederived the solution to Bertrand's ballot problem for the special case that the total number of votes for candidate $A$ equals the number of votes for candidate $B$.
+\end{example}
+
+As the prime example of lattice path enumeration, it is perhaps not surprising that the enumeration of Dyck paths is intimately connected to the most ubiquitous sequence in combinatorics: the Catalan numbers.
+They are named after the Belgian mathematician Catalan\footnote{Eugène Charles Catalan (1814--1894)} , who was the first to obtain today's standard formulae
+$$
+  C_n = \frac{(2n)!}{n!(n+1)!} = \binom{2n}{n} - \binom{2n}{n-1} = \frac{1}{n + 1}\binom{2n}{n}.
+$$
+The origins of the sequence, however, reach back even further than this. They first appeared in the works of the Mongolian astronomer and mathematician Minggatu\footnote{Sharabiin Myangat (1692--1763)}. In his book \textit{Quick Methods for Accurate Values of Circle Segments} \cite{Mingatu}, he already obtained the recurrence formula
+$$
+  C_1 = 1, \quad C_2 = 2, \quad C_{n+1} = \sum_{k=0}^n (-1)^k \binom{n+1-k}{k+1}C_{n-k}.
+$$
+In European mathematical circles, Euler\footnote{Leonhard Euler (1707--1783)} was the first one to obtain a closed formula
+\begin{equation}\label{eq:euler_formula}
+  C_{n-2} = \frac{2 \cdot 6 \cdot 10 \cdots (4n -10)}{2\cdot 3 \cdot 4 \cdot (n-1)}
+\end{equation}
+for the Catalan numbers in 1751. A complete proof of this formula, however, was not achieved until 1759 with substantial assistance by Goldbach\footnote{Christian Goldbach (1690--1754)} and Segner\footnote{Johann Andreas von Segner (1704--1777)}, the latter of which provided the final missing piece with the recurrence relation
+\begin{equation}\label{eq:segner_recurrence}
+  C_{n+1} = \sum_{k=0}^n C_k C_{n-k}.
+\end{equation}
+The study of this sequence then really kicked off with the French School between 1838 and 1843, as Liouville\footnote{Joseph Liouville (1809--1882)} used his large mailing list of mathematicians to communicate the problem of deriving {Euler's product formula\eqref{eq:euler_formula}} from {Segner's recurrence\eqref{eq:segner_recurrence}} to ``various geometers'', among them the aforementioned Catalan. This fascinating digression into the history of mathematics and many more details can be found in Appendix~B of the monograph on the Catalan numbers \cite{CatalanNumbers}, contributed by Igor Pak.
+
+For more combinatorial interpretations, the monograph \cite{CatalanNumbers} from Richard Stanley lists 214 different kinds of combinatorial objects counted by the Catalan numbers, some of which will reappear at various points throughout this thesis.
+
+\section{Formal power series}
+
+As generating functions of counting sequences are the central mathematical object of combinatorial analysis, we need to introduce a few basic concepts about polynomial rings from algebra.
+
+\begin{definition}[Formal power series {\cite[Definition 1.8]{Wallner}}] 
+Let $R$ be a ring with unity. The ring of \textit{formal power series} $R[[z]]$ consists of all formal sums of the form 
+$$
+\sum_{n \geq 0} a_n z^n = a_0 + a_1z + a_2z^2 + \cdots,
+$$
+with coefficients $a_n \in R$.
+The sum of two formal power series $\sum_{n \geq 0} a_n z^n, \sum_{n \geq 0} b_n z^n$ is defined by 
+$$
+\sum_{n \geq 0} a_n z^n + \sum_{n \geq 0} b_n z^n = \sum_{n \geq 0}(a_n + b_n)z^n
+$$
+and their product by 
+$$
+\sum_{n \geq 0}a_n z^n \cdot \sum_{n \geq 0} b_n z^n = \sum_{n \geq 0} \left(\sum_{k=0}^n a_k b_{n-k}\right)z^n.
+$$
+\end{definition}
+
+\begin{definition}[Formal topology {\cite[p.~731]{AnalyticCombinatorics}}]
+  We define the valuation of a non-zero formal power series $f(z) = \sum_{n = 0}^\infty f_n z^n$ as the smallest $r \in \N$ such that $f_r \neq 0$ and denote it by $\mathrm{val}(f)$. Further, we set $\mathrm{val}(0) = \infty$. Then, one defines a metric on $R[[z]]$ via
+  \begin{equation*}
+    d(f,g) = 2^{-\mathrm{val(f-g)}}.
+  \end{equation*}
+  With this distance, the space of all formal power series becomes a complete metric space.
+\end{definition}
+
+The formal topology is a useful tool to analyze the convergence of some combinatorial constructions that go beyond a finite number of arithmetic operations.
+
+\begin{example}\label{ex:formal_topology}
+  Let $f \in R[[z]]$ be a formal power series with $f_0 = 0$. 
+  Then, the infinite sum $Q(f) := \sum_{k = 0}^\infty f^k$ converges in the formal topology. 
+  Let $Q_n(f) = \sum_{k=0}^n f^k$ be the partial sum terminating at index $n$. We notice that $\mathrm{val}(f^k) \geq k$ and thus we have
+  $$
+    d(Q_n,Q_m) =  2^{-(\min(n,m)+1)}.
+  $$
+  Hence, $(Q_n)_{n \in \N}$ is a Cauchy sequence and consequently converges.
+\end{example}
+
+\section{Combinatorial structures}
+
+\epigraph{A generating function is a clothesline on which we hang up a sequence of numbers for display. What that means is this: suppose we have a problem whose answer is a sequence of numbers, $a_0,a_1,a_2,\dots$. We want to `know' what the sequence is. What kind of an answer might we expect?}{\textsc{Herbert Wilf} \cite[p.~1]{GeneratingFunctionology}}
+
+In this section we introduce the notion of a combinatorial class, together with the powerful symbolic method, based on Chapter I of \cite{AnalyticCombinatorics}. Many general set-theoretic constructions are built directly in terms of simpler classes by means of a collection of elementary combinatorial constructions, namely the operations of union, Cartesian product, sequence, set, multiset and cycle. The symbolic method then provides a dictionary translating these set-theoretic operations into algebraic operations on generating functions. Hence, the task of constructing a generating function of a combinatorial structure reduces to the identification of a formal specification in terms of basic constructions. After this, the translation into generating functions becomes a purely mechanical process.
+
+The fundamental object studied by symbolic enumeration methods is the \textit{combinatorial class}. It serves as a model of sets of discrete objects, like words, trees, graphs, permutations or lattice paths.
+
+\begin{definition}[Combinatorial class]
+  %{\cite[Definition I.1, p.~16]{AnalyticCombinatorics}} 
+  A \textit{combinatorial class} $\mathcal{A}$, or simply a \textit{class}, is a finite or denumerable set on which a size function is defined, satisfying the following conditions:
+  \begin{enumerate}
+    \item The size of an element is a non-negative integer.
+    \item The number of elements of any given size is finite.
+  \end{enumerate}
+  The size of an element $\alpha \in \mathcal{A}$ is denoted by $|\alpha|$, or $|\alpha|_{\mathcal{A}}$ and we define 
+  $$
+    \mathcal{A}_n := \{\, \alpha \in \mathcal{A} : |\alpha| = n \,\}.
+  $$
+  We denote the cardinality of these subsets by $a_n := \mathrm{card}(\mathcal{A}_n)$ and call $(a_n)_{n\in\mathbb{N}}$ the \textit{counting sequence} of $\mathcal{A}$.
+  Further, we define two elementary combinatorial classes:
+  \begin{itemize}
+    \item The \textit{neutral class} $\mathcal{E}$ consists of a single object of size 0.
+    \item The \textit{atomic class} $\mathcal{Z}$ consists of a single object of size 1.
+  \end{itemize}
+  They form the basis from which all combinatorial structures are constructed.
+\end{definition}
+
+\begin{example}[Number of Dyck walks]\label{ex:dyck_walks}
+  Consider the set $\mathcal{W}_{\mathcal{D}}$ of unconstrained Dyck walks. Since there two possible steps available at every point on the lattice path, the number of Dyck walks of length $n$ satisfies $w_n = 2^n$.
+\end{example}
+
+% \begin{figure}[hbt!]
+%   \centering
+%   \includegraphics{images/ipe/dyck_walks}
+%   \caption{Dyck walks of length $4$, line width scaled according to the number of lattice paths.}
+%   \label{fig:dyck_walks}
+% \end{figure}
+
+Next, for combinatorial enumeration purposes, it proves convenient to identify combinatorial classes that are merely variants of each other.
+
+\begin{definition}[Combinatorial isomorphism]
+  % {\cite[Definition I.3, p.~19]{AnalyticCombinatorics}}
+  Two combinatorial classes $\mathcal{A}$ and $\mathcal{B}$ are said to be \textit{combinatorically isomorphic}, iff their counting sequences are identical. In this case, we also write $\mathcal{A} \cong \mathcal{B}$. This condition is equivalent to the existence of a bijection from $\mathcal{A}$ to $\mathcal{B}$ that preserves size. Hence, one also says that $\mathcal{A}$ and $\mathcal{B}$ are \textit{bijectively equivalent}.
+\end{definition}
+
+Next we introduce the central mathematical object of combinatorial analysis.
+
+\begin{definition}[Ordinary generating function]
+  % {\cite[Definition I.4, p.~19]{AnalyticCombinatorics}} 
+  The \textit{ordinary generating function (OGF)} of a sequence $(a_n)_{n \in \mathbb{N}}$ is the formal power series
+  $$
+  A(z) = \sum_{n=0}^\infty a_n z^n.
+  $$
+  The OGF of a combinatorial class $\mathcal{A}$ is the generating function for the counting sequence $a_n = \mathrm{card}(\mathcal{A}_n), n \geq 0.$ Equivalently, the combinatorial form 
+  $$
+  A(z) = \sum_{\alpha \in \mathcal{A}} z^{|\alpha|},
+  $$
+  is employed. We say the variable $z$ marks the size in the generating function.
+  Further, we introduce the coefficient extraction operator $[z^n]: R[[z]] \to \C$, defined via
+  $$
+    [z^n] \left( \sum_{n \geq 0} f_n z^n \right) = f_n.
+  $$
+\end{definition}
+
+\begin{example}[Generating function of Dyck walks]
+  The OGF corresponding to unrestricted Dyck walks considered in Example \ref{ex:dyck_walks} henceforth satisfies
+  $$
+    W_\mathcal{D}(z) = \sum_{n = 0}^\infty 2^n z^n = \frac{1}{1 - 2z}.
+  $$
+  Note that at this point $\frac{1}{1 - 2z}$ is just a shorthand notation for the corresponding formal power series and we are not yet concerned with its analytic properties like convergence.
+\end{example}
+
+The symbolic method for describing set-theoretic construction closely resembles the description of formal languages by means of grammars. Specifically, it is based on so-called \textit{admissible constructions} that permit direct translations into generating functions.
+
+In lattice path combinatorics we are often interested in precise quantitative information on probabilistic properties of parameters defined for combinatorial objects. In this case, ordinary generating function are no longer sufficient to keep track of the additional information gained by the introduction of these parameters. 
+Hence, just like the formal variable $z$ marks the size of a combinatorial object, we will introduce an additional formal variable for each of the new parameters to fulfill just this role.
+
+\begin{definition}[Multivariate generating function]
+  % {\cite[Definition III.3, p.~163]{AnalyticCombinatorics}}
+  Let $\mathcal{A}$ be a combinatorial class equipped with a (multidimensional) \textit{parameter} $\chi = (\chi_1,\dots,\chi_d): \mathcal{A} \to \N^d$. Let $\textbf{u} = (u_1,\dots,u_d)$ denote a vector of $d$ formal variables and let $\textbf{k} = (k_1,\dots,k_d) \in \N^d$ denote an integer-valued vector of parameters. We make use of the multi-index convention and introduce the shorthand notation $\textbf{u}^\textbf{k}$ for the multipower
+  $$
+    \textbf{u}^\textbf{k} := u_1^{k_1} u_2^{k_2} \cdots u_d^{k_d}.
+  $$
+  The counting sequence of $\mathcal{A}$ with respect to size and the parameter $\chi$ is then defined by
+  $$
+    a_{n,\textbf{k}} = \big|\{\, \alpha \in \mathcal{A}_n \mid \chi_1(\alpha) = k_1, \dots, \chi_d(\alpha) = k_d \,\}\big|.
+  $$
+  Further, the \textit{multivariate generating function (MGF)} of the sequence $(a_{n,\textbf{k}})_{n \in \N, \textbf{k} \in \N^d}$ is defined as the formal power series
+  $$
+    A(z,\textbf{u}) = \sum_{n, \textbf{k}} a_{n,\textbf{k}}\textbf{u}^{\textbf{k}} z^n. 
+  $$
+  One also says that $A(z,\textbf{u})$ is the MGF of the combinatorial class $\mathcal{A}$, with the formal variable $u_j$ marking the parameter $\chi_j$ and $z$ marking size.
+  This function can formally be interpreted as a formal power series in $z$ with coefficients in $\mathbb{Q}[\textbf{u}]$.
+  In addition, one easily recovers the ordinary generating function of the combinatorial class $\mathcal{A}$ by setting $A(z) = A(z,\textbf{1}).$
+\end{definition}
+
+\begin{remark}
+  In most cases pertaining to lattice path combinatorics it suffices to consider a single scalar parameter $\chi$, usually encoding the final height of a lattice path. This way, we obtain a \textit{bivariate generating function (BGF)}
+  $$
+    A(z,u) = \sum_{n,k = 0}^\infty a_{n,k} u^k z^n,
+  $$
+  with $z$ marking the length of the path and $u$ marking the final height (or an alternative parameter).
+\end{remark}
+
+\begin{definition}[Admissible construction]
+  % {\cite[Definition I.5, p.~22]{AnalyticCombinatorics}}
+  Let $\Phi: \mathcal{C}^k \to \mathcal{C}$ for a family of combinatorial classes $\mathcal{C}$. We call $\Phi$ an admissible construction if the counting sequence for $\mathcal{A} = \Phi(\mathcal{B}_1,\dots,\mathcal{B}_k)$ depends only on the counting sequences for $\mathcal{B}_1,\dots,\mathcal{B}_k.$ Then there exists a well-defined operator $\Psi$ such that $A(x) = \Psi(B_1(x),\dots,B_k(x)).$
+\end{definition}
+
+We now give a quick overview of all the basic constructions commonly used within the symbolic framework and how they are translated into the language of generating functions.
+
+\begin{definition}[Basic constructions]
+  % {\cite[Section I.2, pp.~24--26]{AnalyticCombinatorics}}
+  Here we introduce formally the basic constructions that form the core of a specification language for combinatorial structures. 
+  Let $\mathcal{B}$ and $\mathcal{C}$ be two combinatorial classes. For the combinatorial sum we assume $\mathcal{B}$ and $\mathcal{C}$ to be disjoint.
+  \begin{itemize}
+    \item Combinatorial sum (disjoint union) $\mathcal{A} = \mathcal{B} + \mathcal{C}$:
+    $$
+      \mathcal{A} := \mathcal{B} \cup \mathcal{C}, \qquad
+      |\alpha|_{\mathcal{A}} = \begin{cases}
+        |\alpha|_{\mathcal{B}} & \text{if $\alpha \in \mathcal{B}$} \\
+        |\alpha|_{\mathcal{C}} & \text{if $\alpha \in \mathcal{C}$}
+      \end{cases}.
+    $$
+    \item Cartesian product $\mathcal{A} = \mathcal{B} \times \mathcal{C}$: 
+    $$
+      \mathcal{A} := \{\, \alpha = (\beta, \gamma) \mid \beta \in \mathcal{B}, \gamma \in \mathcal{C} \,\}, \qquad
+      |(\beta, \gamma)|_{\mathcal{A}} = |\beta|_{\mathcal{B}} + |\gamma|_{\mathcal{C}}.
+    $$
+    \item Sequence construction $\mathcal{A} = \textsc{Seq}(\mathcal{B})$:
+    $$
+      \mathcal{A} := \{\, (\beta_1,\dots,\beta_n) \mid n \geq 0, \beta_j \in \mathcal{B} \,\}, \qquad
+      |(\beta_1,\dots,\beta_n)|_{\mathcal{A}} = \sum_{k = 1}^n |\beta_k|_{\mathcal{B}}.
+    $$
+    \item Cycle construction $\mathcal{A} = \textsc{Cyc}(\mathcal{B})$:
+    $$
+      \mathcal{A} := (\textsc{Seq}(B) \setminus \{\varepsilon\}) / S,
+    $$
+    where $S$ is the equivalence relation between sequences defined by
+    $$
+      (\alpha_1,\dots,\alpha_r)\,S\,(\beta_1,\dots,\beta_r)
+    $$
+    iff there exists a circular shift $\tau$ such that for all $j \colon \alpha_j = \beta_{\tau(j)}$.
+    The size function carries over from $\textsc{Seq}(B)$.
+    \item Multiset construction $\mathcal{A} = \textsc{MSet}(\mathcal{B})$:
+    $$
+      \mathcal{A} := \textsc{Seq}(\mathcal{B}) / R,
+    $$
+    where $R$ is the equivalence relation between sequences defined by
+    $$
+      (\alpha_1,\dots,\alpha_r)\,R\,(\beta_1,\dots,\beta_r)
+    $$
+    iff there exists an arbitrary permutation $\sigma$ such that for all $j \colon \alpha_j = \beta_{\sigma(j)}$.
+    The size function carries over from $\textsc{Seq}(B)$.
+    \item Powerset construction $\mathcal{A} = \textsc{PSet}(\mathcal{B})$:
+    $$
+    \mathcal{A} := \{\, B \mid B \subset \mathcal{B} \,\}.
+    $$
+    As $\textsc{PSet}(\mathcal{B}) \subset \textsc{MSet}(\mathcal{B})$, the size function carries over from $\textsc{Seq}(B)$ as well.
+  \end{itemize}
+\end{definition}
+
+\begin{theorem}[Basic admissibility {\cite[Theorem I.1, p.~27]{AnalyticCombinatorics}}]\label{thm:symbolic_method}
+  The constructions of union, Cartesian product, sequence, powerset, multiset and cycle are all admissible. The associated operators are as follows:
+  \begin{equation*}
+    \def\arraystretch{1.5}
+    \begin{array}{cllll}
+      \text{Combinatorial sum:} & \mathcal{A} = \mathcal{B} + \mathcal{C} & \implies & A(z) = B(z) + C(z), \\
+      \text{Cartesian product:} & \mathcal{A} = \mathcal{B} \times \mathcal{C} & \implies & A(z) = B(z) \cdot C(z), \\
+      \text{Sequence:} & \mathcal{A} = \textsc{Seq}(\mathcal{B}) & \implies & A(z) = (1 - B(z))^{-1}, \\
+      \text{Powerset:} & \mathcal{A} = \textsc{PSet}(\mathcal{B}) & \implies & A(z) = \exp\left(\sum_{k=1}^\infty \frac{(-1)^{k-1}}{k}B(z^k)\right), \\
+      \text{Multiset:} & \mathcal{A} = \textsc{MSet}(\mathcal{B}) & \implies & A(z) = \exp\left(\sum_{k=1}^\infty \frac{1}{k} B(z^k)\right), \\
+      \text{Cycle:} & \mathcal{A} = \textsc{Cyc}(\mathcal{B}) & \implies & A(z) = \sum_{k=1}^\infty \frac{\phi(k)}{k} \log \frac{1}{1 - B(z^k)},
+    \end{array}
+  \end{equation*}
+  where $\phi$ denotes Euler's totient function.
+  For the sequence, powerset, multiset and cycle translations, it is assumed that $b_0 = 0$.
+\end{theorem}
+
+\begin{proof}
+  We will provide the proof regarding the sequence construction as an example. The admissibility of this construction follows from the admissibility of the union and product constructions. One has
+  $$
+    \mathcal{A} = \{\varepsilon\} + \mathcal{B} + (\mathcal{B} \times \mathcal{B}) + \cdots,
+  $$
+  which implies
+  $$
+    A(z) = 1 + B(z) + B(z)^2 + \cdots = \frac{1}{1 - B(z)},
+  $$
+  where the final equality is to be interpreted as convergence in the formal topology, which we have shown in Example \ref{ex:formal_topology}.
+  For a thorough treatment of these combinatorial constructions, the author recommends the treatise in \cite[Section I.2]{AnalyticCombinatorics} by Flajolet and Sedgewick.
+\end{proof}
+
+
+\begin{example}[Counting sequence of Dyck excursions {\cite[pp.~318--321]{AnalyticCombinatorics}}] \label{ex:catalan_numbers}
+  In Example~\ref{ex:ballot_problem} we already derived the counting sequence of Dyck excursions to be $d_{2n} = \frac{1}{n + 1}\binom{2n}{n}$, also known as the Catalan numbers. Now we will present an alternative way to derive this result, using the symbolic method:
+
+  Let $\mathcal{D}$ denote the combinatorial class of Dyck excursions, let $\omega_0 \in \mathcal{D}$ be an arbitrary Dyck excursion and let $D(z)$ be the corresponding generating function. We now partition $\omega_0$ into two (possibly empty) shorter Dyck excursions via a technique called a first passage decomposition. If $\omega$ is not the empty path, there exists a second point of contact $x_0$ with the $x$-axis. Now we decompose $\omega$ into the path $\omega_1$ starting from the origin and ending at $x_0$ and the (possibly empty) path $\omega_2$ from $x_0$ to the endpoint of $\omega$. Since the first passage $\omega_1$ is non-empty, we can describe it as a sequence of an initial \textbf{NE}-step, a (possibly empty) Dyck excursion starting and ending at altitude one, and a final \textbf{SE}-step back down to the $x$-axis.
+  Hence, the formal symbolic specification for the class of Dyck excursions $\mathcal{D}$ reads
+  $$
+  \mathcal{D} = \mathcal{E} \cup (\mathcal{Z}_{\mathrm{NE}} \times \mathcal{D} \times \mathcal{Z}_{\mathrm{SE}}) \times \mathcal{D}.
+  $$
+  Using the translation schemes of Theorem \ref{thm:symbolic_method} we obtain the functional equation
+  $$
+    D(z) = 1 + z^2D(z)^2.
+  $$
+  This quadratic equation admits the two possible solutions
+  $$
+    D_\pm(z) = \frac{1 \pm \sqrt{1 - 4z^2}}{2z^2}.
+  $$
+  An expansion of the square root term around zero shows that only $D_-(z)$ admits a power series expansion around zero, with $D_+(z)$ possessing a polar singularity at zero. Hence, we conclude
+  \begin{align*}
+    D(z) &= \sum_{n=0}^\infty d_n z^n = \frac{1 - \sqrt{1 - 4z^2}}{2z^2} \\
+    &= 1 + z^2 + 2z^4 + 5z^6 + 14z^8 + 42z^{10} + 132z^{12} + 429z^{14} + \mathcal{O}(z^{16}).
+  \end{align*}
+  In order to extract the coefficients of $D(z)$, we use the double factorial notation $n!!$ to denote the product of all positive integers up to $n$ that have the same parity as $n$.
+  Then, using Newton's generalized binomial theorem \ref{thm:newton}, we rederive the formula
+  \begin{align*}
+    d_{2n} &= [z^{2n}] \left(\frac{1 - \sqrt{1 - 4z^2}}{2z^2}\right)
+    = -\frac{1}{2}[z^{2n+2}]\left(\sum_{k \geq 0} \binom{\frac{1}{2}}{k} (-4z)^{2k}\right) \\
+    &= (-1)^n\frac{1}{2} \frac{(1/2)\cdot(-1/2)\cdot(-3/2)\cdots(-(2n-1)/2)}{(n+1)!}4^{n+1} \\
+    &= \frac{1}{4} \cdot \frac{1}{2^n} \cdot \frac{(2n-1)!!}{(n+1)!}\cdot 4^{n+1}
+    % &= \frac{1}{2^n} \cdot \frac{(2n)!}{(n+1)!(2n)!!} \cdot 4^n \\
+    = \frac{1}{4^n} \cdot \frac{(2n)!}{(n+1)!n!} \cdot 4^n
+    = \frac{1}{n+1}\binom{2n}{n}. \qedhere
+  \end{align*}
+\end{example}
+
+In simple cases like this it is possible to get a closed-form expression for the counting sequence. With increasing complexity in the combinatorial structures, the challenge of finding closed-form expressions decreases in feasibility, and thus results pertaining the asymptotic growth rates of coefficients gain in importance. To compare the growth rates of sequences, we use the classic Landau (or Big O) notation, invented by the German mathematicians Bachmann\footnote{Paul Gustav Heinrich Bachmann (1837--1920)} and Landau\footnote{Edmund Georg Hermann Landau (1877--1938)}.
+
+\begin{definition}[Asymptotic notation]
+  % {\cite[Appendix A.2, pp.~722--723]{AnalyticCombinatorics}}
+  Let $S$ be a set equipped with a neighborhood topology $\mathcal{N}$ and let $s_0 \in S$. Further, two functions $\phi, g \colon S \setminus \{s_0\} \to \C$ are given. Then we write 
+  \begin{itemize}
+    \item $f(s) = \mathcal{O}(g(s))$, if $|f(s)| \leq C\cdot|g(s)|$ for all $s \neq s_0$ in a neighborhood $V \in \mathcal{N}(s_0)$,
+    \item $f(s) \sim g(s)$, if $\lim_{s \to s_0} f(s)/g(s) = 1$ and
+    \item $f(s) = o(g(s))$, if $\lim_{s \to s_0} f(s)/g(s) = 0$.
+  \end{itemize}
+\end{definition}
+
+\section{Complex analysis}
+\epigraph{Combinatorialists use recurrence, generating functions, and such transformations as the Vandermonde convolution; others, to my horror, use contour integrals, differential equations, and other resources of mathematical analysis.}{\textsc{John Riordan} \cite[Preface]{Riordan}}
+
+% \epigraph{The rules of algebra show that the square of any number, whether positive of negative, is a positive number: therefore, to speak of the square root of a negative number is mere absurdity. Now, Cardan\footnote{Gerolamo Cardano (1501--1576)} deliberately commits that absurdity and begins to calculate on such ``imaginary'' quantities. One would describe this as pure madness; and yet the whole development of algebra and analysis would have been impossible without that fundament---which, of course, was, in the nineteenth century, established on solid and rigorous bases. It has been written that the shortest and best way between two truths of the real domain often passes through the imaginary one.}{\textsc{Jacques Hadamard} \cite[pp.~122--123]{Hadamard}}
+
+So far we have introduced generating functions as purely formal objects and demonstrated how its algebraic structure directly reflects the structure of combinatorial classes. 
+However, to uncover the true power of this central concept in lattice path enumeration, we need to examine it in the light of analysis. 
+Hence, in this section we will introduce the basic concepts and theorems that form the framework of this complex-analytic examination. 
+Unless otherwise stated, the definitions and theorems introduced in this section can be found in the book \cite{Funktionentheorie} by Jänich.
+
+\begin{definition}[Analytic function]
+  A function $f(z)$ defined over a region $\Omega$ is \textit{analytic} at a point $z_{0} \in \Omega$ iff, for $z$ in some open disc centered at $z_0$ and contained in $\Omega$, it is representable by a convergent power series expansion
+  $$
+    f(z) = \sum_{n=0}^{\infty}c_{n}(z-z_{0})^{n}.
+  $$
+  A function is analytic in a region $\Omega$ iff it is analytic at every point of $\Omega$.
+\end{definition}
+
+\begin{definition}[Holomorphic function]
+  A function $f\colon \Omega \to \C$, defined on an open set $\Omega \subset \C$ is complex differentiable at $z_{0} \in U$ iff the limit
+  $$
+    f'(z_{0}) := \lim_{z \to z_{0}} \frac{f(z) - f(z_{0})}{z - z_{0}}
+  $$
+  exists. The function $f$ is called \textit{holomorphic} in $\Omega$ iff it is complex differentiable at every point of $\Omega$.
+\end{definition}
+
+An important property of holomorphic functions is that not a lot of information about them is necessary in order to uniquely characterize them, as the following theorem demonstrates.
+
+\begin{theorem}[Identity theorem {\cite[Satz 12]{Funktionentheorie}}] \label{thm:identity}
+  Let $G$ be a region in $\C$ and $f, g\colon G \to \C$ be two holomorphic functions. Let $D := \{\, z \in G \mid f(z) = g(z) \,\}$ have an accumulation point in $G$. Then it holds that $f \equiv g$ on $G$.
+\end{theorem}
+
+Further, it should be noted that the notions of analyticity and holomorphy are equivalent. One direction of this equivalence can be demonstrated via Cauchy's\footnote{Augustin-Louis Cauchy (1789--1857)} coefficient formula.
+
+\begin{theorem}[Cauchy's coefficient formula {\cite[Satz 3]{Funktionentheorie}}]
+  Let $f: U \to \C$ be a holomorphic function and let $z_{0} \in U$. Then there exists exactly one power series $\sum_{n=0}^{\infty}c_{n}(z-z_{0})^{n}$ with positive radius of convergence that represents $f$ in a neighborhood of $z_{0}$. Further, the coefficients $c_{n}$ are given via
+  $$
+    c_{n} = \frac{1}{2\pi \mathrm{i}}\int_{|z-z_{0}|=r} \frac{f(z)}{(z-z_{0})^{n+1}}~\mathrm{d}z,
+  $$
+  with $r > 0$ sufficiently small such that $\{\, z: |z - z_{0}| \leq r \,\} \subset U$. 
+  The power series converges for every open disk fully contained in $U$ and represents the function $f(z)$. In particular, this shows that every holomorphic function is also analytic.
+\end{theorem}
+
+Even though all the series expansions at $0$ of the generating functions we study in this thesis will not contain any terms with negative exponents, the theory of power series alone cannot yet suffice, if we want to derive asymptotic results about the growth of the series coefficients.
+In Section \ref{section:singularity_analysis} we will present an introduction into singularity analysis, where we will show how the location and nature of a generating functions dominant singularity determines the asymptotic growth of its corresponding counting sequence.
+The simplest case to analyze is a generating function with exactly one simple pole on its radius of convergence. If we want to observe the behavior of the function around this polar singularity, a Laurent\footnote{Pierre Alphonse Laurent (1813--1854)} series expansion is the method of choice.
+
+\begin{definition}[Laurent series]
+  Let $z_{0} \in \C$. A \textit{Laurent series} around $z_{0}$ is a series of the form
+  $$
+    \sum_{n=-\infty}^{\infty}c_{n}(z-z_{0})^{n},
+  $$
+  consisting of the \textit{principal part} $\sum_{n=1}^{\infty}c_{-n}(z-z_{0})^{-n}$ and the \textit{Taylor part} $\sum_{n=0}^{\infty}c_{n}(z-z_{0})^{n}$ of the Laurent series. For the principal part we introduce the convenient notation
+  $$
+    \{u^{<0}\} 
+    \left(
+      \sum_{n=-\infty}^{\infty}c_{n}(z-z_{0})^{n}
+    \right) := 
+    \sum_{n=1}^{\infty}c_{-n}(z-z_{0})^{-n}.
+  $$
+  A Laurent series converges iff both subseries converge. In this case, the limit is defined as the sum of the limits of the two subseries. 
+  Let $1/r$ be the radius of convergence of $\sum_{n=1}^{\infty}c_{-n}(z-z_{0})^n$ and $R$ be the radius of convergence of the Taylor part. Then, the Laurent series converges on the open annulus $\{\, z: r < |z| < R \,\}$ and for all $r < \rho_{1} < \rho_{2} < R$ it converges uniformly on $\{\, z: \rho_{1} < |z| < \rho_{2} \,\}$.
+\end{definition}
+
+As power series correspond to local expansions of holomorphic functions, Laurent series are similarly local expansions of meromorphic function.
+
+\begin{definition}[Meromorphic function]
+  A function $h(z)$ is \textit{meromorphic} at $z_{0}$ iff, for $z$ in a neighborhood of $z_{0}$ with $z \neq z_{0}$ it can be represented as a quotient $f(z)/g(z)$ of two analytic functions. In that case, it admits near $z_{0}$ a Laurent series expansion of the form
+  $$
+    h(z) = \sum_{n \geq n_0}h_{n}(z-z_{0})^{n}.
+  $$
+  If $h_{n_{0}} \neq 0$ and $n_{0} \leq -1$, then $h(z)$ is said to have a pole of order $n_{0}$ at $z=z_{0}$.
+  A function is meromorphic in a region iff it is meromorphic at every point of the region.
+\end{definition}
+
+Cauchy's coefficient formula can then be extended to Laurent series.
+
+\begin{theorem}[Laurent coefficient formula {\cite[Satz 16]{Funktionentheorie}}]
+  Let $f(z) = \sum_{n=-\infty}^{\infty}c_{n}z^{n}$ be a convergent Laurent series on a open annulus 
+  $$
+    \{\, z: r < |z| < R \,\}.
+  $$ 
+  Then the coefficients $c_{n}$ are given via
+  $$
+    c_{n} = \frac{1}{2\pi \mathrm{i}} \int_{|z|=\rho}\frac{f(z)}{z^{n+1}}~\mathrm{d}z
+  $$
+  for all $n \in \Z$ and $r < \rho < R$.
+\end{theorem}
+
+Finally, the theory of coefficient extraction using contour integrals culminates in the famous residue theorem named after Cauchy.
+
+\begin{theorem}[Cauchy's residue theorem {\cite[Theorem IV.3, p.~234]{AnalyticCombinatorics}}]
+  Let $h(z)$ be meromorphic in the region $\Omega$, let $S \subset \Omega$ be the set of isolated singularities of $h(z)$ and let $\gamma$ be a positively oriented simple loop in $\Omega$ along which $h(z)$ is analytic. 
+  Then it holds that
+  $$
+    \frac{1}{2\pi \mathrm{i}}\int_{\gamma}h(z)~\mathrm{d}z = \sum_{s \in S} \mathrm{Res}_{z=s}h(z),
+  $$
+  with 
+  $$
+    \mathrm{Res}_{z=s}h(z) := \frac{1}{2\pi \mathrm{i}} \int_{|z-s| = \varepsilon} h(z) ~\mathrm{d}z = [z^{-1}]h(z).
+  $$
+\end{theorem}
+
+The cornerstone on which we will build the important theorems of singularity analysis is Newton's generalized binomial theorem that generalizes the classical binomial theorem to arbitrary complex exponents.
+
+\begin{theorem}[Newton's generalized binomial theorem] \label{thm:newton}
+  We extend the definition of the binomial coefficient to 
+  $$
+  \binom{\alpha}{n} = \frac{\alpha \cdot (\alpha - 1) \cdots (\alpha - n + 1)}{n!}
+  $$
+  for any $\alpha \in \C$ and $n \in \N$.
+  Then, there holds a generalized version of the binomial theorem, stating
+  \begin{equation*}
+    (1 + z)^\alpha = \sum_{n = 0}^{\infty} \binom{\alpha}{n}z^n.
+  \end{equation*}
+\end{theorem}
+
+Further, we will need a complex version of a well known result in real analysis.
+
+\begin{theorem}[Implicit function theorem {\cite[Appendix B.5]{AnalyticCombinatorics}}] \label{thm:implicit_function}
+  Let $F(z,u)$ be bivariate analytic in two complex variables $(z.u)$ near $(0,0)$ in the sense that it admits a convergent power series in a polydisk
+  $$
+    F(z,u) = \sum_{n, k \geq 0} f_{n,k} z^n u^k, \qquad |z| < R, \quad |u| < S.
+  $$
+  Further, assume that $F(0,0) = 0$ and $\frac{\partial F}{\partial u}(0,0) \neq 0$. 
+  Then there exists a unique function $f(z)$ analytic in a neighborhood of zero such that $f(0) = 0$ and
+  $$
+    F(z,f(z)) = 0, \qquad |z| < \rho.
+  $$
+\end{theorem}
+
+We close this synopsis over the complex-analytic methods used throughout this thesis with an important algebraic elimination technique.
+In many cases, generating functions are only accessible as solutions to algebraic equations. For higher degrees this means that closed-form solutions are often infeasible, if not straight-up impossible.
+Say we derived a formula for a generating function like $E(z) = -\frac{u_1(z) u_2(z)}{z}$, with $u_1(z), u_2(z)$ being solutions of an algebraic equation $K(z,u)$. Can we derive an algebraic equation satisfied by $F(z)$?
+
+This question can be positively answered with the help of \textit{resultants}, as they provide a way to eliminate auxiliary quantities from systems of polynomial equations.
+
+\begin{definition}[Resultant {\cite[p.~739]{AnalyticCombinatorics}}]\label{def:resultant}
+  Consider a field of coefficients $\K$ and two polynomials 
+  $$
+    P(x) = \sum\limits_{j=0}^{\ell} a_{j}x^{\ell-j}, \qquad Q(x) = \sum\limits_{k=0}^m b_{k}x^{m-k},
+  $$
+  in $\K[X]$. We define their \textit{resultant} with respect to the variable $x$ as the determinant of order $(\ell + m)$, 
+  $$
+    \mathbf{R}(P(x),Q(x),x) = \det \begin{vmatrix} a_{0} & a_{1} & a_{2} & \cdots & 0 & 0 \\
+    0 & a_{0}& a_{1} & \cdots & 0 & 0 \\
+    \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+    0 & 0 & 0 & \cdots & a_{\ell-1} & a_{\ell}  \\ 
+    b_{0} & b_{1} & b_{2} & \cdots & 0 & 0 \\
+    0 & b_{0} & b_{1} & \ddots & \vdots & \vdots \\ 
+    \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+    0 & 0 & 0 & \cdots & b_{m-1} & b_{m} 
+    \end{vmatrix},
+  $$
+  also called the \textit{Sylvester determinant}. By its definition, the resultant is a polynomial in the coefficients of $P$ and $Q$.
+\end{definition}
+
+\begin{proposition}[{\cite[pp.~739-740]{AnalyticCombinatorics}}]
+  Let $\mathbf{R} = \mathbf{R}(P(x),Q(x),x)$ be the resultant of $P(x), Q(x) \in \K[x]$ and let $\overline{\K}$ be the algebraic closure of $\K$. Then the following statements hold:
+  \begin{itemize}
+    \item If $P(x)$ and $Q(x)$ have a common root in $\overline{\K}$, then $\mathbf{R}(P(x),Q(x),x) = 0$.
+    \item If $\mathbf{R}(P(x),Q(x),x) = 0$, then either $a_{0} = b_{0} = 0$, or else $P(x)$ and $Q(x)$ have a common root in $\overline{\K}$.
+  \end{itemize}
+\end{proposition}
+
+\begin{proof}
+  We only prove the relevant direction for the thesis here. In particular, we only need to know that all common roots of $P(x)$ and $Q(x)$ can be found as zeroes of the resultants. 
+  Let $\xi$ be a common root of $P(x)$ and $Q(x)$. Then $w = (\xi^{l+m-1},\dots,\xi,1)$ solves the homogenous linear system $S\cdot w = 0$, since
+  $$
+   S \cdot \begin{pmatrix}\xi^{l+m-1}\\ \vdots \\ \xi \\ 1 \end{pmatrix}
+   = \begin{pmatrix} \xi^{m-1}P(\xi) \\ \vdots \\ P(\xi) \\ \xi^{l-1}Q(\xi) \\ \vdots \\ Q(\xi)\end{pmatrix}.
+   $$
+	This implies that $\ker(S) \neq \{0\}$ and hence $\mathbf{R}(P(x),Q(x),x) = \det(S) = 0$. The other direction can be found for example in \cite[V.~10]{Lang}.
+\end{proof}
+
+\begin{remark}[Elimination of auxiliary variables {\cite[p.~740]{AnalyticCombinatorics}}]
+  Given a system of polynomial equations
+  $$
+    P_j(z,y_1,\dots,y_m) = 0, \qquad j = 1, \dots, m,
+  $$
+  defining an algebraic curve we can systematically eliminate one of the auxiliary variables $y_i$ until we are left with a single equation in $z$.
+  We start by taking resultants with $P_m$ and eliminate all occurrences of the variable $y_m$ from the first $m - 1$ equations by replacing $P_j$ with $\textbf{R}(P_j, P_m, y_m)$.
+  Then, we repeat this process until all auxiliary variables have been eliminated and we are left with a single polynomial equation over $z$.
+  The resulting polynomial is in general not minimal, in fact, the complexity of elimination is exponential in the resulting degree, in the worst-case. Hence, additional polynomial factorization techniques are required, when dealing with a large system of equations.
+\end{remark}
+
+\begin{example}
+  Consider again the function $E(z)$ defined via
+  $$
+  E(z) = - \frac{u_1(z)u_2(z)}{z}
+  $$
+  and let $K(z,u) = z(1 + u + u^3 + u^4)$.
+  In this case, the system of polynomial equations can be defined as
+  \begin{align*}
+    P_1(E, z, u_1, u_2) &:= z E + u_1(z)u_2(z), \\
+    P_2(E, z, u_1, u_2) &:= K(z,u_1), \\
+    P_3(E, z, u_1, u_2) &:= K(z,u_2).
+  \end{align*}
+  We begin by eliminating $u_2$:
+  \begin{equation*}
+    Q(E,z,u_1) := \textbf{R}(P_1,P_3,u_2) = -z \left(E^{4} z^{4}-E^{3} u_{1} z^{3}-E^{2} u_{1}^{2} z -E \,u_{1}^{3} z +u_{1}^{4}\right).
+  \end{equation*}
+  Next, we eliminate $u_1$ and obtain the desired polynomial equation in $E$ and $z$:
+  \begin{align*}
+    P(E,z) := \textbf{R}(Q,P_2,u_2) &= z^{8} \left(z E +1\right)^{4}\left(E^{4} z^{4}+E^{3} z^{3}+2 E^{3} z^{2}+E^{2}+z E +2 E +1\right) \\
+    &\left(E^{4} z^{4}-2 E^{3} z^{3}-E^{3} z^{2}+3 E^{2} z^{2}+2 E^{2} z -2 z E -E +1\right)^{2}. \qedhere
+  \end{align*}
+\end{example}

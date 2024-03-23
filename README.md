@@ -34,6 +34,7 @@
 	- [ ] unnumbered environments
 - [x] Proofs 🔼 ✅ 2024-02-24
 - [x] Figures 🔽 ✅ 2024-02-22
+	- [ ] Add Figure to filenames
 	- [x] maintain sourcecode in separate file ✅ 2024-02-21
 	- [x] Figures with multiple labels (subfigures) ✅ 2024-02-22
 	- [x] do not overwrite manually placed screenshots 🔽 ✅ 2024-02-22

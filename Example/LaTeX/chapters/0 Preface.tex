@@ -1,0 +1,153 @@
+\pagenumbering{Alph}
+\selectlanguage{ngerman}
+
+\begin{titlepage}
+  %\vspace*{-2cm}
+  \begin{center}
+    \includegraphics[width=0.45\textwidth]{TULogo.eps}
+    \vskip 1cm
+    {\LARGE D~\Large I~P~L~O~M~A~R~B~E~I~T}
+    \vskip 8mm
+    {\huge\bfseries Analytic Combinatorics and Bijections for Directed Lattice Paths}
+    \vskip 1cm
+    \large 
+    ausgeführt am    
+    \vskip 0.75cm
+    {\Large Institut für\\[1ex] Diskrete Mathematik und Geometrie}\\[1ex]
+    {\Large Fakultät für Mathematik und Geoinformation}\\[1ex]
+    {\Large TU Wien}
+    \vskip0.75cm
+    unter der Anleitung von
+    \vskip0.75cm
+    {\Large\bfseries Dipl.-Ing. Dr.techn. Michael Wallner MSc}\\[1ex]
+    \vskip 0.5cm
+    durch
+    \vskip 0.5cm
+    {\Large\bfseries Florian Schager BSc}\\[1ex]
+    Matrikelnummer: { 11819578}\\[1ex]
+    { Hervicusgasse 4/3/20}\\[1ex]
+    { 1120 Wien}
+  \end{center}
+  
+  \vfill
+  
+  \small
+  Wien, am 14. Februar 2024
+  \vspace*{-15mm}
+\end{titlepage}
+
+\cleardoublepage
+
+\chapter*{Kurzfassung}
+\thispagestyle{empty}
+\selectlanguage{ngerman}
+
+Die zentralen mathematischen Objekte in der Analyse von Gitternetzpfaden sind die erzeugenden Funktionen.
+Wir führen sie zunächst als formale Potenzreihen ein, deren algebraische Struktur unmittelbar die Struktur der zugrundeliegenden kombinatorischen Klassen widerspiegelt. 
+Der logische erste Schritt zur Analyse einer beliebigen Familie von Gitternetzpfaden liegt in der Herleitung ihrer erzeugenden Funktion. 
+Nach der Identifizierung einer formalen Spezifikation dieser Familie, in Form grundlegender mengentheoretischer Konstruktionen, liefert die sogenannte symbolische Methode eine Funktionalgleichung für die erzeugende Funktion. Darauf aufbauend, liefert uns schließlich die sogenannte \textit{kernel method} ein leistungsfähiges Werkzeug zur Lösung solcher, oftmals scheinbar unterbestimmten, Gleichungen.
+Sobald wir die erzeugende Funktion endlich in der Hand haben, schreiten wir in drei mögliche Richtungen voran.
+Erstens ist es in einfachen Fällen möglich, durch eine Kombination von Newtons verallgemeinertem binomischem Lehrsatz mit der Lagrangeschen Inversionsformel, eine geschlossene Formel für die entsprechende Zählsequenz zu erhalten. 
+Zweitens gewährt eine Untersuchung der Lage und des Typs der dominanten Singularitäten der erzeugenden Funktion tiefe Einblicke in die
+asymptotischen Wachstumsraten ihrer Koeffizienten, selbst wenn eine geschlossene Formel nicht mehr in Reichweite ist. 
+Schließlich verwenden wir die erzeugenden Funktionen, um mit Hilfe der On-Line Encyclopedia of Integer Sequences (OEIS) Verbindungen zu verwandten kombinatorischen Strukturen zu entdecken, welche dieselbe Zählsequenz aufweisen. Die Gleichheit dieser Sequenzen garantiert zwar die Existenz eines kombinatorischen Isomorphismus, allerdings ist die tatsächliche Konstruktion einer solchen Bijektion oft alles andere als
+offensichtlich.
+
+\cleardoublepage
+
+\chapter*{Abstract}
+\thispagestyle{empty}
+\selectlanguage{english}
+
+The central mathematical objects of lattice path combinatorics are generating functions.
+Initially, we introduce them as formal power series, whose algebraic structure directly reflects the structure of combinatorial classes.
+Hence, the logical first step for analyzing any family of lattice paths lies in the derivation of its generating function. 
+After identifying a formal specification of this family in terms of basic set-theoretic constructions, the \textit{symbolic method} provides us with a functional equation satisfied by our generating function.
+Next, the so-called \textit{kernel method} serves as a powerful tool to solve this often seemingly underdetermined functional equation. 
+Once the generating function has been derived, we may continue in three possible directions.
+Firstly, in simple cases, it is possible to obtain a closed-form expression for the corresponding counting sequence via a combination of Newton's generalized binomial theorem and Lagrange's inversion formula.
+Secondly, an investigation into the nature and location of the complex singularities of the generating function provides vital insights into the asymptotic growth rates of their coefficients, even if a closed-form formula is no longer feasible.
+Finally, we use the generating functions in conjunction with the On-Line Encyclopedia of Integer Sequences (OEIS) to discover connections to related combinatorial structures and construct explicit bijections between them. 
+While the equality of the counting sequences guarantees the existence of such a function, the actual construction is often far from obvious.
+
+\cleardoublepage
+
+\chapter*{Preface}
+\thispagestyle{empty}
+\selectlanguage{english}
+
+\section*{Historical developments and motivation}
+
+The topic of lattice path combinatorics is a rich and active field of research. 
+Its origins can be traced back as early as 1878, when the earliest known drawing of a lattice path is used by Whitworth\footnote{William Allen Whitworth (1840--1905)} \cite{FirstLatticePath} to help picture a combinatorial problem. 
+He uses a two-dimensional lattice path with steps in $\mathcal{S} = \{(1,0), (0,1)\}$ to solve a counting problem involving urns containing $m$ black and $n$ white balls, where the number of white balls drawn must never exceed the number of black balls. 
+Today this problem is commonly known as Bertrand's ballot problem, as Bertrand\footnote{Joseph Louis François Bertrand (1822--1900)} rediscovered the result nine years later in 1887 and published his answer in the Comptes Rendus de l'Academie des Sciences: 
+The probability is simply $(m - n + 1)/(m + 1)$, provided that $m \geq n$. 
+However, it was not until the start of the second half of the 20th century, when the study of lattice path combinatorics really took off.
+Around this time the first papers appeared to study lattice path enumeration for the sake of counting lattice paths, see for example Bizley's work on the number of minimal lattice paths from $(0,0)$ to $(km,kn)$ having just $t$ contacts with the line $my = nx$ \cite{Bizley}. 
+After this the scientific interest for this field has been steadily growing. 
+In fact, Humphreys studied the counting sequence of the number of papers, pertaining to lattice path enumeration, published by decade, noting that the number of such papers more than doubled each decade from 1960 to 2010. 
+For more details and a deep dive into the history of lattice path enumeration, the author recommends her thorough survey \cite{HistoryLatticePathEnumeration}.
+
+Consequently, it is fair to say that the study of lattice path combinatorics has emancipated itself from its parental roots in probability and statistics. Today, its applications reach far into fields like cryptanalysis, crystallography and sphere packing \cite{Invitation}. Furthermore, lattice paths can be used to encode a variety of combinatorial objects, such as trees, maps, permutations, polyominoes, Young tableaux, queues and many, many more \cite{SmallSteps}.
+
+\section*{Goals and contributions}
+
+\paragraph*{Goals.}
+Firstly, the necessary groundwork for the analysis of directed lattice paths shall be thoroughly presented, with all necessary derivations made explicit. This includes a detailed treatment of the central \textit{kernel method}, as well as the process of \textit{singularity analysis}.
+Secondly, the general formulae and techniques are then applied to specific classes of lattice paths, in particular, \textit{basketball walks} and directed lattice paths with \textit{catastrophes}. Wherever possible, we make lateral connections to different combinatorial objects explicit, by constructing vivid bijections between them.
+\paragraph*{Contributions.}
+In Chapter \ref{chapter:directed_lattice_paths_kernel_method}, we collect the often scattered properties of the kernel method, along with their theoretical underpinnings, in the concise Proposition \ref{prop:kernel_method}.
+In Chapter \ref{chapter:basketball_walks}, we augment the article by Banderier, Krattenthaler, Krinik, D. Kruchinin, V. Kruchinin, Nguyen and Wallner \cite{Basketball} with a novel, combinatorial derivation of a generating function (Proposition \ref{thm:new_proof_basketball}) and correct several typos in the paper.
+In Chapter \ref{chapter:catastrophes}, we expand on the work by Banderier and Wallner \cite{Catastrophes}, by contrasting their model of catastrophes with a similar alternative suggested in the paper. In this context, we provide multiple new bijections between related families of lattice paths arising from this alternative model in Section \ref{section:gf_catastrophes} and prove a general result pertaining to the asymptotic growth rates of the number of $k$-Motzkin excursions with alternative catastrophes (Theorem \ref{thm:asym_k_motzkin}).
+Finally, in Chapter \ref{chapter:stacked_directed_animals}, we link the theory of lattice path combinatorics to the field of counting animals via a novel bijective procedure (Theorem \ref{thm:bijection}) mapping Motzkin excursions with alternative catastrophes to the class of stacked directed animals, introduced by Bousquet-Mélou and Rechnitzer in \cite{LatticeAnimals}.
+
+\section*{Thesis structure}
+\thispagestyle{empty}
+
+In Chapter \ref{chapter:introduction} we provide the necessary framework with the basics of combinatorial structures and complex analysis, along with a perspective on the historical developments of this field. In Chapter \ref{chapter:directed_lattice_paths_kernel_method} we study directed lattice paths and give a thorough introduction to the kernel method, essential for deriving their generating functions. In Chapter \ref{chapter:basketball_walks} we specialize the general formulae derived in the previous chapter to a subclass of directed lattice paths, called \textit{basketball walks}, after the evolution of the score of a basketball game before the introduction of the 3-point rule. Next, in Chapter \ref{chapter:catastrophes} we study an extension of the theory of directed lattice paths, where we allow additional steps, so-called \textit{catastrophes} that reset the lattice path back to the $x$-axis. We compare and contrast two different models of catastrophes in terms of their generating functions and the asymptotic growth rates of the respective counting sequences. Finally, in Chapter \ref{chapter:stacked_directed_animals} we provide bijections between lattice paths with catastrophes and directed animals.
+
+\section*{Acknowledgements}
+
+First and foremost I want to thank my supervisor, Michael Wallner,
+for introducing me to the field of lattice path combinatorics and for passing on his contagious excitement for the topic.
+Not only did he have a fitting answer to all of my questions, but he was also able to point me in exciting new directions with his questions to me. Furthermore, he ensured a high standard of quality with detailed corrections right to the end.
+
+Next, I would also like to thank my colleagues Fabian Zehetgruber and Paul Winkler, whose helpful comments have noticeably improved this thesis.
+
+Last but not least, I would like to thank my family for actively supporting and believing in me throughout my studies.
+
+\cleardoublepage
+
+\chapter*{Eidesstattliche Erklärung}
+\thispagestyle{empty}
+\selectlanguage{ngerman}
+\thispagestyle{empty}
+
+\vspace*{2cm}
+
+Ich erkläre an Eides statt, dass ich die vorliegende Diplomarbeit selbstständig und ohne fremde Hilfe verfasst, andere als die angegebenen Quellen und Hilfsmittel nicht benutzt bzw. die wörtlich oder sinngemäß entnommenen Stellen als solche kenntlich gemacht habe.
+
+\vspace*{3cm}
+
+\noindent
+Wien, am 14. Februar 2024
+%
+\hfill 
+%
+\begin{minipage}[t]{5cm}
+\centering
+\underline{\hspace*{5cm}} \\
+\small Florian Schager
+\end{minipage}
+
+\cleardoublepage
+
+\pagenumbering{roman}
+\selectlanguage{english} 
+
+\tableofcontents
+\listoftodos
+
+\cleardoublepage
+\pagenumbering{arabic} 

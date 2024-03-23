@@ -1,0 +1,603 @@
+\chapter{Basketball walks}
+\label{chapter:basketball_walks}
+
+This chapter is based on and extends the work by Banderier, Krattenthaler, Krinik, D. Kruchinin, V. Kruchinin, Nguyen and Wallner in \cite{Basketball}. 
+In this article, the authors investigate a wide class of lattice paths with symmetric step sets $\{-h,\dots,-1,1,\dots,h\}$. 
+For $h = 1$, this corresponds to the classical Dyck paths and $h = 2$ yields the eponymous basketball walks, which will be the main focus of this chapter. 
+We derive their generating functions, as well as closed form formulae for the coefficients of the counting sequences and their corresponding asymptotic growth rates. In addition, we present a novel combinatorial derivation of a generating function (Proposition \ref{thm:new_proof_basketball}) that was previously only accessible via contour integrals and residue calculations.
+Further, we will correct some typos in the original paper, which will be highlighted with a footnote.
+
+\begin{definition}
+  \textit{Basketball walks} are simple lattice paths constructed from the step set $\{-2,-1,1,2\}$. The name refers to the evolution of the score during a basketball game before the introduction of the 3-point rule.
+  \textit{Positive basketball walks} are basketball meanders staying strictly above the $x$-axis, possibly touching it at the first or last step.
+\end{definition}
+
+\section{Generating functions}
+
+Let $G_{j,n,k}$ be the number of positive basketball walks starting at $(0,j)$ and ending at $(n,k)$ for $j,k \geq 0$ and define
+\begin{equation*}
+  G_j(z,u) := \sum_{n,k = 0}^\infty G_{j,n,k} z^n u^k
+  = \sum_{n = 0}^\infty g_{j,n}(u)z^n = \sum_{k = 0}^\infty G_{j,k}(z)u^k.
+\end{equation*}
+We note that this bivariate generating function is analytic for $|z| < 1/P(1)$ and $|u| \leq 1$. Further, the characteristic polynomial is given by
+$$
+  P(u) = u^{-2} + u^{-1} + u + u^2
+$$
+and thus the kernel equation 
+\begin{equation}\label{eq:kernel_basketball}
+  K(z,u) = u^2 - z(1 + u + u^3 + u^4)
+\end{equation}
+admits two small roots, $u_1(z)$ and $u_2(z)$, as well as two large roots, $v_1(z)$ and $v_2(z)$.
+
+\begin{remark}[Time reversal]
+  Due to the symmetry of the step set, we observe that mirroring a basketball walk across the $y$-axis yields another valid basketball walk.
+  Hence, we have the \textit{time reversal} equality
+  \begin{equation}\label{eq:time_reversal}
+    G_{j,k}(z) = G_{k,j}(z).
+  \end{equation}
+\end{remark}
+
+Equipped with those basic properties we are now ready to apply the kernel method to yet another lattice path enumeration problem.
+
+\begin{lemma}[{\cite[pp.~88-89]{Basketball}}]
+\label{lemma:gf_positive_basketball_walks}
+  Let $u_{1}(z)$ and $u_{2}(z)$ be the small roots of the kernel equation \eqref{eq:kernel_basketball}. Then, for $j > 0$, we have
+  \begin{align}
+    G_{j,1}(z) &= -\frac{u_{1}u_{2}(u_{1}^{j}-u_{2}^{j})}{z(u_{1}-u_{2})}, \label{eq:Gj1} \\
+    G_{j,2}(z) &= \frac{u_{1}u_{2}(u_{1}^{j}-u_{2}^{j})+ u_{1}^{j+1}-u_{2}^{j+1}}{z(u_{1}-u_{2})} = \frac{u_{1}^{j+1}-u_{2}^{j+1}}{z(u_{1}-u_{2})} - G_{j,1}(z), \label{eq:Gj2} \\
+    G_{j}(z,u) &= \frac{u^{j} - z\left(G_{j,1}(z) + G_{j,2}(z) + G_{j,1}(z)/u\right)}{1-zP(u)}. \label{eq:Gj}
+  \end{align}
+\end{lemma}
+
+\begin{proof}
+  To derive a functional equation for the generating function of all positive basketball walks starting at $(0,j)$, we split them before their last step. A positive basketball walk is then either the single initial point at altitude $j$, or a positive basketball walk followed by a step not reaching altitude $0$ or below. 
+  This leads to the functional equation 
+  \begin{equation} \label{eq:fundamental_functional_equation}
+    (1-zP(u))G_{j}(z,u) = u^{j} - z\left(G_{j,1}(z) + G_{j,2}(z) + \frac{G_{j,1}(z)}{u}\right), \quad j > 0,
+  \end{equation}
+  which already implies \eqref{eq:Gj}.
+  To solve for the remaining unknowns $G_{j,1}$ and $G_{j,2}$ we 
+  substitute the small roots $u_{1}(z)$ and $u_{2}(z)$ of the kernel equation into \eqref{eq:fundamental_functional_equation} and get the linear system
+  \begin{align*}
+    u_{1}^{j}(z) &= z\left(G_{j,1}(z) + G_{j,2}(z) + \frac{G_{j,1}(z)}{u_{1}(z)}\right),\\
+    u_{2}^{j}(z) &= z\left(G_{j,1}(z) + G_{j,2}(z) + \frac{G_{j,1}(z)}{u_{2}(z)}\right).
+  \end{align*}
+  Solving this system for $j > 0$ immediately yields the formulae \eqref{eq:Gj1} and \eqref{eq:Gj2}.
+\end{proof}
+
+\begin{theorem}[{\cite[Proposition 6.3]{Basketball}}]\label{thm:gf_positive_basketball_walks}
+  Let $u_{1}(z)$ and $u_{2}(z)$ be the small roots of the kernel equation. Then, for $k \geq j > 0$, we have\footnote{The formula in \cite[Proposition 6.3]{Basketball} incorrectly includes the summand corresponding to $i = 0$.}
+  \begin{align}
+    G_{0,k}(z) &= \frac{u_{1}^{k+1}(z) - u_{2}^{k+1}(z)}{u_{1}(z)-u_{2}(z)},\label{eq:G0k} \\
+    G_{j,k}(z) &= -\frac{u_{1}(z)u_{2}(z)}{z}
+    \sum_{i=1}^{j}
+    G_{0,j-i}(z) \cdot 
+    G_{0,k-i}(z). \label{eq:Gjk}
+    % G_{j,k}(z) &= -\frac{u_{1}(z)u_{2}(z)}{z}
+    % \sum_{i=0}^{j}
+    % \frac{u_{1}^{j-i+1}(z) - u_{2}^{j-i+1}(z)}{u_{1}(z) - u_{2}(z)} \cdot 
+    % \frac{u_{1}^{k-i+1}(z) - u_{2}^{k-i+1}(z)}{u_{1}(z) - u_{2}(z)}.
+  \end{align}
+\end{theorem}
+
+\begin{proof}
+  Since positive basketball walks must stay strictly above the $x$-axis, the first step of a walk can only go up.
+  Thus, removing this first step and shifting the origin, we have
+  $$
+    G_{0,k}(z) = z(G_{1,k}(z) + G_{2,k}(z)).
+  $$
+  We can rewrite this equation using the time reversal equation \eqref{eq:time_reversal} to obtain
+  $$
+    G_{0,k}(z) = z(G_{k,1}(z) + G_{k,2}(z)).
+  $$
+  In this form, plugging in the formulae \eqref{eq:Gj1} and \eqref{eq:Gj2} derived in the preceding lemma instantly yields 
+  $$
+    G_{0,k}(z) = \frac{u_{1}^{k+1}(z) - u_{2}^{k+1}(z)}{u_{1}(z) - u_{2}(z)}.
+  $$
+  To derive the formula for $G_{j,k}(z)$ for general $j > 0$ we make use of a first passage decomposition with respect to the minimal altitude of the walk. 
+  By time reversal, we have $G_{0,m}(z)$ as the generating function for basketball walks starting at $(0,m)$, staying strictly above the $x$-axis, but ending on the $x$-axis.
+  Furthermore, we recognize
+  $$
+  E(z) = G_{1,1}(z) = -\frac{u_{1}(z) u_{2}(z)}{z}
+  $$ 
+  as the generating function of basketball excursions. Note that in contrast to the positive basketball walks counted by $G_{0,0}(z)$, basketball excursions are allowed to touch the $x$-axis at any point. 
+  Positive basketball walks starting from height $j$ and ending at height $k$ can then be decomposed into three parts; see Figure \ref{fig:basketball_decomposition}:
+
+  \begin{figure}
+    \centering
+    \includegraphics{images/ipe/basketball_decomposition}
+    \caption{The decomposition of a basketball walk counted by $G_{j,k}(z)$.}
+    \label{fig:basketball_decomposition}
+  \end{figure}
+
+  \begin{enumerate}
+    \item The walk starts at altitude $j$ and continues until it hits the lowest altitude of the entire walk $i$ for the first time. This part is counted by $G_{0,j-i}(z)$.
+    \item The second part then continues to the last time the path reaches altitude $i$. Consequently, this part is counted by $E(z)$.
+    \item The last part runs from altitude $i$ to altitude $k$ without ever returning to altitude $i$. By time reversal, this part is counted by $G_{0,k-i}(z)$.
+  \end{enumerate}
+  Summing over all possible values for $i$ then yields \eqref{eq:Gjk}.
+\end{proof}
+
+\begin{example}[{\cite[p.~92]{Basketball}}]\label{ex:G01,2}
+  We use the general formula \eqref{eq:G0k} to compute explicit expressions for $G_{0,1}(z)$ and $G_{0,2}(z)$. By substituting $k = 1, 2$ we get
+  \begin{align*}
+    G_{0,1}(z) &= u_{1}(z) + u_{2}(z), \\
+    G_{0,2}(z) &= u_{1}(z)^{2}+ u_{1}(z)u_{2}(z) + u_{2}(z)^{2}.
+  \end{align*}
+  We defer the remaining mechanical calculations to our favorite computer algebra system and see that
+  \begin{align*}
+    G_{0,1}(z) &= -\frac{1}{2} + \frac{1}{2}\sqrt{\frac{2-3z-2\sqrt{1-4z}}{z}}\\
+    &= z + z^{2} + 3z^{3} + 7z^{4} + 22z^{5} + 65z^{6} + 213z^{7} + \mathcal{O}(z^{8}).
+  \end{align*}
+  This corresponds to the sequence \href{https://oeis.org/A166135}{\texttt{OEIS A166135}}. 
+  Furthermore $G_{0,1}(z)$ is uniquely determined as the only solution having a power series expansion with non-negative coefficients at $z_{0} = 0$ of
+  $$
+    z u^{4}+ 2zu^{3}+ (3z-1)u^{2} + (2z-1)u + z = 0.
+  $$
+  For $G_{0,2}(z)$, the computer tells us that
+  \begin{align*}
+    G_{0,2}(z) &= \frac{3 - \sqrt{1-4z} - \sqrt{2+12z+2\sqrt{1-4z}}}{4z} \\
+    &= z + z^{2} + 4z^{3} + 9z^{4}+ 31z^{5} + 91z^{6} + 309z^{7} + \mathcal{O}(z^{8}).
+  \end{align*}
+  This corresponds to the sequence \href{https://oeis.org/A111160}{\texttt{OEIS A111160}}. 
+  Furthermore, $G_{0,2}(z)$ is uniquely determined as the only solution of
+  $$
+    z^3 u^{4} - 3z^{2}u^{3} - (z^{2} - 3z)u^{2} + (z-1)u + z = 0,
+  $$
+  having a power series expansion with non-negative coefficients at $z_{0} = 0$.
+\end{example}
+
+\begin{proposition}[{\cite[Proposition 6.4]{Basketball}}]
+\label{thm:new_proof_basketball}
+  Let $G_{j,k}(z)$ be the generating function for positive basketball walks starting at altitude $j > 0$ and ending at altitude $k > 0$. Then\footnote{The formula in \cite[Proposition 6.4]{Basketball} contains some typos, as some signs are incorrectly flipped.}
+  \begin{equation} \label{eq:Gjk_alternative}
+    G_{j,k}(z) 
+    % &= W_{j-k}(z) - \frac{u_{1}^{j+1}(z)-u_{2}^{j+1}(z)}{u_{1}(z) - u_{2}(z)}W_{-k}(z) + u_{1}(z)u_{2}(z)\frac{u_{1}^{j}(z)-u_{2}^{j}(z)}{u_{1}(z) - u_{2}(z)}W_{-k-1}(z) \\
+    = W_{j - k}(z) - G_{0,j}(z)W_{-k}(z) - z G_{1,1}(z) G_{0,j-1}(z) W_{-k-1}(z),
+  \end{equation}
+  where
+  $$
+    W_{i}(z) = z\left(\frac{u_{1}'}{u_{1}^{i+1}}+ \frac{u_{2}'}{u_{2}^{i+1}}\right)
+  $$
+  is the generating function of unconstrained walks starting at the origin and ending at altitude $i$ derived in Theorem \ref{thm:gf_walks}.
+\end{proposition}
+
+We will present two proofs of this proposition. The first one, introduced in \cite{Basketball}, uses contour integrals and a residue calculation.
+Our new, second proof, will present a combinatorial argument that does not require any complex analysis.
+
+\begin{proof}
+  In Lemma \ref{lemma:gf_positive_basketball_walks} we derived the formula
+  $$
+  G_{j}(z,u) = \frac{u^{j} - z\left(G_{j,1}(z) + G_{j,2}(z) + \frac{G_{j,1}(z)}{u}\right)}{1-zP(u)}
+  $$
+  for the bivariate generating function of positive basketball walks starting at $(0,j)$. To obtain an expression for $G_{j,k}(z)$ we extract the coefficient of $u^{k}$ in the left-hand side of this equation. After simplifying the numerator using equations \eqref{eq:Gj1}, \eqref{eq:Gj2} and \eqref{eq:G0k}, together with the linearity of the coefficient extraction operator, we are left with
+  $$
+  G_{j,k}(z) = [u^{k}] \frac{u^{j}}{1-zP(u)} - G_{0,j}(z) \cdot [u^{k}]\frac{1}{1 - zP(u)} - z G_{1,1}(z) G_{0,j-1}(z) \cdot [u^{k}]\frac{u^{-1}}{1-zP(u)}.
+  $$
+  Next we can recognize $W(z,u) = \frac{1}{1-zP(u)}$. Together with the time reversal identity $W_{\ell} = W_{-\ell}$, we obtain the formula
+  $$
+  G_{j,k}(z) = W_{j-k} -\frac{u_{1}^{j+1}-u_{2}^{j+1}}{u_{1}-u_{2}}W_{-k} + \frac{u_{1}u_{2}(u_{1}^{j}-u_{2}^{j})}{u_{1}-u_{2}}W_{-k-1}.
+  $$
+  Now it only remains to derive the desired expression for $W_{\ell}$. For this we apply Cauchy's coefficient formula with a curve $\gamma$ encircling the origin, shrunk sufficiently such that only the small roots remain inside. Cauchy's residue theorem then yields
+  \begin{align*}
+  W_{\ell}(z) &= [u^{\ell}] \frac{1}{1-zP(u)}
+  = \frac{1}{2\pi \mathrm{i}}\int_{\gamma} \frac{\mathrm{d}u}{u^{\ell+1}(1-zP(u))} \\
+  &= \mathrm{Res}_{u=u_{1}(z)}\left(\frac{1}{u^{\ell+1}(1-zP(u))}\right) + \mathrm{Res}_{u=u_{2}(z)}\left(\frac{1}{u^{\ell+1}(1-zP(u))}\right).
+  \end{align*}
+  To calculate these residues, we make use of the identities $1/z = P(u_i(z))$, as well as $zP'(u_i(z)) = - P(u_i(z))/u_i'(z)$, which are immediate consequences of the kernel equation and its derivative. With that in mind we compute
+  \begin{align*}
+    \mathrm{Res}_{u=u_{i}(z)}\left(\frac{1}{u^{\ell+1}(1-zP(u))}\right)
+    % &= \lim_{u\to u_{i}(z)} \frac{u - u_i(z)}{u^{\ell+1}(1-zP(u))}\\
+    % &= \frac{1}{u_{i}(z)^{\ell+1}(u_{i}(z) - u_{2}(z))(u_{i}(z) - v_{1}(z))(u_{i}(z)-v_{2}(z))}\\
+    &= \left(u_{i}(z)^{\ell+1} \left(\frac{\mathrm{d}}{\mathrm{d}u}(1-zP(u))\right)\Bigg|_{u=u_{i}(z)}\right)^{-1}\\
+    &= -\frac{1}{u_{i}(z)^{\ell+1}zP'(u_{i}(z))} \\
+    &= \frac{u_{i}'(z)}{u_{i}(z)^{\ell+1}P(u_{i}(z))}
+    = z\frac{u_{i}'(z)}{u_{i}(z)^{\ell+1}}. \qedhere
+  \end{align*} 
+\end{proof}
+
+Another way to prove this result without needing to dive into complex analysis is to use the symbolic method to translate equation \eqref{eq:Gjk_alternative}
+into a specification for the class of general basketball walks.
+
+\begin{proof}
+  First, we isolate $W_{j-k}(z)$ from equation \eqref{eq:Gjk_alternative} and substitute $j = k + \ell$ to obtain
+  $$
+    W_{\ell}(z) = G_{k,k + \ell}(z) + W_{-k}(z) G_{0,k + \ell}(z) + W_{-k-1}(z)zG_{1,1}(z)G_{0,k + \ell -1}(z).
+  $$
+  To prove this formula using the symbolic method we thus need to show that any basketball walk starting from $(0,0)$ and ending at altitude $\ell$ falls into one of three categories:
+  \begin{enumerate}
+    \item $G_{k,k + \ell}(z)$: A walk that never touches nor crosses altitude $-k$.
+    \item $W_{-k}(z) \cdot G_{0,k + \ell}(z)$: A walk to altitude $-k$, followed by a walk from altitude $-k$ to altitude $\ell$ that never returns to altitude $-k$.
+    \item $W_{-k-1}(z) \cdot z \cdot G_{1,1}(z) \cdot G_{0,k + \ell -1}(z)$: A walk to altitude $-k - 1$, followed by a step to altitude $-k + 1$, then an excursion at altitude $-k + 1$, until it ends with a walk from altitude $-k + 1$ to altitude $\ell$ that never returns to altitude $-k + 1$.
+  \end{enumerate}
+
+  \begin{figure}[hbt!]
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+      \includegraphics{images/ipe/basketball_walk}
+      \caption{Case 1: $\omega \in \mathcal{G}_{k,k+\ell}$}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+      \includegraphics{images/ipe/basketball_walk2}
+      \caption{Case 2: $\omega \in \mathcal{W}_{-k} \times \mathcal{G}_{0,k + \ell}$}
+    \end{subfigure}
+    \vskip\baselineskip
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+      \includegraphics{images/ipe/basketball_walk3}
+      \caption{Case 3: $\omega \in \mathcal{W}_{-k-1} \times \mathcal{Z}_{+2} \times \mathcal{G}_{1,1} \times \mathcal{G}_{0,k + \ell - 1}$}
+    \end{subfigure}
+    \caption[Decompositions of a basketball walk ending at altitude $\ell$.]{The three possible decompositions of a basketball walk ending at altitude $\ell$.}
+    \label{fig:basketball_walks}
+  \end{figure}
+
+  We argue this with a modified last passage decomposition of $W_\ell(z)$.
+  We define the last traversal of an altitude $j$ as the last step that either leaves from altitude $j$ or crosses from altitude $j - 1$ to $j + 1$.
+  Let $\omega$ be an arbitrary basketball walk ending at altitude $\ell$.
+  We split $\omega$ at its last traversal of altitude $-k$. If this traversal does not exist, then $\omega$ falls into the first category.
+  Otherwise, if the last traversal of altitude $-k$ leaves from altitude $-k$, $\omega$ falls into the second category.
+  Finally, in the case that the last traversal crosses over altitude $-k$ we need to be a little more delicate. Since the final part is forced to start with a $+2$ step, we cannot simply describe it as a positive basketball walk from altitude $0$ to altitude $k + \ell + 1$. Hence, we need to split off the first $+2$ step. Now the remaining part is still not yet a positive basketball walk, as it still may return to the line $y = -k + 1$. Hence, we apply a second last passage decomposition to partition the remaining part into an excursion at altitude $(-k + 1)$, followed by a walk from altitude $-k + 1$ to altitude $\ell$ that never returns to altitude $-k + 1$. For a visual representation of these three cases, we refer to Figure \ref{fig:basketball_walks}.
+\end{proof}
+
+\section{Closed-form expressions for coefficients}
+
+In this section we will present closed form expressions for the coefficients of $G_{0,1}(z), G_{0,2}(z)$ and $G_{1,1}(z)$. To derive these formulae we will make use of a variant of the classical Lagrange inversion formula.
+
+\begin{theorem}[Lagrange inversion formula {\cite[Appendix A.6., p. 732]{AnalyticCombinatorics}}] \label{thm:lagrange_inversion}
+  Let $F(z)$ be a formal power series which satisfies $F(z) = z\phi(F(z))$, where $\phi(z)$ is a power series with $\phi(0) \neq 0$. Then, for any Laurent series $H(z) = \sum_{n \geq a}H_nz^n$ and for all non-zero integers $n$, we have
+  $$
+    [z^n]H(F(z)) = \frac{1}{n}[z^{n-1}]H'(z)\phi^n(z).
+  $$
+\end{theorem}
+
+\begin{lemma}[Variant of Lagrange inversion formula {\cite[Lemma 6.1]{Basketball}}]\label{lemma:lagrange_inversion_variant}
+  Let $F(z)$ and $H(z)$ be two formal power series satisfying the equations
+  $$
+  F(z) = z\phi(F(z)), \qquad H(z) = z\psi(H(z)),
+  $$
+  where $\phi(z)$ and $\psi(z)$ are formal power series such that $\phi(0) \neq 0$ and $\psi(0) \neq 0$. Then,
+  $$
+  [z^{n}]H(F(z)) = \frac{1}{n}\sum_{k=1}^{n}\left([z^{k-1}]\psi^{k}(z)\right)\left([z^{n-k}](\phi^{n}(z)\right).
+  $$
+\end{lemma}
+
+\begin{proof}
+  The classical Lagrange inversion formula of Theorem \ref{thm:lagrange_inversion} yields
+  $$
+  [z^{n}]H(F(z)) = \frac{1}{n}[z^{n-1}]H'(z)\phi^{n}(z).
+  $$
+  Applying the Cauchy product formula allows us to apply Lagrange's inversion formula a second time:
+  \begin{align*}
+    [z^{n}]H(F(z)) &= 
+    \frac{1}{n}\sum_{k=0}^{n-1}
+    \left(
+      [z^{k}]H'(z)
+    \right)
+    \left(
+      [z^{n-1-k}]\phi^{n}(z)
+    \right) \\
+    &= \frac{1}{n}\sum_{k=1}^{n}
+    \left(
+      k[z^{k}]H(z)
+    \right)
+    \left(
+      [z^{n-k}]\phi^{n}(z)
+    \right) \\
+    &= \frac{1}{n}\sum_{k=1}^{n}
+    \left(
+      [z^{k-1}]\psi^{k}(z)
+    \right)
+    \left(
+      [z^{n-k}]\phi^{n}(z)
+    \right). \qedhere
+  \end{align*}
+\end{proof}
+
+\begin{proposition}[Closed-form expression for the coefficients of $G_{0,1}(z)$ {\cite[Proposition 6.5]{Basketball}}]
+  The number of basketball walks $G_{0,n,1}$ of length $n$ from the origin to altitude one and never returning to the $x$-axis equals
+  $$
+    G_{0,n,1} = \frac{1}{n}\sum_{k=1}^{n}(-1)^{k-1}\binom{2k-2}{k-1}\binom{2n}{n-k} =
+    \frac{1}{n}\sum_{i=0}^{n}\binom{n}{i}\binom{n}{2n+1-3i}.
+  $$
+\end{proposition}
+
+\begin{proof}
+  In Example \ref{ex:G01,2} we derived the functional equation
+  $$
+    zG_{0,1}^{4}(z) + 2zG_{0,1}^{3}(z) + (3z-1)G_{0,1}^{2}(z) + (2z-1)G_{0,1}(z) + z = 0.
+  $$
+  We rewrite the equation to
+  $$
+    z(1+G_{0,1}(z) + G_{0,1}^{2}(z))^{2} - G_{0,1}(z) - G_{0,1}^{2}(z) = 0.
+  $$
+  Comparing with the functional equation $C(z) = 1 + zC(z)^{2}$ for the Catalan numbers yields the striking identity
+  $$
+    G_{0,1}(z) + G_{0,1}^{2}(z) = C(z) - 1.
+  $$
+  Define $H(z)$ implicitly as the functional inverse of $H + H^{2}$. Then we have 
+  $$
+    G_{0,1}(z) = H(C(z) - 1).
+  $$
+  Since $H(z) = z/(1+H)$ and $\tilde{C}(z) := C(z) - 1$ satisfies $\tilde{C}(z) = z(1 + \tilde{C}(z))^2$ we can apply Lemma~\ref{lemma:lagrange_inversion_variant} and obtain
+  \begin{align*}
+    [z^{n}]G_{0,1}(z) &= 
+    \frac{1}{n}\sum_{k=1}^{n}
+    \left(
+      [z^{k-1}] \frac{1}{(1+z)^{k}}
+    \right)
+    \left(
+      [z^{n-k}](1+z)^{2n}
+    \right) \\
+    &= \frac{1}{n}\sum_{k=1}^{n}\binom{-k}{k-1}\binom{2n}{n-k} \\
+    &= \frac{1}{n}\sum_{k=1}^{n}(-1)^{k-1}\binom{2k-2}{k-1}\binom{2n}{n-k}.
+  \end{align*}
+  The alternative expression without the $(-1)^{k-1}$ factors comes from the Lagrange inversion formula for $u_{1}$ applied to the equation $G_{0,1}(z) = u_{1}(z) + u_{2}(z)$, using the fact that 
+  $$
+  u_{1}(z)^{2}= z u_{1}(z)^2P(u_{1}(z))
+  $$ 
+  in conjunction with the conjugation property of the small roots. By the properties of the kernel method \ref{prop:kernel_method} we know that $u_1(z)$ admits an expansion of the form
+  $$
+    u_1(z) = \sum_{n = 0}^\infty a_n z^{n/2}.
+  $$
+  In order to apply Lagrange's inversion formula to $u_1(z)$ we thus define $$
+    U(x) := u_1\left(x^2\right) = \sum_{n = 0}^\infty a_{n} x^n
+  $$
+  Thus, $U$ is a power series in $x$ and satisfies the equation
+  $$
+    U(x) = x \sqrt{U(x)^2 P(U(x))}.
+  $$
+  This leads to
+  \begin{align*}
+    [z^{n}]G_{0,1}(z) &= 
+    [z^{n}](u_{1}(z) + u_{2}(z)) = 
+    2[x^{2n}]U(x) \\
+    &= \frac{1}{n} [t^{2n-1}] (t^2P(t))^n \\
+    &= \frac{1}{n} [t^{2n-1}] ((1+t)(1+t^3))^n \\
+    &= \frac{1}{n}\sum_{k=0}^{n}\binom{n}{k}\binom{n}{2n+1-3k}.
+  \end{align*}
+  The last closed-form expression can also be explained indirectly via counting the number of unrestricted basketball walks from altitude zero to altitude one in $n$ steps. We simply extract the coefficient of $[u^{1}]$ in the generating function $W(z,u)$ and obtain
+  $$
+    [u^{1}z^{n}] W(z,u) = 
+    [u^{1}]P(u)^{n} = 
+    [u^{1}]\left(\frac{(1+u^{3})(1+u)}{u^{2}}\right)^{n} = 
+    \sum_{k=0}^{n}\binom{n}{k}\binom{n}{2n+1-3k}.
+  $$
+  Now we establish a $1$-to-$n$ correspondence between walks of length $n$ counted by $G_{0,1}(z)$ and those counted by $W_{0,1}(z)$. 
+  Each walk $\omega$ counted by $G_{0,1}(z)$ can be decomposed into $\omega = \omega_{\ell}B\omega_r$ with $B$ being any point in the walk. Now we obtain a new unconstrained walk by $\omega' = B\omega_r\omega_\ell$. If $\omega$ is of length $n$ there are $n$ choices for $B$. Finally we remark that all new walks obtained in this way are in fact different walks. This is due to the fact that there are no walks from altitude zero to altitude one, which are formed as concatenation of several copies of one and the same walk.
+  Conversely, given a walk $\tau$ of length $n$ counted by $W_{0,1}(z)$, we decompose $\tau$ into $\tau = \tau_{\ell}B\tau_r$ with $B$ being the right-most lowest point of $\tau$. Then, $\tau' = B\tau_{r}\tau_\ell$ is a walk of length $n$ counted by $G_{0,1}(z)$.
+\end{proof}
+
+\begin{proposition}[Closed-form expression for the coefficients of $G_{0,2}(z)$ {\cite[Proposition 6.6]{Basketball}}]
+  The number $G_{0,n,2}$ of basketball walks of length $n$ from the origin to altitude two and never returning to the $x$-axis equals
+  $$
+    G_{0,n,2} = \frac{1}{2n+1}\sum_{k=0}^{n+1}(-1)^{n+k+1}\binom{2n+1}{n+k}\binom{n+2k-1}{k}.
+  $$
+\end{proposition}
+
+\begin{proof}
+  The idea of the proof is the build up a chain of dependencies between the actual series of interest, $G_{0,2}(z)$, and several auxiliary series, so that repeated application of Lagrange inversion formula can be applied to provide an explicit expression for the coefficients of the series of interest.
+  As the first auxiliary series we define $F(z)$ by
+  $$
+    -\frac{1}{F(z)} = G_{0,2}(z) - \frac{1}{z}.
+  $$
+  Substituting $F(z)$ into the functional equation
+  $$
+    z^{3}G_{0,2}^{4}(z) - 3z^{2}G_{0,2}^{3}(z) -(z^{2}-3z)G_{0,2}^{2}(z) + (z-1)G_{0,2}(z) + z = 0
+  $$
+  yields
+  $$
+    (F^{3}(z) - zF(z))(1+F(z)) + z^{2} = 0.
+  $$
+  We rewrite this equation further to
+  $$
+    \left(F^{2}(z) - \frac{z}{2}\right)^{2} = 
+    \frac{z^{2}(1-3F(z))}{4(1+F(z))}. 
+  $$
+  Next, we take the square root on both sides. The sign is decided by observing the first terms in the counting sequence associated with $G_{0,2}(z)$ and concluding $F^{2}(z) = z^{2} + \mathcal{O}(z^{3})$. Hence, we have
+  $$
+    F^{2}(z) - \frac{z}{2} = -\frac{z}{2}\sqrt{\frac{1-3F(z)}{1+F(z)}}.
+  $$
+  We define
+  $$
+    B(z) = \frac{1}{2}\left(1 - \sqrt{\frac{1-3z}{1+z}}\right)
+  $$
+  and finally obtain an equation suitable for the application of Lagrange inversion formula:
+  $$
+    F(z) = z \frac{B(F(z))}{F(z)}.
+  $$
+  Hence, for $n \geq 1$ we have
+  $$
+    [z^{n}]G_{0,2}(z) = -[z^{n}] \frac{1}{F(z)} = 
+    \frac{1}{n}[z^{n-1}]z^{-2}\left(\frac{B(z)}{z}\right)^{n} = 
+    \frac{1}{n}[z^{2n+1}]B^{n}(z).
+  $$
+  To proceed, we derive an equation amenable to Lagrange's inversion formula for $B(z)$. Firstly, we note that $B(z)$ solves the quadratic equation
+  $$
+  (z+1)B^{2}(z) - (z+1)B(z) + z = 0,
+  $$
+  which can be rewritten to
+  $$
+  B(z) = z\left(\frac{1}{1-B(z)} - B(z)\right) = z \phi(B(z)).
+  $$
+  Now, we apply Lagrange's inversion formula again with $H(z) = z^{n}$ and obtain
+  \begin{align*}
+    [z^{n}]G_{0,2}(z) &= \frac{1}{n}[z^{2n+1}]B^{n}(z)
+    = \frac{1}{n(2n+1)}[z^{2n}]\left(n z^{n-1}\left(\frac{1}{1-z} - z\right)^{2n+1}\right) \\
+    &= \frac{1}{2n+1}[z^{n+1}]\left(\frac{1}{1-z} - z\right)^{2n+1}.
+  \end{align*}
+  Finally, all that remains is to apply Newton's generalized binomial theorem to calculate
+  \begin{align*}
+    [z^{n}]G_{0,2}(z) &= \frac{1}{2n+1}[z^{n+1}]\sum_{k=0}^{2n+1}(-1)^{k+1}\binom{2n+1}{k}z^{2n+1-k}\left(\frac{1}{1-z}\right)^{k} \\
+    &= \frac{1}{2n+1}[z^{n+1}]\sum_{\ell=0}^{\infty}\sum_{k=0}^{2n+1}(-1)^{k+1}\binom{2n+1}{k}\binom{k+\ell-1}{\ell}z^{2n+1-k+\ell} \\
+    &= \frac{1}{2n+1}\sum_{k=n}^{2n+1}(-1)^{k+1}\binom{2n+1}{k}\binom{2k-n-1}{k-n} \\
+    &= \frac{1}{2n+1}\sum_{k=0}^{n+1}(-1)^{n+k+1}\binom{2n+1}{k+n}\binom{2k-1}{k}. \qedhere
+  \end{align*}
+\end{proof}
+
+\begin{proposition}[Closed-form expression for the coefficients of $G_{1,1}(z)$ {\cite[Proposition 6.7]{Basketball}}]
+\label{prop:G11}
+  The number $G_{1,n,1}$ of basketball excursions of length $n$ (allowed to return to altitude $0$ anywhere) is given by
+  $$
+    G_{1,n,1} = \frac{1}{n+1}\sum_{k=0}^{n}(-1)^{n+k}\binom{2n+2}{n-k}\binom{n+2k+1}{k} = 
+    \frac{1}{n+1} \sum_{i=0}^{\lfloor n/2 \rfloor} \binom{2n+2}{i}\binom{n-i-1}{n-2i}.
+  $$
+\end{proposition}
+
+\begin{proof}
+  By Theorem \ref{thm:gf_meanders_excursions} we know the generating function for excursions to be 
+  $$
+    E(z) = - \frac{u_{1}(z)u_{2}(z)}{z}.
+  $$
+  Further, we can generate an algebraic equation satisfied by $E(z)$ via computer algebra:
+  $$
+    z^{4}E^{4} - (2z^{3}+z^{2})E^{3} + (3z^{2}+2z)E^{2} - (2z+1)E + 1 = 0.
+  $$
+  We rewrite this equation in order to be amenable to Lagrange's inversion formula:
+  $$
+    zE(z) = z\left(\frac{1}{1-zE(z)}-zE(z)\right)^{2} = z\phi(zE(z)).
+  $$
+  Hence we have
+  \begin{align*}
+    [z^{n}]E(z) &= \frac{1}{n+1}[z^{n}]\left(\frac{1}{1-z}-z\right)^{2n+2} \\
+    &= \frac{1}{n+1}[z^n] \sum_{k=0}^{2n+2} \binom{2n+2}{k} (-z)^k \left(\frac{1}{1 - z}\right)^{2n+2-k} \\
+    &= \frac{1}{n+1}\sum_{k=0}^{n} (-1)^{n-k}  \binom{2n+2}{n - k}[z^k]\left(\frac{1}{1 - z}\right)^{n+k+2} \\
+    &= \frac{1}{n+1}\sum_{k=0}^{n}(-1)^{n+k}\binom{2n+2}{n-k}\binom{n+2k+1}{k}.
+  \end{align*}
+  The second expression can be derived by rewriting $\phi(z) = \left(1 + \frac{z^{2}}{1-z}\right)^2$.
+\end{proof}
+
+\section{Asymptotic number of basketball walks}
+
+In this section we analyze the asymptotic behavior of the exactly enumerated sequences from the previous sections.
+
+\begin{theorem}[{Asymptotics of $[z^n]G_{0,1}(z)$ and $[z^n]G_{0,2}(z)$ \cite[Theorem 6.3]{Basketball}}]
+  Let $G_{0,1}(z)$ and $G_{0,2}(z)$ be the generating functions for positive basketball walks starting at the origin and ending at altitude one, respectively, at two. Then, as $n \to \infty$ the coefficients are asymptotically equal to
+  \begin{align*}
+    [z^{n}]G_{0,1}(z) &= \frac{1}{\sqrt{5\pi}} \frac{4^{n}}{\sqrt{n^3}}
+    \left(
+      1 - \frac{81}{200n}+ \mathcal{O}
+      \left(\frac{1}{n^{2}}\right)
+    \right), \\
+    [z^{n}]G_{0,2}(z) &= \frac{5+\sqrt{5}}{10\sqrt{\pi}} \frac{4^{n}}{\sqrt{n^3}}
+    \left(
+      1 - \frac{201+24\sqrt{5}}{200n} + 
+      \mathcal{O}\left(\frac{1}{n^{2}}\right)
+    \right),
+  \end{align*}
+  with $C_1 := \frac{1}{\sqrt{5\pi}} \approx 0.25231$ and
+  $C_2 := \frac{5+\sqrt{5}}{10\sqrt{\pi}} \approx 0.40825$.
+\end{theorem}
+
+\begin{proof}
+  In Example \ref{ex:G01,2} we derived the expressions
+  \begin{align*}
+    G_{0,1}(z) &= -\frac{1}{2} + \frac{1}{2}\sqrt{\frac{2-3z-2\sqrt{1-4z}}{z}}, \\
+    G_{0,2}(z) &= \frac{3 - \sqrt{1-4z} - \sqrt{2+12z+2\sqrt{1-4z}}}{4z}.
+  \end{align*}
+  The dominant singularity of both of these functions is at $\rho_{0} = 1/4$. Computing the Puiseux series at $\rho_0$ yields
+  \begin{align*}
+    G_{0,1}(z) &= - \frac{1-\sqrt{5}}{2} - \frac{2}{\sqrt{5}}(1-4z)^{1/2} + \frac{6}{5\sqrt{5}}(1-4z) - \frac{26}{25\sqrt{5}}(1-4z)^{3/2} + \mathcal{O}((1-4z)^{2}), \\
+    G_{0,2}(z) &= \left(3 - \sqrt{5}\right) - \frac{5 + \sqrt{5}}{5}(1-4z)^{1/2} + \frac{75-17\sqrt{5}}{25}(1-4z) \\
+    &- \frac{125 +  33\sqrt{5}}{125}(1 - 4z)^{3/2} + \mathcal{O}\left((1 - 4z)^2\right).
+  \end{align*}
+  Applying the standard function scale (Theorem \ref{thm:standard_function_scale}) in conjunction with the Transfer Theorem \ref{thm:transfer} we obtain
+  \begin{align*}
+    [z^{n}]G_{0,1}(z) &= \frac{4^{n}}{\sqrt{5\pi n^{3}}}
+    \left(
+      1 + \frac{3}{8n} + 
+      \mathcal{O}\left(\frac{1}{n^{2}}\right)
+    \right) - 
+    \frac{26}{25\sqrt{5}}\frac{4^{n}}{\sqrt{\pi n^{5}}}
+    \left(
+      \frac{3}{4} + \mathcal{O}\left(\frac{1}{n}\right)
+    \right) + 
+    \mathcal{O}\left(\frac{4^{n}}{\sqrt{n^{7}}}\right) \\
+    &= \frac{4^{n}}{\sqrt{5\pi n^{3}}}
+    \left(
+      1 - \frac{81}{200n} + 
+      \mathcal{O}\left(\frac{1}{n^{2}}\right)
+    \right),
+  \end{align*}
+  as well as
+  \begin{align*}
+    [z^{n}]G_{0,2}(z) &= \frac{5 + \sqrt{5}}{10}\frac{4^{n}}{\sqrt{\pi n^{3}}}
+    \left(
+      1 + \frac{3}{8n} + 
+      \mathcal{O}\left(\frac{1}{n^{2}}\right)
+    \right) \\
+    &-
+    \frac{125 + 33\sqrt{5}}{125}\frac{4^{n}}{\sqrt{\pi n^{5}}}
+    \left(
+      \frac{3}{4} + \mathcal{O}\left(\frac{1}{n}\right)
+    \right) +
+    \mathcal{O}\left(\frac{4^{n}}{\sqrt{n^{7}}}\right) \\
+    &= \frac{5 + \sqrt{5}}{10\sqrt{\pi}}\frac{4^n}{\sqrt{n^3}}
+    \left(
+      1 - \frac{201 + 24\sqrt{5}}{200n} + \mathcal{O}\left(\frac{1}{n^2}\right)
+    \right). \qedhere
+  \end{align*}
+\end{proof}
+
+In addition to the asymptotic results presented in \cite{Basketball}, we present the asymptotic growth rate of the number of basketball excursions and compare them to the previously derived asymptotics in Table \ref{table:basketball_walks}.
+
+\begin{theorem}[{Asymptotics of $[z^n]G_{1,1}(z)$}]
+  Let $G_{1,1}(z)$ be the generating function for positive basketball walks starting and ending at altitude one, also known as basketball excursions. Then, as $n \to \infty$ the coefficients are asymptotically equal to 
+  \begin{align*}
+    [z^{n}]G_{1,1}(z) &= \frac{6\sqrt{5} - 10}{5\sqrt{\pi}}\frac{4^n}{\sqrt{n^3}}
+    \left(
+      1 - \frac{381 - 48\sqrt{5}}{200n} + \mathcal{O}\left(\frac{1}{n^2}\right)
+    \right)
+  \end{align*}
+  with $C := \frac{6\sqrt{5} - 10}{5\sqrt{\pi}} \approx 0.38550$.
+\end{theorem}
+
+\begin{proof}
+  In Proposition \ref{prop:G11} we derived the algebraic equation
+  $$
+    P(z,E) := z^{4}E^{4} - (2z^{3}+z^{2})E^{3} + (3z^{2}+2z)E^{2} - (2z+1)E + 1 = 0
+  $$
+  for the generating function $G_{1,1}(z)$. The candidates for its singular points are found within the exceptional set 
+  $$
+    \Xi[P] := \{\, z \mid \textbf{R}(P(z,E), \partial_E P(z,E), E) = 0 \,\},
+  $$
+  where $\textbf{R}(z)$ is the resultant defined in Definition \ref{def:resultant}. Solving the equation $\textbf{R}(z) = 0$ yields again $\rho = 1/4$ as the unique dominant singularity. Now we can let our favorite computer algebra system compute the Puiseux expansion
+  \begin{align*}
+    G_{1,1}(z) = 6 - 2\sqrt{5} &+ \frac{20 - 12\sqrt{5}}{5}\sqrt{1 - 4z} + \frac{250 - 94\sqrt{5}}{25}(1 - 4z) \\
+    &+ \frac{1000 - 536\sqrt{5}}{125}(1 - 4z)^{3/2} + \mathcal{O}\left((1-4z)^2\right).
+  \end{align*}
+  We determine the correct branch of the Puiseux expansion by guessing and checking the asymptotic approximations against the actual values of the counting sequence.
+  Applying the standard function scale (Theorem \ref{thm:standard_function_scale}) in conjunction with the Transfer Theorem \ref{thm:transfer} we finally obtain
+  \begin{align*}
+    [z^n] G_{1,1}(z) &= \frac{6\sqrt{5} - 10}{5}\frac{4^{n}}{\sqrt{\pi n^{3}}}
+    \left(
+      1 + \frac{3}{8n} + 
+      \mathcal{O}\left(\frac{1}{n^{2}}\right)
+    \right) \\
+    &+
+    \frac{1000 - 536\sqrt{5}}{125}\frac{4^{n}}{\sqrt{\pi n^{5}}}
+    \left(
+      \frac{3}{4} + \mathcal{O}\left(\frac{1}{n}\right)
+    \right) +
+    \mathcal{O}\left(\frac{4^{n}}{\sqrt{n^{5}}}\right) \\
+    &= \frac{6\sqrt{5} - 10}{5\sqrt{\pi}}\frac{4^n}{\sqrt{n^3}}
+    \left(
+      1 + \frac{48\sqrt{5}-381}{200n} + \mathcal{O}\left(\frac{1}{n^2}\right)
+    \right). \qedhere
+  \end{align*}
+\end{proof}
+
+\begin{table}[hbt!]
+  \centering
+  \[ \def\arraystretch{1.25}
+    \begin{array}{|c|c|c|c|}
+    \hline
+    & \textbf{OEIS} & \textbf{First terms} & \textbf{Growth rate} \\ \hline
+    G_{0,1}(z) & \href{https://oeis.org/A166135}{\texttt{A166135}} & z+z^2+3z^3+7z^4+22z^5+65z^6 & \approx 0.25231 \cdot 4^n \cdot n^{-3/2} \\ \hline
+    G_{1,1}(z) & \href{https://oeis.org/A187430}{\texttt{A187430}} & 1+2z^2+2z^3+11z^4+24z^5+93z^6 & \approx 0.38550 \cdot 4^n \cdot n^{-3/2} \\ \hline
+    G_{0,2}(z) & \href{https://oeis.org/A111160}{\texttt{A111160}} & z+z^2+4z^3+9z^4+31z^5+91z^6 & \approx 0.40825 \cdot 4^n \cdot n^{-3/2} \\ \hline
+    \end{array}
+  \]
+  \caption{Table of coefficients of different basketball walks.}
+  \label{table:basketball_walks}
+\end{table}

@@ -1,3 +1,5 @@
+import os
+
 ### Important conventions:
 
 # 1. Labels: eq:label, thm:label, ...
@@ -24,25 +26,25 @@ highest_level_of_document_structure = 0
 # LaTeX files
 
 latex_path = "Example/LaTeX"
-latex_main_file = "main.tex"
+latex_main_file = "Analytic Combinatorics and Bijections for Directed Lattice Paths.tex"
 bib_file = "literature.bib"
-
-# Files to save dictionaries between LaTeX labels and corresponding markdown file names
-
-label_dictionary_file = "Notes/Thesis/.dicts/label_filename.txt"
-eqlabel_dictionary_file = "Notes/Thesis/.dicts/eqlabel_filename.txt"
-cite_keys_dictionary_file = "Notes/Thesis/.dicts/cite_keys_filename.txt"
 
 # Markdown Paths
 
-markdown_path = "Notes/Thesis"
-chapters_path = "Notes/Thesis/Chapters"
-notes_path = "Notes/Thesis/Notes"
-figures_path = "Notes/Thesis/Figures"
-sources_path = "Notes/Thesis/Sources"
-equations_path = "Notes/Thesis/Equations"
-tables_path = "Notes/Thesis/Tables"
-dicts_path = "Notes/Thesis/.dicts"
+markdown_path = "Example/Markdown"
+chapters_path = os.path.join(markdown_path, "Chapters")
+notes_path = os.path.join(markdown_path, "Notes")
+figures_path = os.path.join(markdown_path, "Figures")
+sources_path = os.path.join(markdown_path, "Sources")
+equations_path = os.path.join(markdown_path, "Equations")
+tables_path = os.path.join(markdown_path, "Tables")
+dicts_path = os.path.join(markdown_path, ".dicts")
+
+# Files to save dictionaries between LaTeX labels and corresponding markdown file names
+
+label_dictionary_file = os.path.join(dicts_path, "label_filename.txt")
+eqlabel_dictionary_file = os.path.join(dicts_path, "eqlabel_filename.txt")
+cite_keys_dictionary_file = os.path.join(dicts_path, "cite_keys_filename.txt")
 
 # LaTeX environments, adapt for your need
 

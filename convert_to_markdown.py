@@ -116,7 +116,7 @@ def isolate_numbered_equations(block, counter):
                 name = "Equation " + str(counter.chapter) + "." + str(counter.equation) 
                 warnings.warn("Numbered equation without label!")
             write_numbered_equation_markdown(eq, name, labels)
-            eq_links.append("![["+ name + "]]")
+            eq_links.append("![["+ name + "|no-title]]")
         block_without_equations = re.split(eq_regex_no_capturing_groups, block, flags = re.DOTALL)
         return block_without_equations[0] + "".join([a + b for a, b in zip(eq_links, block_without_equations[1:])]) + "\n\n", counter
     else:
@@ -148,7 +148,7 @@ def isolate_figures(block, counter):
                     write_subfigure_markdown(subfig, fig_name, subfig_name, subfig_label)
             write_figure_markdown(fig, subfig_links, fig_name, fig_label)
             counter.figure += 1
-            fig_links.append("![["+ fig_name + "#Figure " + fig_name + "]]")
+            fig_links.append("> [!tip]+ Figure: " + fig_name + "\n" + "> ![[Figure. "+ fig_name + "#Figure " + fig_name + "|no-h4]]")
         block_without_figures = re.split(fig_regex, block, flags = re.DOTALL)
         return block_without_figures[0] + "\n".join([a + b for a, b in zip(fig_links, block_without_figures[1:])]) + "\n\n"
     else:
@@ -183,7 +183,7 @@ def isolate_proofs(block, theorem_name):
         return block, []
 
 def isolate_titlepage(block):
-    titlepage_regex = "(\\\\begin\{titlepage\}.+?\\\\end\{titlepage\})"
+    titlepage_regex = "(.+?\\\\begin\{titlepage\}.+?\\\\end\{titlepage\})"
     titlepage_match = re.search(titlepage_regex, block, flags = re.DOTALL)
     if titlepage_match is not None:
         titlepage = titlepage_match.group(1)
@@ -260,6 +260,8 @@ def convert_refs(block):
             if ref in label_filename_dict.keys():
                 link_to_file = "[[" + label_filename_dict[ref] + "]]"
                 block = block.replace("\\ref{" + ref + "}", link_to_file)
+            else:
+                warnings.warn(f"{ref} not found!")
     return block
 
 def convert_eqrefs(block):
@@ -305,6 +307,9 @@ def convert_block(block, counter):
     block = convert_refs(block)
     block = convert_eqrefs(block)
     block = convert_lists(block)
+    block = convert_citations(block)
+    block = isolate_tables(block, counter)
+    block = isolate_figures(block, counter)
 
     match_env = re.match("\\\\begin\{(.+?)\}", block)
     if match_env is not None:
@@ -321,11 +326,6 @@ def convert_block(block, counter):
         env = None
         name = None
         label = None
-    
-    block = convert_citations(block)
-    block = isolate_tables(block, counter)
-    block = isolate_figures(block, counter)
-
     return block, env, name, label
 
 def parse_label_and_caption(type, fig, counter, subfig_counter = None):
@@ -378,10 +378,10 @@ def parse_theorem_label_and_name(block, env, counter):
     return label, name
 
 def write_subfigure_markdown(subfigure, figure_name, name, label):
-    with open(os.path.join(config.figures_path, name + ".md"), "w", encoding="utf-8") as file:
+    with open(os.path.join(config.figures_path, "Subfigure. " + name + ".md"), "w", encoding="utf-8") as file:
         file.write("---\n")
         if label is not None:
-            parsing_utils.write_linking_dictionary(label, name, config.label_dictionary_file)
+            parsing_utils.write_linking_dictionary(label, "Subfigure. " + name, config.label_dictionary_file)
             file.write("label: " + label + "\n")
         file.write("Figure: " + '"[[' + figure_name + ']]"' + "\n")
         file.write("tags:\n")
@@ -399,14 +399,14 @@ def write_subfigure_markdown(subfigure, figure_name, name, label):
         file.write("```")
 
 def write_figure_markdown(figure, subfigures, name, label):
-    with open(os.path.join(config.figures_path, name + ".md"), "w", encoding="utf-8") as file:
+    with open(os.path.join(config.figures_path, "Figure. " + name + ".md"), "w", encoding="utf-8") as file:
         file.write("---\n")
         if label is not None:
             file.write("label: " + label + "\n")
-            parsing_utils.write_linking_dictionary(label, name, config.label_dictionary_file)
+            parsing_utils.write_linking_dictionary(label, "Figure. " + name, config.label_dictionary_file)      
         file.write("subfigures:\n")
         for subfig in subfigures:
-            file.write("  - " + '"[[' + subfig + ']]"' + "\n")
+            file.write("  - " + '"[[Subfigure. ' + subfig + ']]"' + "\n")
         file.write("tags:\n")
         file.write("  - Figure\n")
         file.write("---\n")
@@ -440,13 +440,13 @@ def write_table_markdown(table, name, label):
         file.write("```")
 
 def write_proof_markdown(proof, theorem_name, n):
-    filename = theorem_name + " Proof"
+    filename = theorem_name + ". Proof"
     if n > 1:
         filename += " " + str(n)
         
     with open(os.path.join(config.notes_path, filename + ".md"), "w", encoding="utf-8") as file:
         file.write("---\n")
-        file.write("Theorem: [[" + theorem_name + "]]\n")
+        file.write('Theorem: "[[' + theorem_name + ']]"\n')
         file.write("tags:\n")
         file.write("  - Proof\n")
         file.write("---\n")
@@ -492,9 +492,9 @@ def write_proof_to_theorem(block, prev_thm_name):
         for block, filename in zip(block_without_proofs, proof_filenames):
             file.write(block.strip())
             file.write("\n")
-            file.write("#### Proof\n")
-            file.write("\n")
-            file.write("![[" + filename + "]]\n")
+            file.write("`\\begin{proof}`\n")
+            file.write("![[" + filename + "|no-title]]\n")
+            file.write("`\\end{proof}`\n")
 
     return block_without_proofs[-1]
 
@@ -504,13 +504,12 @@ def write_block_to_section(file, block, prev_thm_name, counter):
         proof_match = re.search("\\\\begin\{proof\}", block)
         if proof_match is not None:
             block = write_proof_to_theorem(block, prev_thm_name)
-        file.write(block.strip())
+        file.write(block)
         file.write("\n")
         return None
     else:
-        file.write("#### " + env.capitalize() + "\n")
-        file.write("\n")
-        file.write("![[" + name + "]]\n\n")
+        file.write("> [!" + env  + "]+ " + name + "\n")
+        file.write("> ![[" + name + "|no-title]]\n\n")
         write_block_markdown(name, env, label, block)
         counter.theorem += 1
         return name
@@ -643,15 +642,21 @@ def write_chapter_markdown(chapter, heading, counter):
         for filename in section_filenames:
             file.write("## " + filename + "\n")
             file.write("\n")
-            file.write("![[" + filename + "]]\n")
+            file.write("![[" + filename + "|no-title]]\n")
             file.write("\n")
     
+    with open(os.path.join(config.markdown_path, "Table of contents" + ".md"), "a", encoding="utf-8") as file:
+        file.write("# [[" + markdown_file + "]]\n\n")
+        for filename in section_filenames:
+            file.write("## [[" + filename + "]]\n")
+            file.write("\n")
+
     return markdown_file
 
-def write_markdown(latex_main_file):
+def write_markdown():
     counter = Counter()
 
-    with open(os.path.join(config.latex_path, latex_main_file), "r", encoding="utf-8") as file:
+    with open(os.path.join(config.latex_path, config.latex_main_file), "r", encoding="utf-8") as file:
         content = file.read()
         interesting_content = content.split("\\begin{document}")[1]
         input_match = re.search("\\\\input\{(.+?)\}", interesting_content)
@@ -670,13 +675,15 @@ def write_markdown(latex_main_file):
     split_content = re.split("(\\\\chapter\*?\{.*?\})", flattened_content)
     intro, headings, chapters = split_content[0], split_content[1::2], split_content[2::2]
 
+    # Clear the main file
+
     chapter_filenames = []
     for chapter, heading in zip(chapters, headings):
         filename = write_chapter_markdown(chapter, heading, counter)
         chapter_filenames.append(filename)
     
     # Write the main markdown file for this project
-    filename = Path(latex_main_file).stem
+    filename = Path(config.latex_main_file).stem
     with open(os.path.join(config.markdown_path, filename + ".md"), "w", encoding="utf-8") as file:
         blocks = split_into_blocks(intro)
         prev_thm_name = None
@@ -690,4 +697,4 @@ def write_markdown(latex_main_file):
             file.write("\n")
 
 write_bibliography(config.bib_file)
-write_markdown(config.latex_main_file)
+write_markdown()

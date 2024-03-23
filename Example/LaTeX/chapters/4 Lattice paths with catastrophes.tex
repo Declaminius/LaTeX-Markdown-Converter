@@ -1,0 +1,1002 @@
+
+\chapter{Lattice paths with catastrophes}
+\label{chapter:catastrophes}
+
+This chapter is rooted in the paper from Banderier and Wallner \cite{Catastrophes}, where the authors study directed lattice paths, augmented with so-called \textit{catastrophes}, as a model for queues with resets.
+Already in 2005 Krinik et al.~\cite{QueueingTheory} used Dyck meanders with catastrophes as a model for the classical single server queueing system with a finite capacity M/M/1/H, with a constant catastrophe rate $\gamma$. This allowed them to introduce a new method to determine the transient probability functions of classical queueing theory systems
+using lattice path combinatorics.
+Further, queues with catastrophes also arise as simple, natural models of the evolution of stock markets \cite{Schoutens}, or under the name of \textit{random walks with resetting} in the field of probability theory and statistical mechanics \cite{RandomWalksResetting}.
+Since the differing requirements of the diverse applications often call for
+adaptations to the simple model of queues with resets, we will compare and contrast two different versions of catastrophes in this chapter. 
+As a baseline, Banderier and Wallner, in their article \cite{Catastrophes}, introduce them as follows:
+
+\begin{definition}[Catastrophe]
+  Consider a simple path with a finite step set $\mathcal{S}$. A \textit{catastrophe} is a step of the form $(1, -s)$, with $-s \notin \mathcal{S}$ and $s > 0$, allowed only at altitude $s$, that takes the path immediately down to the $x$-axis. We denote the weight of a catastrophe with $q$. Note that, with this definition catastrophes can never coincide with regular jumps.
+\end{definition}
+
+However, it might also make sense to allow catastrophes, even when they would coincide with regular jumps, as well as catastrophes at height zero.
+This conveniently leads to a model that is easier to handle, simplifying some of the more tedious calculations. To distinguish these two models we will refer to catastrophes of the second kind as \textit{alternative catastrophes}.
+
+\begin{definition}
+  An \textit{alternative catastrophe} is a step of the form $(1, -s)$, with $s \geq 0$ and weight $q$, allowed only at altitude $s$, that takes the path immediately down to the $x$-axis.
+\end{definition}
+
+\section{Generating functions}
+\label{section:gf_catastrophes}
+
+We now start by providing a general formula for the generating function of meanders with (alternative) catastrophes. The structure of the general formula does not change for similar models of catastrophes and thus only slight modifications are necessary to encompass the differences in the two models.
+
+\begin{theorem}[Generating function for meanders and excursions with catastrophes {\cite[Theorem 2.1]{Catastrophes}}] \label{thm:gf_catastrophes}
+  Let $c_{n,k}$ be the number of meanders with catastrophes of length $n$ ending at altitude $k$, relative to a simple step set $\mathcal{S}$, with characteristic polynomial $P(u) = \sum_{k=-c}^d p_ku^k$.
+  Further, let $u_1,\dots,u_c$ denote the small roots and $v_1,\dots,v_d$ the large roots of the kernel equation.
+  Then the generating function 
+  $$
+  C(z,u) = \sum_{n,k = 0}^\infty c_{n,k} u^k z^n
+  $$ 
+  is algebraic and satisfies 
+  \begin{equation*}
+    C(z,u) = D(z) \cdot M(z,u) = \frac{1}{1 - Q(z)} \cdot \frac{\prod_{i=1}^c(u - u_i(z))}{u^c(1 - zP(u))},
+  \end{equation*}
+  where $D(z)$ denotes the generating function of excursions ending with a catastrophe and $Q(z)$ counts the number of excursions with exactly one catastrophe occurring as the last step of the path.
+  In addition, the generating functions for meanders with catastrophes ending at altitude $k$ satisfy
+  \begin{equation*}
+    C_k(z) = D(z) \cdot M_k(z) = \frac{1}{1 - Q(z)} \cdot \frac{1}{p_d z} \sum_{\ell = 1}^d v_\ell^{-k-1} \prod_{\substack{1 \leq j \leq d, \\ j \neq \ell}} \frac{1}{v_j - v_\ell}, \quad \text{for $k \geq 0$}.
+  \end{equation*}
+  The generating function $Q(z)$ in both cases depends on the model of catastrophes:
+  \begin{equation*}
+    Q^\mathrm{cat}(z) = q z \left(M(z) - E(z) - \sum_{\substack{s > 0, \\ -s\in \mathcal{S}}} M_s(z)\right), \qquad
+    Q^\mathrm{alt}(z) = q z \cdot M(z). 
+  \end{equation*}
+\end{theorem}
+
+\begin{proof}
+  Begin by taking an arbitrary meander with catastrophes of length $n$.
+  We decompose the path into a final meander without any catastrophes, counted by $M(z,u)$, and a possibly empty initial part counted by $D(z)$.
+  The expression for the generating function $M(z,u)$ of the final meander has already been derived in Theorem \ref{thm:gf_meanders_excursions}.
+  The initial part can then be further decomposed into a sequence of excursions containing exactly one catastrophe as their respective last step. The decomposition is illustrated in Figure \ref{fig:catastrophes_decomposition}.
+  Since each of the individual excursions are counted by $Q(z)$, we thus have $D(z) = 1/(1 - Q(z))$.
+  Finally, to describe $Q(z)$ we note that each of these individual excursions is simply a meander without any catastrophes, followed by a final catastrophe. 
+  In the case of regular catastrophes, we now need to subtract all heights from which by definition no catastrophe can occur, and we get 
+  $$
+    Q^\mathrm{cat}(z) = q z \left(M(z) - E(z) - \sum_{\substack{s > 0, \\ -s\in \mathcal{S}}} M_s(z)\right),
+  $$
+  with $q$ denoting the weight of a catastrophe. In the model of alternative catastrophes, catastrophes may occur at any altitude and thus we have
+  \begin{equation*}
+    Q^{\mathrm{alt}}(z) = q z \cdot M(z).
+  \end{equation*}
+  For the generating function of meanders with catastrophes ending at a fixed altitude $k$, it suffices to replace the bivariate generating function for meanders $M(z,u)$ with the generating function $M_k(z)$ of meanders ending at altitude $k$. The expression for $M_k(z)$ has been derived in Corollary \ref{corr:gf_meanders_k}.
+\end{proof}
+
+\begin{figure}
+  \centering
+  \includegraphics{images/ipe/catastrophes_decomposition}
+  \caption{The decomposition of a meander with catastrophes.}
+  \label{fig:catastrophes_decomposition}
+\end{figure}
+
+If we let go of the negative image of a catastrophe that pushes the path down to zero and adopt the more neutral point of view as a reset to zero, it makes also sense to look at walks and bridges with resets to zero. 
+
+\begin{definition}[Resets to zero]
+  Consider a simple path with a finite step set $J$. A \textit{reset to zero} is a step of the form $(1, -s)$, with $-s \notin \mathcal{S}$, allowed only at altitude $s$, that resets the path to the $x$-axis.
+  An \textit{alternative reset to zero} is a step of the form $(1, -s)$, for any $s \in \Z$, allowed only at altitude $s$, that resets the path to the $x$-axis.
+\end{definition}
+
+Together with Theorem \ref{thm:gf_walks} and Theorem \ref{thm:gf_bridges} we derive an almost analogous result for the generating function of unconstrained walks and bridges with resets to zero.
+
+\begin{theorem}[Generating  function of walks and bridges with resets to zero]
+\label{thm:gf_walks_bridges_catastrophes}
+  Let $r_{n,k}$ be the number of walks with resets to zero of length $n$ from altitude $0$ to altitude $k$. Then the generating function $R(z,u)$ is algebraic and satisfies
+  \begin{equation*}
+    R(z,u) = D(z) \cdot W(z,u) = \frac{1}{1 - Q(z)} \cdot \frac{1}{1 - zP(u)},
+  \end{equation*}
+  with $Q(z)$ depending on the model of resets to zero:
+  \begin{equation*}
+    Q^\mathrm{cat}(z) = q z \left(W(z) - W_0(z) - \sum_{\substack{s > 0, \\ -s\in \mathcal{S}}} W_s(z)\right), \qquad
+    Q^\mathrm{alt}(z) = q z \cdot W(z).
+  \end{equation*}
+  In addition, the generating functions for walks with resets to zero, ending at altitude $k$ satisfy
+  \begin{equation*}
+    R_k(z) = D(z)W_k(z) = \frac{1}{1 - Q(z)} \cdot
+    \begin{cases}
+      z\sum_{j=1}^c \frac{u_j'(z)}{u_j(z)^{k+1}}, & \text{for $-\infty < k < c$}, \\[5pt]
+      -z\sum_{j=1}^c \frac{v_j'(z)}{v_j(z)^{k+1}}, & \text{for $-d < k < +\infty$}.
+    \end{cases}
+  \end{equation*}
+\end{theorem}
+
+\begin{proof}
+  Again, any arbitrary walk can be decomposed into a final walk without any resets to zero, which we count via $W(z,u)$ and a possibly empty initial part counted by $D(z)$. The formula for the generating function of walks $W(z,u)$ comes from Theorem \ref{thm:gf_walks}.
+  The initial part now consists of a sequence of walks ending with a catastrophe, instead of meanders.
+  Hence, we simply replace all generating functions for meanders with their corresponding counterparts for walks and we obtain the claimed formulae.
+  For the generating function of walks ending at a fixed altitude $k$, we refer to Theorem \ref{thm:gf_bridges}.
+\end{proof}
+
+
+\begin{example}[Generating function for Dyck bridges with resets to zero]
+  According to Theorem \ref{thm:gf_walks_bridges_catastrophes} we have
+  $$
+  B_\mathcal{D}^\mathrm{cat}(z) = \frac{W_0(z)}{1 - z(W(z) - W_0(z) - W_1(z) - W_{-1}(z))}.
+  $$
+  With the help of a computer algebra system we calculate
+  \begin{align*}
+    B_\mathcal{D}^\mathrm{cat}(z) &= -\frac{\left(2 z - 1\right) \left(1+\sqrt{1 - 4z^{2}}\right)^{2}}{\left(4 z^{3}-4 z^{2}-4 z +2\right) \sqrt{1 - 4z^{2}}+8 z^{4}+12 z^{3}-8 z^{2}-4 z +2} \\
+    &= -\frac{2z\left(2z - 1\right) v_1(z)^{2}}{\left(4 z^{3}-4 z^{2}-4 z +2\right)v_1(z) +4 z^{3}+4 z^{2}-2 z} \\
+    &= 1 + 2z^2 + 2z^3 + 8z^4 + 14z^5 + 40z^6 + 84z^7 + \mathcal{O}(z^8).
+  \end{align*}
+  This sequence was not contained in the OEIS before writing this thesis, but it can now be found at \href{https://oeis.org/A369316}{\texttt{OEIS A369316}}.
+  Further, $B_\mathcal{D}^\mathrm{cat}(z)$ can be characterized as the only solution, having a power series expansion with non-negative coefficients at zero, of the quadratic equation
+  \begin{equation*}
+    \left(4z^{3} + 4z^{2} - 1\right) B^{2} + 2z \left(2z +1\right) B + 2z + 1.
+  \end{equation*}
+  For comparison, the generating function of Dyck bridges with alternative resets to zero satisfies
+  \begin{align*}
+    B_\mathcal{D}^\mathrm{alt}(z) &= \frac{W_0(z)}{1 - zW(z)} 
+    = \frac{\sqrt{1 - 4z^2}}{(1 - 3z)(1 + 2z)}\\
+    &= 1 + z + 5z^2 + 11z^3 + 39z^4 + 105z^5 + 335z^6 + 965z^7 + \mathcal{O}(z^8).
+  \end{align*}
+  This sequence was not contained in the OEIS before writing this thesis, but it can now be found at \href{https://oeis.org/A369982}{\texttt{OEIS A369982}}.
+\end{example}
+
+In the following subsections we present a number of different step sets paired with alternative catastrophes. We derive their generating functions and provide bijections with various combinatorial objects that originate from the OEIS entries corresponding to the respective counting sequences. 
+
+\subsection{Dyck walks}
+
+We start with the classical example in lattice path enumeration, the family of Dyck walks corresponding to the simple step set $\mathcal{D} = \{-1,1\}$.
+
+\begin{example}
+  \label{ex:dyck_meanders_alt_cats}
+  Let $M_\mathcal{D}^\mathrm{alt}(z,1)$ denote the generating function of Dyck meanders with alternative catastrophes.
+  According to Theorem \ref{thm:gf_catastrophes} we have 
+  \begin{equation*} 
+    M_\mathcal{D}^\mathrm{alt}(z,1) = D(z)M(z,1) = D(z) \frac{1 - u_1(z)}{1 - zP(1)}
+    = \frac{1 - u_1(z)}{(1 - Q^\mathrm{alt}(z))(1 - 2z)}, 
+  \end{equation*}
+  with $u_1(z) = \frac{1 - \sqrt{1 - 4z^2}}{2z}$ being the solution to the kernel equation $1 - z(u^{-1} + u) = 0$.
+  Plugging in the formula for the generating function $M(z,1)$, derived in Theorem \ref{thm:gf_meanders_excursions}, then yields
+  $$ 
+    Q^\mathrm{alt}(z) = zM(z,1) = z\frac{1 - u_1(z)}{1 - zP(1)} = z\frac{1 - \frac{1 - \sqrt{1 - 4z^{2}}}{2z}}{1-2z}. 
+  $$
+  With the help of our favorite computer algebra system we finally arrive at
+  \begin{align*} 
+    M_\mathcal{D}^\mathrm{alt}(z,1) &= \frac{1 - u_1(z)}{(1-Q^\mathrm{alt}(z))(1-2z)} 
+    = \frac{1 - u_{1}(z)}{1 + (u_{1}(z) - 3)z} \\
+    &= 1 + 2z + 5z^{2} + 12z^{3} + 30z^{4} + 74z^{5} + 185z^{6} + 460z^{7} + \mathcal{O}(z^{8}). 
+  \end{align*}
+  This sequence corresponds to \href{https://oeis.org/A054341}{\texttt{OEIS A054341}}.
+  For the generating function of Dyck meanders with regular catastrophes,
+  we need to compute 
+  $$
+    Q^\mathrm{cat}(z) = z(M(z) - E(z) - M_1(z))
+  $$
+  instead. The formulae
+  $$
+    M(z) = \frac{1 - u_1(z)}{1 - zP(1)}, \qquad E(z) = \frac{u_1(z)}{z}
+  $$
+  are already known from Theorem \ref{thm:gf_meanders_excursions} and the remaining unknown $M_1(z)$ can be determined using a simple last passage decomposition.
+  Let $\omega_M$ be an arbitrary meander ending at altitude 1. Split $\omega_M$ into two parts by cutting at the point when it leaves the $x$-axis for the last time. The first part is then simply an excursion counted by $E(z)$. The final part is also an excursion, if we discard the first up-step. This decomposition shows that $M_1(z) = zE(z)^2$. The remaining calculations remain in the hands of our favorite computer algebra system, which returns
+  \begin{align*}
+    M_\mathcal{D}^\mathrm{cat}(z,1) &= \frac{z(u_1(z) - 1)}{z^2 + (z^2 + z - 1)u_1(z)} \\
+    &= 1 + z + 2z^2 + 4z^3 + 8z^4 + 17z^5 + 35z^6 + 75z^7 + \mathcal{O}(z^8).
+  \end{align*}
+  This sequence corresponds to \href{https://oeis.org/A274115}{\texttt{OEIS A274115}}.
+\end{example}
+
+Now we follow these results up with two simple bijections to related classes of lattice paths listed in the respective \href{https://oeis.org}{\texttt{OEIS}} entries.
+
+\begin{theorem}
+  The set of Dyck meanders with alternative catastrophes of length $n$ is in bijection with the set of 2-Motzkin excursions of length $n$, with no \textbf{E}-steps at positive heights $h > 0$.
+  % In addition, the set of Dyck paths (excursions) with alternative catastrophes of length $n$ is in bijection with the set of 2-Motzkin excursions with no \textbf{E}-steps at positive height with no \textbf{E}-steps at positive height ending with a red {\color{catred} \textbf{E}}-step or a \textbf{SE}-step with the additional requirement that the number of blue {\color{lightblue} \textbf{E}}-steps since the last red {\color{catred} \textbf{E}}-step equals the number of \textbf{SE}-steps since then.
+\end{theorem}
+
+\begin{figure}[hbt!]
+  \centering
+  \includegraphics{images/dyck_meanders_bijection v2}
+  \caption[Bijection involving Dyck meanders with alternative catastrophes.]{Bijection between Dyck meanders with alternative catastrophes and 2-Motzkin excursions with no \textbf{E}-steps at positive height.}
+  \label{fig:dyck_meanders_bijection}
+\end{figure}
+
+% \begin{figure}[hbt!]
+%   \centering
+%   \begin{subfigure}{0.45 \linewidth}
+%     \includegraphics{images/ipe/dyck_meander_alt}
+%   \end{subfigure}
+%   \hfill 
+%   \begin{subfigure}{0.45 \linewidth}
+%     \includegraphics{images/ipe/2Motzkin_noEatpositiveheight}
+%   \end{subfigure}
+%   \caption{Bijection between Dyck meanders with alternative catastrophes and 2-Motzkin excursions with no \textbf{E}-steps at positive height}
+%   \label{fig:dyck_meanders_bijection2}
+% \end{figure}
+
+\begin{proof}
+  Let $\omega_\mathcal{M}$ be an arbitrary 2-Motzkin excursion. 
+  Start by transforming every blue {\color{lightblue} \textbf{E}}-step in $\omega_\mathcal{M}$ into a \textbf{NE}-step. 
+  The \textbf{NE}-step and \textbf{SE}-steps in $\omega_\mathcal{M}$ remain unchanged.
+  Finally, transform every red {\color{catred}\textbf{E}}-step in $\omega_\mathcal{M}$ into a catastrophe.
+  This process clearly yields a valid Dyck meander with alternative catastrophes, since the height at each point may only increase in this procedure and alternative catastrophes may occur at any height.
+
+  For the inverse mapping we consider an arbitrary Dyck meander $\omega_\mathcal{D}$ with alternative catastrophes. Clearly, every catastrophe in $\omega_\mathcal{D}$ needs to map to a {\color{catred}\textbf{E}}-step and every \textbf{SE}-step needs to remain unchanged.
+  Hence, it only remains to determine, which \textbf{NE}-steps get mapped to a blue {\color{lightblue} \textbf{E}}-step and which \textbf{NE}-steps stay unchanged. For that, we first split $\omega_\mathcal{D}$ into a sequence of meanders without catastrophes, with a catastrophe separating them, and a final meander without any catastrophes at the end.
+  Then, for each meander in the sequence, we apply a last passage decomposition and turn the last \textbf{NE}-step to leave altitude $i = 0, \dots, k - 1$ into a blue {\color{lightblue} \textbf{E}}-step, where $k$ is the final height of the meander. This procedure ensures that all \textbf{E}-steps occur only at height $0$.
+  For an illustration of this procedure we refer to Figure \ref{fig:dyck_meanders_bijection}.
+\end{proof}
+
+\begin{theorem}
+  \label{thm:dyck_meanders_bijection}
+  The set of Dyck meanders with alternative catastrophes of length $n$ is bijectively equivalent to the set of Dyck excursions with symmetric arches of length $2(n+1)$. 
+  In addition, the set of Dyck excursions with alternative catastrophes is bijectively equivalent to the set of Dyck excursions with symmetric arches of length $2(n+1)$, where the midpoint of the last arch happens to be at height one.
+\end{theorem}
+
+\begin{figure}[hbt!]          
+  \centering
+  \includegraphics{images/symmetric_arches v2}
+  \caption[Bijection involving Dyck meanders with alternative catastrophes.]{Bijection between Dyck meanders with alternative catastrophes of length $n$ and Dyck excursions with symmetric arches of length $2(n+1)$.}
+  \label{fig:dyck_meanders_bijection2}
+\end{figure}
+
+
+\begin{proof}
+  Consider an arbitrary Dyck meander $\omega_M$ with alternative catastrophes of length $n$. We will now construct a Dyck excursion $\omega_E$ with symmetric arches of length $2(n+1)$.
+  In any case we have to draw the first obligatory \textbf{NE}-step in $\omega_E$.
+  After that we will identify every step in $\omega_M$ with the first half of each symmetric arch of $\omega_E$.
+  Further, we identify every catastrophe in $\omega_M$ with the first \textbf{NE}-step at the start of a new arch.
+  In particular, if $\omega_M$ starts with a catastrophe, this translates to $\omega_E$ starting with the minimal arch of size two, immediately succeeded by the next arch. 
+  Then, after drawing the first \textbf{NE}-step of the arch, every regular step between two catastrophes gets mapped to the first half of the symmetric arch.
+  The inverse is easily constructed by reading these steps backwards; see Figure \ref{fig:dyck_meanders_bijection2}
+\end{proof}
+
+For further bijections, Baril and Kirgizov \cite[Theorem 1]{Bijections} have also constructed a bijection between the set of Dyck meanders of length $n$ with catastrophes and the set of Dyck excursions of length $2n$ having no occurrence of the patterns \textbf{NE-NE-NE} and \textbf{SE-NE-SE} at height $h > 0$, highlighting the diverse connections between different families of lattice paths. To conclude this subsection, we present the counting sequences of Dyck excursions with (alternative) catastrophes.
+
+\begin{example}
+  Let $E_\mathcal{D}^\mathrm{alt}(z)$ denote the generating function of Dyck excursions with alternative catastrophes.
+  According to Theorem \ref{thm:gf_catastrophes} we have $$
+  E_\mathcal{D}^\mathrm{alt}(z) = D(z)M_0(z) = \frac{E(z)}{1 - Q(z)} = \frac{u_1(z)}{z\left(1 - z\frac{1 - u_1(z)}{1- 2z}\right)} = \frac{u_1(z)(1-2z)}{z(1+z(u_1(z)- 3))}.
+  $$
+  Extracting the first few coefficients then gives 
+  $$ 
+  E_\mathcal{D}^\mathrm{alt}(z) = 1 + z + 3z^{2} + 6z^{3} + 16z^{4} + 37z^{5} + 95z^{6} + 230z^{7} + \mathcal{O}(z^{8}).
+  $$
+  This sequence was not contained in the OEIS before writing this thesis, but it can now be found at \href{https://oeis.org/A369432}{\texttt{OEIS A369432}}.
+  For comparison, the generating function of Dyck excursion with catastrophes satisfies
+  \begin{align*}
+    E_\mathcal{D}^\mathrm{cat}(z) &= \frac{(2z-1)u_1(z)}{z^2 + (z^2+z-1)u_1(z)}
+    = 1 + z^2 + z^3 + 3z^4 + 5z^5 + 12z^6 + 23z^7 + \mathcal{O}(z^8).
+  \end{align*}
+  This sequence corresponds to \href{https://oeis.org/A224747}{\texttt{OEIS A224747}}.
+\end{example}
+
+\subsection{Motzkin walks}
+
+We recall Motzkin walks to be directed lattice paths with the simple step set $\mathcal{M} = \{-1,0,1\}$. If we use $k$ different colors for the horizontal step, we call the resulting lattice paths $k$-Motzkin walks.
+Let us start now with the enumeration of Motzkin meanders with (alternative) catastrophes.
+
+\begin{example}
+  Let $M_\mathcal{M}^\mathrm{alt}(z,1)$ denote the generating function of Motzkin meanders with alternative catastrophes.
+  According to Theorem \ref{thm:gf_catastrophes} we have 
+  \begin{align*} 
+    M_\mathcal{M}^\mathrm{alt}(z,1) &= \frac{M(z,1)}{(1 - zM(z,1))} = \frac{1 - u_1(z)}{\left(1 - z\frac{1 - u_1(z)}{1 - 3z}\right)(1 - 3z)} = \frac{1 - u_{1}(z)}{1 + (u_{1}(z) - 4)z}, 
+  \end{align*}
+  with $u_1(z) = \frac{1 - z - \sqrt{1 - 2z - 3z^{2}}}{2z}$ being the only small solution to the kernel equation 
+  $$
+    u - z(1 + u + u^2) = 0.
+  $$
+  Furthermore, we can extract the first coefficients to see 
+  $$
+    M_\mathcal{M}^\mathrm{alt}(z,1) = 
+    1 + 3z + 10z^{2} + 34z^{3} + 117z^{4} + 405z^{5} + 1407z^{6} + 4899z^{7} + \mathcal{O}(z^{8}).
+  $$
+  This sequence corresponds to \href{https://oeis.org/A059738}{\texttt{OEIS A059738}}.
+  For comparison, the generating function of Motzkin meanders with catastrophes satisfies
+  \begin{align*}
+    M_\mathcal{M}^\mathrm{cat}(z) &= \frac{u_1(z) - 1}{u_1(z)^{2} \left(3 z - 1\right)+\left(2 z -1\right) u_1(z) + 4z -1} \\
+    &= 1 + 2z + 5z^2 + 14z^3 + 41z^4 + 123z^5 + 374z^6 + 1147z^7 + \mathcal{O}(z^8).
+  \end{align*}
+  This sequence corresponds to \href{https://oeis.org/A054391}{\texttt{OEIS A054391}}, which appears as a interpolation between the famous Catalan and Motzkin numbers.
+\end{example}
+
+Again, we follow these results up with bijections to related families of lattice paths listed in \href{https://oeis.org/A059738}{\texttt{OEIS A059738}}. 
+
+\begin{figure}[hbt!]
+  \centering
+  \includegraphics{images/motzkin_meanders}
+  \caption[Bijection involving Motzkin meanders with alternative catastrophes.]{Bijection between Motzkin meanders with alternative catastrophes and 3-Motzkin excursions with no \textbf{E}-steps at positive heights.}
+  \label{fig:motzkin_meanders_bijection}
+\end{figure}
+
+\begin{theorem}
+  The set of Motzkin meanders with alternative catastrophes of length $n$ is bijectively equivalent to the set of 3-Motzkin excursions of length $n$, with no \textbf{E}-steps at positive height $h > 0$.
+\end{theorem}
+
+\begin{proof}
+  The proof follows the arguments in Theorem \ref{thm:dyck_meanders_bijection} almost word for word and the procedure is illustrated in Figure \ref{fig:motzkin_meanders_bijection}.
+  Let $\omega_E$ denote an arbitrary 3-Motzkin excursion. 
+  Simply transform every blue {\color{lightblue} \textbf{E}}-step in $\omega_E$ to a \textbf{NE}-step.
+  Each \textbf{NE}-step, black \textbf{E}-step and \textbf{SE}-step stays unchanged.
+  Finally, we map every red {\color{catred} \textbf{E}}-step to a catastrophe.
+
+  Hence, for the inverse mapping, it only remains to determine, which \textbf{NE}-steps get mapped to a blue {\color{lightblue} \textbf{E}}-step and which \textbf{NE}-steps stay unchanged.
+  For that, we first split $\omega_\mathcal{D}$ into a sequence of meanders without catastrophes, with a catastrophe separating them, and a final meander without any catastrophes at the end.
+  Then, for each meander in the sequence, we apply a last passage decomposition and turn the last \textbf{NE}-step to leave altitude $i = 0, \dots, k - 1$ into a blue {\color{lightblue} \textbf{E}}-step, where $k$ is the final height of the meander. This procedure ensures that all \textbf{E}-steps occur only at height zero.
+\end{proof}
+
+\begin{theorem}
+  The set of Motzkin meanders with alternative catastrophes of length $n-1$, starting with a catastrophe, is bijectively equivalent to the set of Motzkin excursions with symmetric arches of length $2n$, with \textbf{E}-steps \textbf{only} at positive heights $h > 0$.
+\end{theorem}
+
+\begin{proof}
+  Let $\omega_M$ be a Motzkin meander of length $n-1$ with alternative catastrophes. We now construct a Motzkin excursion $\omega_E$ with symmetric arches of length $2n$. We start by drawing the first obligatory \textbf{NE}-step of $\omega_E$ and continue adding the steps of $\omega_M$ to $\omega_E$ until the first catastrophe occurs. Each catastrophe signals the start of a new symmetric arch. Thus, we complete the current arch by mirroring all previous steps, before we map the catastrophe to the first \textbf{NE}-step of the new arch.
+  Now we iterate this process until all arches have been drawn.
+  To construct the inverse mapping we simply take the first halves of each symmetric arch and replace the first \textbf{NE}-step each with an alternative catastrophe, except for the first arch, where the alternative catastrophe is omitted. This procedure is illustrated in Figure~\ref{fig:motzkin_meanders_symmetric_arches}.
+\end{proof}
+
+\begin{figure}[hbt!]
+  \centering
+  \includegraphics{images/motzkin_meanders_symmetric_arches}
+  \caption[Bijection involving Motzkin meanders with alternative catastrophes.]{Bijection between Motzkin meanders with alternative catastrophes and Motzkin excursions with symmetric arches.}
+  \label{fig:motzkin_meanders_symmetric_arches}
+\end{figure}
+
+Further, for the set $\mathcal{M}_n$ of Motzkin meanders of length $n$ with catastrophes, Baril and Kirgizov \cite[Theorem 3]{Bijections} construct a bijection to the set $\mathcal{B}_{n+1}$ of Dyck excursions of length $2n+2$ avoiding the patterns \textbf{NE-NE-NE} at height $h \geq 2$.
+
+\begin{example} \label{ex:motzkin_excursions}
+  Let $E_\mathcal{M}^\mathrm{alt}(z)$ denote the generating function of Motzkin excursions with alternative catastrophes. According to Theorem \ref{thm:gf_catastrophes} we have 
+  $$
+    E_\mathcal{M}^\mathrm{alt}(z) = D(z)M_0(z) = \frac{E(z)}{1 - Q(z)} = \frac{u_1(z)}{z\left(1 - z\frac{1 - u_1(z)}{1 - 3z}\right)} = \frac{u_{1}(z)(1 - 3z)}{z(1 + (u_{1}(z) - 4)z)}.
+  $$
+  Extracting the first few coefficients yields 
+  $$ 
+    E_\mathcal{M}^\mathrm{alt}(z) = 1 + 2z + 6z^{2} + 19z^{3} + 63z^{4} + 213z^{5} + 729z^{6} + 2513z^{7} + \mathcal{O}(z^{8}).
+  $$
+  This sequence corresponds to \href{https://oeis.org/A059712}{\texttt{OEIS A059712}}.
+  For comparison, the generating function of Motzkin excursions with catastrophes satisfies
+  \begin{align*}
+    E_\mathcal{M}^\mathrm{cat}(z) &= \frac{3 u z -u}{\left(3 u^{2}+2 u +4\right) z^{2}+\left(-u^{2}-u -1\right) z} \\
+    &= 1 + z + 2z^2 + 5z^3 + 14z^4 + 41z^5 + 123z^6 + 374z^7 + \mathcal{O}(z^8).
+  \end{align*}
+  This sequence corresponds to \href{https://oeis.org/A073525}{\texttt{OEIS A073525}}.
+\end{example}
+
+
+\subsection{2-Motzkin walks}
+
+\begin{example}
+  Let $M_{\mathcal{M}_2}^\mathrm{alt}(z)$ denote the generating function for 2-Motzkin meanders with alternative catastrophes.
+  According to Theorem \ref{thm:gf_catastrophes} we have 
+  $$
+    M_{\mathcal{M}_2}^\mathrm{alt} = D(z)M(z) = \frac{M(z)}{1 - Q(z)} = \frac{1 - u_1(z)}{\left(1 - z\frac{1 - u_1(z)}{1 - 4z}\right)(1 - 4z)} = \frac{1 - u_{1}(z)}{1 + (u_{1}(z) - 5)z},
+  $$
+  with $u_1(z) = \frac{1 - 2z - \sqrt{1-4z}}{2z}$ being the solution to 
+  the kernel equation 
+  $$
+  u - z(u^{2} + 2u + 1) = 0.
+  $$
+  Extracting the first few coefficients yields 
+  $$ 
+    M_{\mathcal{M}_2}^\mathrm{alt}(z) = 1 + 4z + 17z^{2} + 74z^{3} + 326z^{4} + 1446z^{5} + 6441z^{6} + 28770z^{7} + \mathcal{O}(z^{8}).
+  $$
+  This sequence corresponds to \href{https://oeis.org/A049027}{\texttt{OEIS A049027}}, which appears as a row sum of a generalized Pascal's triangle.
+  For comparison, the generating function of 2-Motzkin meanders with catastrophes satisfies
+  \begin{align*}
+    M_{\mathcal{M}_2}^\mathrm{cat}(z) &= \frac{u_1(z) - 1}{u_1(z)^{2} \left(1 - 4z\right)+\left(1 - 3 z\right) u_1(z) + 5 z -1} \\
+    &= 1 + 3z + 10z^2 + 36z^3 + 136z^4 + 529z^5 + 2095z^6 + 8393z^7 + \mathcal{O}(z^8).
+  \end{align*}
+  This sequence was not contained in the OEIS before writing this thesis, but it can now be found at \href{https://oeis.org/A369436}{\texttt{OEIS A369436}}.
+\end{example}
+
+\begin{example}
+  Let $E_{\mathcal{M}_2}^\mathrm{alt}(z)$ denote the generating function of 2-Motzkin excursions with alternative catastrophes.
+  According to Theorem \ref{thm:gf_catastrophes} we have 
+  $$
+    E_{\mathcal{M}_2}^\mathrm{alt}(z) = D(z)M_0(z) = \frac{E(z)}{1 - Q(z)} = \frac{u_1(z)}{z\left(1 - z\frac{1 - u_1(z)}{1 - 4z}\right)} = \frac{u_{1}(z)(1 - 4z)}{z(1 + (u_{1}(z) - 5)z)}.
+  $$
+  Extracting the first few coefficients yields
+  \begin{align*}
+    E_{\mathcal{M}_2}^\mathrm{alt}(z) &= 1 + 3z + 11z^{2} + 44z^{3} + 184z^{4} + 789z^{5} + 3435z^{6} + 15100z^{7} + \mathcal{O}(z^{8}).
+  \end{align*}
+  This sequence corresponds to \href{https://oeis.org/A059714}{\texttt{OEIS A059714}}.
+  For comparison, the generating function of 2-Motzkin excursions with catastrophes satisfies
+  \begin{align*}
+    E_{\mathcal{M}_2}^\mathrm{cat}(z) &= \frac{4 u_1(z) z - u_1(z)}{\left(4 u_1(z)^{2}+3 u_1(z) +5\right) z^{2}+\left(-u_1(z)^{2}-u_1(z) -1\right) z} \\
+    &= 1 + 2z + 5z^2 + 15z^3 + 51z^4 + 187z^5 + 716z^6 + 2811z^7 + \mathcal{O}(z^8).
+  \end{align*}
+  This sequence corresponds to \href{https://oeis.org/A073525}{\texttt{OEIS A073525}}.
+\end{example}
+
+All of these enumeration results are summarized in Table \ref{tab:OEIS_cat} and Table \ref{tab:OEIS_alt} below.
+
+\bgroup
+\def\arraystretch{1.25}
+\begin{table}[hbt!]
+  \centering
+  \begin{tabular}{|l|c|c|}
+  \hline
+  & \textbf{OEIS} & \textbf{First terms} \\ \hline
+  Dyck excursions & \href{https://oeis.org/A224747}{\texttt{A224747}} & $1+0z+z^2+z^3+3z^4+5z^5$ \\ \hline
+  Dyck meanders & \href{https://oeis.org/A274115}{\texttt{A274115}} & $1+z+2z^2+4z^3+8z^4+17z^5$  \\ \hline
+  Motzkin excursions & \href{https://oeis.org/A054391}{\texttt{A054391}} & $1+z+2z^2+5z^3+14z^4+41z^5$ \\ \hline
+  Motzkin meanders & \href{https://oeis.org/A054391}{\texttt{A054391}} & $1+2z+5z^2+14z^3+41z^4+123z^5$ \\ \hline
+  2-Motzkin excursions & \href{https://oeis.org/A073525}{\texttt{A073525}} & $1+2z+5z^2+15z^3+51z^4+187z^5$ \\ \hline
+  2-Motzkin meanders & \href{https://oeis.org/A369436}{\texttt{A369436}} & $1 + 3z + 10z^2 + 36z^3 + 136z^4 + 529z^5$ \\ \hline
+  \end{tabular}
+  \caption{Table of lattice paths with catastrophes.}
+  \label{tab:OEIS_cat}
+\end{table}
+
+\begin{table}[hbt!]
+  \centering
+  \begin{tabular}{|l|c|c|}
+  \hline
+  & \textbf{OEIS} & \textbf{First terms} \\ \hline
+  Dyck excursions & \href{https://oeis.org/A369432}{\texttt{A369432}} & $1+z+3z^2+6z^3+16z^4+37z^5$ \\ \hline
+  Dyck meanders & \href{https://oeis.org/A054341}{\texttt{A054341}} & $1+2z+5z^2+12z^3+30z^4+74z^5$  \\ \hline
+  Motzkin excursions & \href{https://oeis.org/A059712}{\texttt{A059712}} & $1+2z+6z^2+19z^3+63z^4+213z^5$  \\ \hline
+  Motzkin meanders & \href{https://oeis.org/A059738}{\texttt{A059738}} & $1+3z+10z^2+34z^3+117z^4+405z^5$  \\ \hline
+  2-Motzkin excursions & \href{https://oeis.org/A059714}{\texttt{A059714}} & $1 + 3z + 11z^{2} + 44z^{3} + 184z^{4} + 789z^{5}$ \\ \hline
+  2-Motzkin meanders & \href{https://oeis.org/A049027}{\texttt{A049027}} & $1 + 4z + 17z^{2}+ 74z^{3} + 326z^{4} + 1446z^{5}$ \\ \hline
+  \end{tabular}
+  \caption{Table of lattice paths with alternative catastrophes.}
+  \label{tab:OEIS_alt}
+\end{table}
+\egroup
+
+\section{Asymptotic number of lattice paths}
+
+In this section we work out the asymptotic behavior of the sequences derived in the previous sections. To derive asymptotics of coefficients of generating functions, singularity analysis is the way to go. A central theme in this process is the search for singularities of the function. In the easiest case, there is exactly one singularity on the radius of convergence.
+However, when considering periodic step sets, we have to deal with the periodically distributed singularities on the circle of convergence. In this case, all of these singularities need to be handled with care, as cancellations might occur. In this thesis, however, we will not delve into these technical details and restrict ourselves to the analysis of aperiodic step sets.
+For a full treatment on how to deduce the asymptotics of walks having periodic jump polynomials from the results on aperiodic ones, we refer to \cite[Lemma 8.7 and Theorem 8.8]{RationalSlope} from Banderier and Wallner.
+
+\begin{definition}[Periodic support]
+  We say that a function $F(z)$ has periodic support of period $p$ or for short $F(z)$ is $p$-\textit{periodic} if there exists an integer $b$ and a function $H(z)$ such that 
+  $$
+    F(z) = z^b H(z^p).
+  $$
+  The largest such $p$ is called the \textit{period} of $F$ and is denoted by $\mathrm{per}(F)$. If this holds only for $p = 1$, the function is said to be \textit{aperiodic}.
+  A simple walk defined by the set of jumps $\mathcal{S}$ is said to have period $p$ if the characteristic polynomial $P(u) = \sum_{s \in \mathcal{S}} p_s u^s$ has period $p$. 
+  In this case, the period can also be defined via 
+  $$
+  \mathrm{per}(P) = \mathrm{gcd}(b_2-b_1,\dots,b_m - b_1).
+  $$
+  Further, a simple walk is said to be \textit{reduced}, if the greatest common divisor of the jumps is equal to one.
+  Note that aperiodic walks are by their definition automatically reduced.
+\end{definition}
+
+These periodicities play a crucial role in the process of singularity analysis, as they contribute additional singularities periodically distributed on the disk of convergence.
+
+\begin{example}
+  The generating function for Dyck excursions $E_\mathcal{D}(z) = \frac{1 - \sqrt{1 - 4z^{2}}}{2z^{2}}$ is periodic with period $\mathrm{per}(E_\mathcal{D}) = 2$. This corresponds to the fact there are no Dyck excursions of odd length; see Figure \ref{fig:dyck_period}.
+\end{example}
+
+\begin{figure}[hbt!]
+  \centering
+  \includegraphics{images/ipe/dyck_period}
+  \caption{All vertices accessible from the origin by Dyck excursions of length 10.}
+  \label{fig:dyck_period}
+\end{figure}
+
+As a first step towards deriving the asymptotics of meanders and excursions with catastrophes, we start by analyzing the function $D(z) = 1/(1-Q(z))$, since it is a crucial building block in all of the generating functions. For that we need to find its singularities. They are either zeroes of $1 - Q(z)$ or singularities of $Q(z)$. Since
+$$
+Q(z) = q z\Bigg(M(z) - E(z) - \sum_{\substack{s > 0, \\ -s\in \mathcal{S}}} M_s(z)\Bigg)
+$$
+we have to analyze the singularities of the components $M(z), E(z)$ and $M_s(z)$. For that, the results of \cite[Theorem~3, Theorem~4]{Basic} show that the components $M(z), M_s(z)$ and $E(z)$ have exactly one dominant singularity.
+However, there is a caveat: Even if we already know the radii of convergence $\rho_M,\rho_E,\rho_{M_s}$ of $M(z), E(z), M_s(z)$, respectively, it is a priori not granted that $Q(z)$ does not have a larger radius of convergence, since some cancellations could occur. 
+Therefore we need to look at the asymptotics of their coefficients and argue that they make such cancellations impossible.
+The asymptotics depend on a quantity called the drift of a walk.
+
+\begin{definition}[Drift]
+  Let $P(u)$ be the characteristic polynomial of a simple step set. Then we define the \textit{drift} of the corresponding walk to be $\delta := P'(1)$. The drift models the expected change in height per step, if we use the probabilistic model of weights.
+\end{definition}
+
+Firstly we note that, as long as no cancellations occur, the dominant singularity will be at $\rho_M$, as the coefficients of $M(z)$ dominate the coefficients of the functions $E(z)$ and $M_s(z)$.
+For a positive drift $\delta > 0$, the results in \cite[Theorem 3, Theorem 4]{Basic} show that $$
+  M(z) \sim C \cdot P(1)^n \gg D_s \cdot P(\tau)^n \sim E(z), M_s(z).
+$$
+Hence, the dominant singularity at $\rho_M = 1/P(1)$ cannot be cancelled by the other functions.
+For $\delta \leq 0$ the growth rates of the coefficients are all of the same exponential order $P(\tau)^n$. In particular, the coefficients for all $M_s(z), s > 0$ are of the same order. Since $\mathcal{S}$ is finite, $Q(z)$ is by definition the sum of an infinite number of $M_s(z)$, and consequently, its coefficients cannot have a lower exponential growth rate.
+Thus the dominant singularity has to remain at $\rho_M = 1/P(\tau)$.
+Therefore the radius of convergence of $Q(z)$ is given by $\rho_Q = \rho_M$. 
+We now determine the radius of convergence $\rho_D$ of $D(z)$.
+
+\begin{lemma}[Radius of convergence of $D(z)$ {\cite[Lemma 4.2]{Catastrophes}}]
+\label{lemma:radius_conv}
+  Let $P(u)$ be an aperiodic characteristic polynomial and let $\rho =  1/P(\tau)$ be the structural radius defined in Proposition \ref{prop:kernel_method}.
+  Further, consider the set 
+  $$
+  \mathcal{Z} := \{\, z \in \C \mid 1  - Q(z) = 0, |z| \leq \rho \,\}.
+  $$
+  The set is either empty, or it contains exactly one real positive element, in which case we denote it with $\rho_0$.
+  In any case, the generating function $D(z)$ of excursions ending with a catastrophe possesses exactly one dominant singularity on its radius of convergence $\rho_D$. The sign of the drift $\delta := P'(1)$ of the walk then dictates the location $\rho_D$:
+
+  \begin{itemize}
+    \item If $\delta \geq 0,$ we have $\rho_D = \rho_0 < 1/P(1) \leq \rho.$
+    \item If $\delta < 0$, it also depends on the value $Q(\rho):$
+    \begin{align*}
+      \begin{cases}
+        Q(\rho) > 1 & \iff \rho_D = \rho_0 < \rho, \\
+        Q(\rho) = 1 & \iff \rho_D = \rho_0 = \rho, \\
+        Q(\rho) < 1 & \iff \text{$\rho_D = \rho$ and $\mathcal{Z}$ is empty.} \\
+      \end{cases}
+    \end{align*}
+  \end{itemize}
+\end{lemma}
+
+\begin{proof}
+  Due to its combinatorial origin, $D(z) = (1-Q(z))^{-1}$ is a power series with positive coefficients. 
+  Hence, Pringsheim's theorem applies, which tells us that there exists a singularity on the intersection of its radius of convergence with the positive real axis. 
+  This singularity has to be either a singularity of $Q(z)$ or the smallest positive zero of $1 - Q(z)$. 
+  In both cases, it must be the only dominant singularity.
+  In the first case, let $\rho_Q$ denote the dominant singularity of $Q(z)$.
+  In this case, the argument above shows that $\rho_Q$ must coincide with the unique dominant singularity of $M(z)$ and thus we have $\rho_Q = \rho_M = \rho$.
+
+  In the second case, let $\rho_0$ be the smallest positive zero of $1 - Q(z)$. Now the aperiodicity of $Q(z)$, together with the fact that all its coefficients are positive implies that
+  $$
+  \forall z \in \C \colon (|z| = \rho_0, z \neq \rho_0) \implies |Q(z)| < Q(|z|) = 1
+  $$
+  and therefore the only dominant singularity has to lie on the positive real axis.
+  Now we will determine the location of the dominant singularity. This will depend on the sign of the drift $\delta := P'(1)$:
+  \begin{itemize}
+    \item 
+      For a positive drift $\delta \geq 0$ we observe that the prefactor $(1-zP(1))^{-1}$ in 
+      $$
+        M(z) = \frac{\prod_{j=1}^c (1 - u_j(z))}{1 - zP(1)}
+      $$ 
+      possesses a simple pole at $z = 1/P(1)$. We show now that this pole cannot be cancelled by the factors $(1 - u_j(z))$. First we want to evaluate $u_1$ at the structural constant $\tau$. By the definition of the structural radius and the kernel equation, one has
+      $$
+        P(\tau) = \frac{1}{\rho} = P(u_1(\rho))
+      $$
+      As $P(u)$ is injective on the interval $(0,\tau]$, this implies $u_1(\rho) = \tau$. Next, since $P'(1) \geq 0$ we observe that $\tau \leq 1$. Further, $u_1$ is monotonically increasing in $[0,\rho]$, so we have 
+      $$
+        u_1\left(1/P(1)\right) < u_1(\rho) = \tau \leq 1.
+      $$
+      Finally, all other small roots are dominated by $u_1$ and hence cannot reach one either.
+      Thus, the pole at $z = 1/P(1)$ of the prefactor is in fact also a pole of $M(z)$ and we have 
+      $$
+        \lim_{z \to (1/P(1))^-}Q(z) = +\infty.
+      $$
+      However, this pole cannot be the dominant singularity of $D(z) = (1 - Q(z))^{-1}$, since by the continuity of $Q(z)$, together with $Q(0) = 0$, there must be a solution $\rho_0$ of $1 - Q(z) = 0$ with
+      $$
+        0 < \rho_0 < \frac{1}{P(1)} \leq \rho.
+      $$ 
+    \item 
+      In the case of a negative drift $\delta < 0$, the pole in the prefactor does cancel out with $1 - u_1(z)$.
+      This is due to the kernel equation for $u_1$, which yields
+      $$
+      P\left(u_1\left(1/P(1)\right)\right) = P(1),
+      $$
+      and the fact that for $u \in [0,\tau]$, with $\tau > 1$, the function $1/P(u)$ is continuously increasing.
+      Thus the kernel equation admits a unique positive solution, which coincides with the principal small branch $u_1(z)$.
+      Hence, we have that $|Q(z)|$ is bounded for $|z| < \rho$.
+      Since $u_1(z)$ has a square root singularity at $|z| = \rho$ we also have $\rho_Q = \rho$. Now we only need to compare whether $\rho_0$ or $\rho_Q$ yields the smaller singularity.
+      Finally, since $Q(z)$ is monotonically increasing on the real axis, it suffices to compare its value at its maximum $Q(\rho)$. \qedhere
+  \end{itemize}
+\end{proof}
+
+The above considerations about periodicity are only necessary when the dominant asymptotics come from the singularity $\rho_Q$.
+When $\rho_0 < \rho$, we have a unique dominant simple pole originating from $M(z)$ and the possibly periodic functions $E(z)$ and $M_s(z)$ cannot contribute additional dominant singularities. 
+This polar behavior occurs for Dyck paths, as we will see in Corollary \ref{cor:dyck_asym}.
+
+Further, the results from Theorem \ref{thm:asym_D(z)} also hold for the generating function of excursions ending with alternative catastrophes with $Q(z) = zM(z)$, since the now missing components $E(z)$ and $M_s(z)$ do not contribute relevant singularities in the proof.
+The following theorems about the asymptotics of meanders and excursions are thus stated with a generic function $Q(z)$ and hold both for catastrophes and alternative catastrophes.
+
+\begin{theorem}[Asymptotics of excursions ending with a catastrophe {\cite[Theorem 4.3]{Catastrophes}}]
+\label{thm:asym_D(z)}
+  Let $d_n$ be the number of excursions ending with a(n alternative) catastrophe. Their asymptotics depend on the structural radius $\rho = 1/P(\tau)$ and the possible polar singularity $\rho_0$ of $Q(z)$:
+  \begin{equation*}
+    d_n =
+    \begin{cases}
+    \frac{\rho_0^{-n}}{\rho_0 \cdot Q'(\rho_0)} + 
+    \mathcal{O}(P(1)^n) 
+    & \text{if $\rho_0 < \rho$ and $\delta > 0$}, \\[8pt]
+    \frac{\rho_0^{-n}}{\rho_0 \cdot Q'(\rho_0)} + 
+    \mathcal{O}(n^{-3/2}\rho^{-n}) & 
+    \text{if $\rho_0 < \rho$ and $\delta \leq 0$}, \\[8pt]
+    \frac{\rho^{-n}}{\eta\sqrt{\pi n}}
+    \left(1 + \mathcal{O}\left(1/n\right)\right) 
+    & \text{if $\rho_0 = \rho$}, \\[8pt]
+    \frac{D(\rho)^2\eta\rho^{-n}}{2\sqrt{\pi n^3}}
+    \left(1 + \mathcal{O}\left(1/n\right)\right) & 
+    \text{if $\mathcal{Z}$ is empty},
+    \end{cases}
+  \end{equation*}
+  where $\eta$ is given by the Puiseux expansion of 
+  $$
+  Q(z) = Q(\rho) - \eta\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho)
+  $$ 
+  for $z \to \rho$. The last two cases occur only when $\delta < 0$.
+\end{theorem}
+
+\begin{proof}
+  \phantom{}
+  \begin{enumerate}
+    \item We start with the case $\rho_0 < \rho$. Expanding the denominator for $z \to \rho_0$ yields
+    $$
+      1 - Q(z) = \underbrace{(1 - Q(\rho_0))}_{=0} + \rho_0 Q'(\rho_0)\left(1 - z/\rho_0\right) + \mathcal{O}\left(\left(1 - z/\rho_0\right)^2\right).
+    $$
+    Next, an elementary coefficient extraction gives
+    \begin{align*}
+      [z^{n}] \frac{1}{\rho_0 Q'(\rho_0)}\left(1 - z/\rho_0\right)^{-1} 
+      &= \frac{\rho_{0}^{-n}}{\rho_{0}Q'(\rho_{0})}.
+    \end{align*}
+    We now continue the asymptotic analysis by subtracting the simple pole.
+    For $\delta \leq 0$ we observe that $|Q(z)|$ is bounded for $|z| < \rho$ and monotonically increasing on the real axis. This implies that 
+    $\rho_0$ is the only zero of $1 - Q(z)$ with $|z| < \rho$.
+    Hence, the new dominant singularity must occur at the structural radius $\rho$, where the dominant small root becomes singular.
+    The new square-root singularity at $\rho$ thus contributes a summand of the type $n^{-3/2}\rho^{-n}$ to the asymptotic growth rate of $d_n$. 
+
+    For $\delta > 0$ the new dominant singularity instead happens to be a simple pole at $1/P(1) < \rho$ and thus we have
+    $$
+    d_n = \frac{\rho_0^{-n}}{\rho_0Q'(\rho_0)} + \mathcal{O}(P(1)^n).
+    $$
+    \item In the case that $\rho_0 = \rho$, the branching point of $u_1(z)$ leads to a square root behavior in the Puiseux expansion of $Q(z)$ for $z \to \rho$:
+    $$
+    1 - Q(z) = \underbrace{(1 - Q(\rho_0))}_{=0} +\, \eta\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho).
+    $$
+    Substituting $D(z) = (1-Q(z))^{-1}$ then yields
+    \begin{equation*}
+      D(z) = \frac{1}{\eta\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho)}
+      = \frac{1}{\eta\sqrt{1 - z/\rho}}\left(1 + \mathcal{O}\left(\sqrt{1 - z/\rho}\right)\right).
+    \end{equation*}
+    Finally, singularity analysis gives us
+    $$
+      d_n = [z^n]\frac{1}{\eta\sqrt{1 - z/\rho}}\left(1 + \mathcal{O}\left(\sqrt{1 - z/\rho}\right)\right)
+      = \frac{\rho^{-n}}{\eta\sqrt{\pi n}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right).
+    $$
+    \item In the case that $\mathcal{Z}$ is empty, the constant term does not vanish. Instead we expand the right-hand side into a geometric series:
+    \begin{align*}
+      D(z) &= \left(1 - \left(Q(\rho) - \eta\sqrt{1 - z/\rho} + \mathcal{O}(1-z/\rho_0)\right)\right)^{-1} \\
+      &= \sum_{k = 0}^\infty \left(Q(\rho) - \eta\sqrt{1 - z/\rho} + \mathcal{O}(1-z/\rho_0)\right)^k \\
+      &= \sum_{k=0}^\infty Q(\rho)^k - 
+      \left(
+        \sum_{k=1}^\infty k Q(\rho)^{k-1}
+      \right)  
+      \eta\sqrt{1 - z/\rho} + \mathcal{O}(1-z/\rho) \\
+      &= D(\rho) -\eta D^2(\rho)\sqrt{1 - z/\rho} + \mathcal{O}(1-z/\rho).
+    \end{align*}
+    Applying singularity analysis then yields
+    \begin{align*}
+      d_n &= [z^n]D(\rho) -\eta D^2(\rho)\sqrt{1 - z/\rho} + \mathcal{O}(1-z/\rho) \\ 
+      &= \frac{D(\rho)^2\eta \rho^{-n}}{2\sqrt{\pi n^3}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right). \qedhere
+    \end{align*}
+  \end{enumerate}
+\end{proof}
+
+\begin{theorem}[Asymptotics of excursions with catastrophes {\cite[Theorem 4.4]{Catastrophes}}]
+\label{thm:asym_excursions}
+  The number of excursions with (alternative) catastrophes $e_n$ is asymptotically equal to
+  \begin{equation*}
+    e_n = 
+    \begin{cases}
+      \frac{E(\rho_0)}{\rho_0 \cdot Q'(\rho_0)} \rho_0^{-n} + 
+      \mathcal{O}(P(1)^n) & 
+      \text{if $\rho_0 < \rho$ and $\delta > 0$}, \\[8pt]
+      \frac{E(\rho_0)}{\rho_0 \cdot Q'(\rho_0)} \rho_0^{-n} + 
+      \mathcal{O}(n^{-3/2}\rho^{-n}) & 
+      \text{if $\rho_0 < \rho$ and $\delta \leq 0$}, \\[8pt]
+      \frac{E(\rho)}{\eta}\frac{\rho^{-n}}{\sqrt{\pi n}}
+      \left(1 + \mathcal{O}\left(1/n\right)\right) & 
+      \text{if $\rho_0 = \rho$}, \\[8pt]
+      \frac{C_0(\rho)}{2}\frac{\rho^{-n}}{\sqrt{\pi n^3}}
+      \left(\frac{1}{\tau}\sqrt{2\frac{P(\tau)}{P''(\tau)}} + \eta D(\rho)\right)
+      \left(1 + \mathcal{O}\left(1/n\right)\right) & 
+      \text{if $\mathcal{Z}$ is empty.}
+    \end{cases}
+  \end{equation*}
+\end{theorem}
+
+\begin{proof}
+  Since the generating function $C_0(z)$ of excursions with (alternative) catastrophes satisfies $C_0(z) = D(z)E(z)$, the dominant singularity is either a simple pole of $D(z)$ at $\rho_0$, or a square root singularity at the structural radius $\rho = 1/P(\tau)$. Note that the cases $\rho_0 = \rho$ and $\mathcal{Z} = \emptyset$ are only possible for $\delta < 0$. In the case of $\rho_{0} < \rho$ we have
+  \begin{align*}
+    \frac{E(z)}{1-Q(z)} &= \frac{E(\rho_{0}) + \mathcal{O}\left(1 - z/\rho_{0}\right)}{\rho Q'(\rho_{0})\left(1- z/\rho_{0}\right) + \mathcal{O}\left(\left(1-z/\rho_{0}\right)^{2}\right)} 
+    = \frac{E(\rho_{0})}{\rho Q'(\rho_{0})}\left(1- z/\rho_{0}\right)^{-1} + \mathcal{O}(1).
+  \end{align*}
+  Applying singularity analysis then yields
+  $$
+    e_{n} = \frac{E(\rho_{0})\rho_{0}^{-n}}{\rho_{0}Q'(\rho_{0})} + \mathcal{O}(\rho^{n}).
+  $$
+  In the case of $\rho_{0}= \rho$ we have analogously to the proof of Theorem \ref{thm:asym_D(z)} that
+  $$
+    C_0(z) = \frac{E(\rho_{0})}{\eta\sqrt{1- z/\rho}}\left(1 + \mathcal{O}\left(\sqrt{1 - z/\rho}\right)\right).
+  $$
+  The process of singularity analysis then gives
+  $$
+    e_{n} = \frac{E(\rho)}{\eta}\frac{\rho^{-n}}{\sqrt{\pi n}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right).
+  $$
+  In the final case that $\mathcal{Z}$ is empty, the results in the proof of \cite[Theorem 3]{Basic} give us the asymptotic expansion
+  \begin{align*}
+    E(z) &= E(\rho) - \frac{(-1)^{c-1}}{p_{-c}\rho} \prod_{j=2}^c u_j(\rho)\sqrt{2\frac{P(\tau)}{P''(\tau)}}\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho) \\
+    &= E(\rho) - \frac{E(\rho)}{u_1(\rho)}\sqrt{2\frac{P(\tau)}{P''(\tau)}}\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho).
+  \end{align*}
+  Combined with the results from Theorem \ref{thm:asym_D(z)} and the fact that $u_1(\rho) = \tau$ we thus have
+  $$
+  C_0(z) = \frac{E(z)}{1 - Q(z)} = \frac{E(\rho) - \frac{E(\rho)}{\tau}\sqrt{2\frac{P(\tau)}{P''(\tau)}}\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho)}{(1 - Q(\rho_0)) + \eta\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho)}.
+  $$
+  Like in the previous theorem, we develop the denominator into a geometric series and obtain
+  \begin{align*}
+    C_0(z) &= \frac{E(\rho)}{1 - Q(\rho)} - 
+    \left(
+      \frac{
+          \frac{E(\rho)}{\tau}\sqrt{2\frac{P(\tau)}{P''(\tau)}}}
+          {1 - Q(\rho)
+        } + 
+        \eta \frac{E(\rho)}{(1 - Q(\rho))^2}\sqrt{1 - z/\rho} + 
+        \mathcal{O}(1 - z/\rho)
+    \right). \\
+    &= C_0(\rho) - C_0(\rho)\left(
+      \frac{1}{\tau}\sqrt{2\frac{P(\tau)}{P''(\tau)}} + \eta D(\rho)
+      \right)\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho).
+  \end{align*}
+  Now the results follow from the standard function scale (Theorem \ref{thm:standard_function_scale}) and the Transfer Theorem \ref{thm:transfer}.
+\end{proof}
+
+\begin{theorem}[Asymptotics of meanders with catastrophes {\cite[Theorem 4.5]{Catastrophes}}]
+\label{thm:asym_meanders}
+  The number of meanders with catastrophes $m_n$ is asymptotically equal to
+  \begin{equation} \label{eq:meanders_asymptotics}
+    e_n = 
+    \begin{cases}
+      \frac{M(\rho_0)}{\rho_0 \cdot Q'(\rho_0)} \rho_0^{-n} + 
+      \mathcal{O}(P(1)^n) & 
+      \text{if $\rho_0 < \rho$ and $\delta > 0$}, \\[8pt]
+      \frac{M(\rho_0)}{\rho_0 \cdot Q'(\rho_0)} \rho_0^{-n} + 
+      \mathcal{O}(n^{-3/2}\rho^{-n}) & 
+      \text{if $\rho_0 < \rho$ and $\delta \leq 0$}, \\[8pt]
+      \frac{M(\rho)}{\eta}\frac{\rho^{-n}}{\sqrt{\pi n}}
+      \left(1 + \mathcal{O}\left(1/n\right)\right) & 
+      \text{if $\rho_0 = \rho$}, \\[8pt]
+      \frac{C(\rho,1)}{2}\frac{\rho^{-n}}{\sqrt{\pi n^3}}
+      \left(\frac{1}{\tau - 1}\sqrt{2\frac{P(\tau)}{P''(\tau)}} + \eta D(\rho)\right)
+      \left(1 + \mathcal{O}\left(1/n\right)\right) & 
+      \text{if $\mathcal{Z}$ is empty.}
+    \end{cases}
+  \end{equation}
+  Note that the only difference to Theorem \ref{thm:asym_excursions} is the appearance of $M(z)$ instead of $E(z)$, and a factor $1/(\tau - 1)$ instead of $1/\tau$ in the first term, when $\mathcal{Z}$ is empty.
+\end{theorem}
+
+\begin{proof}
+  The first three cases can be handled completely analogously to Theorem \ref{thm:asym_excursions}. For the final case we again rely on results from \cite[Theorem 4]{Basic}. From there we have the asymptotic expansion
+  \begin{align*}
+    M(z) &= M(\rho) + \sqrt{2\frac{P(\tau)^3}{P''(\tau)}}\frac{\prod_{j=2}^c (1 - u_j(\rho))}{P(\tau) - P(1)}\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho) \\
+    &= M(\rho) + \sqrt{2\frac{P(\tau)^3}{P''(\tau)}}\frac{M(\rho)(1 - \rho P(1))}{(1 - u_1(\rho))(P(\tau) - P(1))}\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho) \\
+    &= M(\rho) - \sqrt{2\frac{P(\tau)}{P''(\tau)}}\frac{M(\rho)}{\tau - 1}\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho).
+  \end{align*}
+  The remaining calculations follow the line of the previous theorems.
+\end{proof}
+
+Let us now apply the theorems to derive the asymptotics of the families of lattice paths with alternative catastrophes considered in the previous section.
+
+\begin{corollary} \label{cor:dyck_asym}
+  The generating functions $M_\mathcal{D}^\mathrm{alt}(z,1)$ and $E_\mathcal{D}^\mathrm{alt}(z)$ of Dyck meanders and excursions with alternative catastrophes, respectively, admit the following asymptotic expansions: 
+  \begin{align*}
+    [z^{n}]M_\mathcal{D}^\mathrm{alt}(z,1) &= \frac{3}{4}\left(\frac{5}{2}\right)^{n} + \sqrt{\frac{2}{\pi}}\frac{2^{n}}{\sqrt{n^3}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right), \\
+    [z^{n}]E_\mathcal{D}^\mathrm{alt}(z) &= \frac{3}{8}\left(\frac{5}{2}\right)^{n} + \sqrt{\frac{2}{\pi}}\frac{2^{n}}{\sqrt{n^3}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right).
+  \end{align*}
+  In particular, this implies that asymptotically every second Dyck meander with alternative catastrophes turns out to be an excursion. For Dyck walks with catastrophes, this probability works out to be $e_n/m_n \approx 0.31767$ \cite[Corollary 4.9]{Catastrophes}.
+\end{corollary}
+
+\begin{proof}
+  Recall the generating function of Dyck meanders with alternative catastrophes
+  $$
+  M_\mathcal{D}^\mathrm{alt}(z,1) = \frac{M_\mathcal{D}(z,1)}{1 - zM_\mathcal{D}(z,1)} = \frac{1-u_1(z)}{1 + (u_1(z) - 3)z}. 
+  $$
+  Due to the symmetric step set of Dyck paths we have $\delta = 0$. Hence we already know that the dominant singularity has to be a simple pole at a point $\rho_0 < \rho$. In fact, by setting the denominator zero we have $\rho_0 = 2/5 < 1/2$. Plugging these numbers into \eqref{eq:meanders_asymptotics} we obtain
+  \begin{align*}
+    \frac{M_\mathcal{D}(\rho_0,1)}{\rho_0 \cdot Q_\mathcal{D}'(\rho)} &= \frac{5/2}{2/5 \cdot 25/3} = \frac{3}{4}.
+  \end{align*}
+  Hence, we have
+  $$
+  [z^{n}]M_\mathcal{D}^\mathrm{alt}(z,1) = \frac{3}{4}\left(\frac{5}{2}\right)^n + \mathcal{O}\left(\frac{2^n}{\sqrt{n^3}}\right).
+  $$
+  However, to get the full asymptotic expansion we need to dig deeper.
+  We subtract the simple pole in order to expand the function at the branching point $\rho = 1/2$. This gives 
+  $$
+  G(z) := M_\mathcal{D}^\mathrm{alt}(z,1) + \frac{3}{10} \left(z -\frac{2}{5}\right)^{-1} = 1 -2\sqrt{2}\sqrt{1-2z} + 7\left(1-2z\right) + \mathcal{O}\left(1-2z\right)^{3/2}.
+  $$
+  Now we apply the standard function scale (Theorem \ref{thm:standard_function_scale}) to $\sigma(u) = 1-2\sqrt{2}\sqrt{1-u} + 7(1-u)$ and obtain 
+  $$
+    \sigma_{n} = [u^{n}]\sigma(u) = \frac{2\sqrt{2}}{\sqrt{\pi n^{3}}}\left(\frac{1}{2} + \mathcal{O}\left(\frac{1}{n}\right)\right).
+  $$
+  After translating the error $\tau(u) = (1-u)^{3/2}$ using the Transfer Theorem \ref{thm:transfer} we finally get
+  \begin{equation*}
+    [z^{n}]G(z) = \frac{2^{n+1/2}}{\sqrt{\pi n^{3}}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right) + \mathcal{O}\left(\frac{2^{n}}{\sqrt{n^{5}}}\right)
+    = \frac{2^{n+1/2}}{\sqrt{\pi n^{3}}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right). \qedhere
+  \end{equation*}
+
+  For the asymptotic behavior of Dyck excursions with alternative catastrophes we first recall their generating function to be
+  $$
+  E_\mathcal{D}^\mathrm{alt}(z) = \frac{E_\mathcal{D}(z)}{1 - zM_\mathcal{D}(z,1)} = \frac{u_1(z)(1 - 2z)}{z(1 + (u - 3)z)}. 
+  $$
+  We already observed that the dominant singularity is a simple pole at $\rho_0 = 2/5$. Now we can compute
+  $$
+  \frac{E_\mathcal{D}(\rho_0)}{\rho_0 Q_\mathcal{D}'(\rho_0)} = \frac{5/4}{2/5 \cdot 25/3} = \frac{3}{8}.
+  $$
+  and continue by subtracting the pole in order to get to the asymptotic behavior at the square root singularity at $\rho = 1/2$.
+  At $\rho = 1/2$ we develop 
+  $$
+    G(z) := E_\mathcal{D}^\mathrm{alt}(z) + \frac{3}{20} \left(z -\frac{2}{5}\right)^{-1}
+  $$
+  into a Puiseux series with critical exponent $\alpha = 1/2$: 
+  $$
+    G(z) = 3 - 2\sqrt{2}(1-2z)^{1/2}  + 13(1-2z) + \mathcal{O}((1-2z)^{3/2}).
+  $$
+  Translating this expansion to coefficient asymptotics using the standard function scale (Theorem \ref{thm:standard_function_scale}) and the Transfer Theorem \ref{thm:transfer} yields the claimed result.
+\end{proof}
+
+\begin{corollary}
+  The generating functions $M_\mathcal{M}^\mathrm{alt}(z,1)$ and $E_\mathcal{M}^\mathrm{alt}(z)$ of Motzkin meanders and excursions with alternative catastrophes, respectively, admit the following asymptotic expansions: 
+  \begin{align*}
+    [z^{n}]M_\mathcal{M}^\mathrm{alt}(z,1) &= \frac{3}{4} \left(\frac{7}{2}\right)^n + \sqrt{\frac{27}{4\pi}}\frac{3^n}{\sqrt{n^{3}}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right), \\
+    [z^{n}]E_\mathcal{M}^\mathrm{alt}(z) &= \frac{3}{8} \left(\frac{7}{2}\right)^n + \sqrt{\frac{27}{4\pi}}\frac{3^n}{\sqrt{n^{3}}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right).
+  \end{align*}
+  In particular, this implies that asymptotically every second Motzkin meander with alternative catastrophes turns out to be an excursion.
+\end{corollary}
+
+\begin{proof}
+  Since we are still dealing with symmetric step sizes, the dominant singularity is still guaranteed to be a simple pole. In this case, we find $\rho_0 = 2/7$. An application of Theorem \ref{thm:asym_excursions}
+  together with some computer algebra yields
+  $$
+  [z^n] M_\mathcal{M}^\mathrm{alt}(z,1) = \frac{3}{4} \left(\frac{7}{2}\right)^n + \mathcal{O}\left(\frac{P(1)^n}{\sqrt{n^3}}\right).
+  $$
+  We continue by subtracting the pole in order to get to the asymptotic behavior at the square root singularity at $\rho = 1/3$.
+  At $\rho = 1/3$ we develop 
+  $$
+    G(z) := M_\mathcal{M}^\mathrm{alt}(z,1) + \frac{3}{14} \left(z -\frac{2}{7}\right)^{-1}
+  $$
+  into a Puiseux series with critical exponent $\alpha = 1/3$: 
+  $$
+    G(z) = \frac{9}{2} - 3\sqrt{3}(1-3z)^{1/2}  + 27(1-3z) + \mathcal{O}((1-3z)^{3/2}).
+  $$
+  Translating this expansion to coefficient asymptotics using the standard function scale (Theorem \ref{thm:standard_function_scale}) and the Transfer Theorem \ref{thm:transfer} yields the claimed result.
+
+  For excursions, an application of Theorem \ref{thm:asym_excursions} yields
+  $$
+    [z^{n}]E_\mathcal{M}^\mathrm{alt}(z) = \frac{3}{8} \left(\frac{7}{2}\right)^n + o(K^n)
+  $$
+  for some $K < 7/2$. Now we can continue by subtracting the pole in order to get to the asymptotic behavior at the square root singularity at $\rho = 1/3$.
+  At $\rho = 1/3$ we develop 
+  $$
+    G(z) := E_\mathcal{M}^\mathrm{alt}(z) + \frac{3}{28} \left(z -\frac{2}{7}\right)^{-1}
+  $$
+  into a Puiseux series with critical exponent $\alpha = 1/3$: 
+  $$
+    G(z) = \frac{9}{4} - 3\sqrt{3}(1-3z)^{1/2}  + \frac{45}{4}(1-3z) + \mathcal{O}((1-3z)^{3/2}).
+  $$
+  Translating this expansion to coefficient asymptotics using the standard function scale (Theorem \ref{thm:standard_function_scale}) and the Transfer Theorem \ref{thm:transfer} yields the claimed result.
+\end{proof}
+
+There appears to be a pattern pertaining the asymptotic growth rates of $k$-Motzkin walks (with Dyck walks appearing as $0$-Motzkin walks) and the results for $2$-Motzkin walks continue to fall in line with it.
+
+\begin{corollary}
+  The generating functions $M_{\mathcal{M}_2}^\mathrm{alt}(z,1)$ and $E_{\mathcal{M}_2}^\mathrm{alt}(z)$ of 2-Motzkin meanders and excursions with alternative catastrophes, respectively, admit the following asymptotic expansions: 
+  \begin{align*}
+    [z^{n}]M_{\mathcal{M}_2}^\mathrm{alt}(z,1) &= \frac{3}{4}\left(\frac{9}{2}\right)^{n} + \frac{4}{\sqrt{\pi}}\frac{4^n}{\sqrt{n^{3}}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right), \\
+    [z^{n}]E_{\mathcal{M}_2}^\mathrm{alt}(z) &= \frac{3}{8}\left(\frac{9}{2}\right)^{n} + \frac{4}{\sqrt{\pi}}\frac{4^n}{\sqrt{n^{3}}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right).
+  \end{align*}
+  In particular, this implies that asymptotically every second 2-Motzkin meander with alternative catastrophes turns out to be an excursion.
+\end{corollary}
+
+\begin{table}[hbt!]
+  \centering
+  \begin{tabular}{|l|c|c|c|}
+  \hline
+  & \textbf{Meanders} & \textbf{Excursions} & \textbf{Ratio}\\ \hline
+  Dyck & $ \sim 3/4 \cdot (5/2)^n $ & $ \sim 3/8 \cdot (5/2)^n $ & $1/2$ \\ \hline
+  Motzkin & $ \sim 3/4 \cdot (7/2)^n $ & $ \sim 3/8 \cdot (7/2)^n $ & $1/2$ \\ \hline
+  2-Motzkin & $ \sim 3/4 \cdot (9/2)^n $ & $ \sim 3/8 \cdot (9/2)^n $ & $1/2$ \\ \hline
+  \end{tabular}
+  \caption[Asymptotics of lattice paths with alternative catastrophes.]{Table of asymptotic growth rates of lattice paths with alternative catastrophes.}
+  \label{tab:asym_alt_cat}
+\end{table}
+
+As the proof uses exactly the same methods used in the previous corollaries, we will not repeat it here. Instead, we conclude this section by proving that this pattern, illustrated in Table \ref{tab:asym_alt_cat}, can in fact be generalized to $k$-Motzkin walks for arbitrary positive integers $k$.
+% \begin{proof}
+%   Since we are still dealing with symmetric step sizes, the dominant singularity is still guaranteed to be a simple pole. In this case, we find $\rho_0 = 2/9$. An application of Theorem \ref{thm:asym_excursions}
+%   together with some computer algebra yields
+%   $$
+%   [z^n] M_{\mathcal{M}_2}^\mathrm{alt}(z) = \frac{3}{4} \left(\frac{9}{2}\right)^n + o(K^n).
+%   $$
+%   for some $K < 9/2$.
+%   We continue by subtracting the pole in order to get to the asymptotic behavior at the square root singularity at $\rho = 1/4$.
+%   At $\rho = 1/4$ we develop 
+%   $$
+%     G(z) := M_{\mathcal{M}_2}^\mathrm{alt}(z) + \frac{1}{6} \left(z -\frac{2}{9}\right)^{-1}
+%   $$
+%   into a Puiseux series with critical exponent $\alpha = 1/2$: 
+%   $$
+%     G(z) = 6 - 8(1-4z)^{1/2}  + 46(1-4z) + \mathcal{O}\left((1-4z)^{3/2}\right).
+%   $$
+%   Translating this result with the standard function scale \ref{thm:standard_function_scale} leads to the claimed result.
+% \end{proof}
+
+% \begin{proof}
+%   Since we are still dealing with symmetric step sizes, the dominant singularity is still guaranteed to be a simple pole. In this case, we find $\rho_0 = 2/9$. An application of Theorem \ref{thm:asym_excursions}
+%   together with some computer algebra yields
+%   $$
+%   [z^n] E_{\mathcal{M}_2}^\mathrm{alt}(z) = \frac{3}{8} \left(\frac{9}{2}\right)^n + o(K^n).
+%   $$
+%   for some $K < 9/2$.
+%   We continue by subtracting the pole in order to get to the asymptotic behavior at the square root singularity at $\rho = 1/4$.
+%   At $\rho = 1/4$ we develop 
+%   $$
+%     G(z) := E_{\mathcal{M}_2}^\mathrm{alt}(z) + \frac{1}{12} \left(z -\frac{2}{9}\right)^{-1}
+%   $$
+%   into a Puiseux series with critical exponent $\alpha = 1/2$: 
+%   $$
+%     G(z) = 3 - 8(1-4z)^{1/2}  + 19(1-4z) + \mathcal{O}\left((1-4z)^{3/2}\right).
+%   $$
+%   Translating this result with the standard function scale \ref{thm:standard_function_scale} leads to the claimed result.
+% \end{proof}
+
+\begin{theorem} \label{thm:asym_k_motzkin}
+  The generating functions $M_{\mathcal{M}_k}^\mathrm{alt}(z)$ and $E_{\mathcal{M}_k}^\mathrm{alt}(z)$ of $k$-Motzkin excursions and meanders with alternative catastrophes, respectively, satisfy
+  \begin{align*}
+    [z^n]M_{\mathcal{M}_k}^\mathrm{alt}(z) \sim \frac{3}{4} \left(\frac{2k+5}{2}\right)^{n}, \\
+    [z^n]E_{\mathcal{M}_k}^\mathrm{alt}(z) \sim \frac{3}{8} \left(\frac{2k+5}{2}\right)^{n}.
+  \end{align*}
+  In particular, this implies that asymptotically, every second $k$-Motzkin meander with alternative catastrophes is in fact an excursion.
+\end{theorem}
+
+\begin{proof}
+  We start with the asymptotic growth rate of $[z^n]E_{\mathcal{M}_k}^\mathrm{alt}(z)$. 
+  According to Theorem \ref{thm:gf_catastrophes}, we have 
+  $$ 
+    E_{\mathcal{M}_k}^\mathrm{alt}(z) = \frac{E(z)}{1 - Q(z)} = \frac{1}{1-z\frac{1-u_{1}(z)}{1-P(1)z}}\frac{u_{1}(z)}{z}.
+  $$
+  In order to determine the exponential growth rate of $[z^n]E_{\mathcal{M}_k}^\mathrm{alt}(z)$, we need to localize its dominant singularity.
+  By solving the quadratic kernel equation, one finds a square root singularity  at $\rho = 1/(k+2)$.
+  However, as it turns out there always exists a smaller, polar singularity $\rho_{0} < \rho$. This is vindicated by the fact that the drift of our step set is zero.
+  Hence, the dominant singularity can always be found as a zero of the denominator 
+  $$
+    g(z) := 1-P(1)z - z(1-u_{1}(z)).
+  $$
+  To find the zero, we use the kernel equation to observe 
+  $$
+    P\left(\frac{1}{2}\right) = \frac{2k+5}{2} = P\left(u_{1}\left(\frac{2}{2k+5}\right)\right).
+    $$
+  In particular, since $P(u)$ is injective on the interval $(0,\tau)$, with $\tau = 1$, this implies $u_1(2/(2k+5)) = 1/2$ and therefore
+  $$
+    g\left(\frac{2}{2k+5}\right) = 1 - \frac{2(k+2)}{2k+5} - \frac{1}{2k+5} = 0.
+  $$
+  Hence $E_{\mathcal{M}_k}^\mathrm{alt}(z)$ has a polar singularity at $\rho_0 := 2/(2k+5)$ and, according to Theorem \ref{thm:asym_excursions}, admits the asymptotic expansion
+  $$
+    [z^n]E_{\mathcal{M}_k}^\mathrm{alt}(z) \sim \frac{E(\rho_0)}{\rho_0 Q'(\rho_0)} \left(\frac{2k+5}{2}\right)^n.
+  $$
+  To determine the constant factor, we firstly note that 
+  $$
+    E(\rho_0) = \frac{u_1(\rho_0)}{\rho_0} = \frac{1}{2\rho_0}.
+  $$
+  Secondly, we calculate
+  \begin{align*}
+    Q'(\rho_0) &= \frac{1 - u_1(\rho_0)}{1 - P(1)\rho_0} + \frac{P(1)\rho_0(1 - u_1(\rho_0))}{(1 - P(1)\rho_0)^2} - \frac{\rho_0 }{1 - P(1)\rho_0}u_1'(\rho_0) \\
+    &= M(\rho_0) + \frac{(k+2)/(2k+5)}{(1 - (2k+2)/(2k+5))^2} - \frac{2/(2k+5)}{1/(2k+5)}u_1'(\rho_0) \\
+    &= M(\rho_0) + (2k+4)\frac{1}{\rho_0} - 2 u_1'(\rho_0).
+  \end{align*}
+  To compute $M(\rho_0)$, we note that 
+  $$
+    \frac{M(\rho_0)}{E(\rho_0)} = 
+    \frac{1 - u_1(\rho_0)}{u_1(\rho_0)} \cdot \frac{\rho_0}{1 - P(1) \rho_0}
+    = \frac{2/(2k+5)}{1 - 2(k+2)/(2k+5)} = 2
+  $$
+  and therefore $M(\rho_0) = 1/\rho_0$.
+  Hence, it only remains to determine $u_1'(\rho_0)$. For that, we use the derivative of the kernel equation, which yields
+  $$
+  u_1'(\rho_0) = - \frac{P(u_1(\rho_0))}{\rho_0 P'(u_1(\rho_0))} 
+  = \frac{1}{\rho_0^2(u_1(\rho_0)^{-2} - 1)}
+  = \frac{1}{3\rho_0^2}.
+  $$
+  This implies
+  $$
+    Q'(\rho_0) = \frac{2k+5}{\rho_0} - \frac{2}{3\rho_0^2} 
+    = \frac{4}{3\rho_0^2} 
+  $$
+  and finally we obtain
+  $$
+    \frac{E(\rho_0)}{\rho_0 Q'(\rho_0)} = 
+    \frac{1}{2 \rho^2} \cdot \frac{3 \rho^2}{4} = \frac{3}{8}.
+  $$
+  The constant factor for the asymptotic growth of $[z^n]M_{\mathcal{M}_k}^\mathrm{alt}(z)$ is then, according to Theorem \ref{thm:asym_meanders}, given by
+  \begin{equation*}
+    \frac{M(\rho_0)}{\rho_0 Q'(\rho_0)} = 2 \frac{E(\rho_0)}{\rho_0 Q'(\rho_0)} = \frac{3}{4}. \qedhere
+  \end{equation*}
+\end{proof}
+
+% \section{Limit Laws}
+% \input{chapters/4.3. Limit Laws.tex}

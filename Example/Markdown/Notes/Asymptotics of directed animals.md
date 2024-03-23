@@ -9,6 +9,6 @@ t_n = \frac{1}{\sqrt{4\pi}}\frac{4^n}{\sqrt{n}}\left(1 + \mathcal{O}\left(\frac{
 \end{equation*}$$
 Their average width is asymptotically equal to $6\sqrt{3\pi n}$ and $16\sqrt{\pi n}$, respectively.
 
-#### Proof
-
-![[Asymptotics of directed animals Proof]]
+`egin{proof}`
+![[Asymptotics of directed animals. Proof|no-title]]
+`\end{proof}`

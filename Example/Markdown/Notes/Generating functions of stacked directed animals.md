@@ -13,6 +13,6 @@ S_s(z) &= \frac{(1-z)(1-3z) - (1-4z)\sqrt{(1-3z)(1+z)}}{2z(2 - 7z)}, \\
 S_t(z) &= S_s\left(\frac{z}{1-z}\right) = \frac{(1-3z)(1-4z) - (1-5z)\sqrt{1-4z}}{2z(2-9z)}.
 \end{align*}$$
 
-#### Proof
-
-![[Generating functions of stacked directed animals Proof]]
+`egin{proof}`
+![[Generating functions of stacked directed animals. Proof|no-title]]
+`\end{proof}`

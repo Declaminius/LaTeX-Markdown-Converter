@@ -1,0 +1,545 @@
+\chapter{Links to other combinatorial problems}
+\label{chapter:stacked_directed_animals}
+
+\epigraph{\textelp{} a property, which is translated by an equality $|A| = |B|$, is understood better, when one constructs a bijection between the two sets $A$ and $B$, than when one calculates the coefficients of a polynomial whose variables have no particular meaning. 
+% The method of generating functions, which has had devastating effects for a century, has fallen into obsolescence, for this reason
+}{\textsc{Claude Berge} \cite[p.~10]{Berge}, translated in \cite[p.~94]{AnalyticCombinatorics}}
+
+\section{Stacked directed animals}
+
+This section gives an introduction into the theory of counting animals, including the quite lengthy definition of stacked directed animals, together with their generating functions and corresponding asymptotic behavior. 
+The presentation of these results follows the excellent article by Bousquet-Mélou and Rechnitzer \cite{LatticeAnimals}. 
+Once we have established the necessary groundwork to understand these combinatorial objects, we will present a novel bijective procedure in Subsection \ref{subsection:bijection}, linking this subclass of polyominoes to the class of Motzkin excursions with alternative catastrophes.
+
+\begin{figure}[hbt!]
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics{images/ipe/general polyomino}
+    \caption{Polyomino with square cells and the corresponding lattice animal on the square lattice.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \includegraphics{images/ipe/hexagonal polyomino}
+    \caption{Polyomino with hexagonal cells and the corresponding lattice animal on the triangular lattice.}
+  \end{subfigure}
+  \caption[Polyominoes and matching lattice animals.]{Polyominoes and matching lattice animals with square and hexagonal cells.}
+  \label{fig:lattice_animals}
+\end{figure}
+
+The motivation behind the enumeration of such lattice animals or polyominoes can be found in the study of branched polymers \cite{Polymers} and percolation \cite{Percolation}. 
+However, even though these combinatorial objects have been studied for more than 40 years, exact enumeration results for general polyominoes are still rare. 
+Thus, one of the main research directions focuses on the investigation of large subclasses of polyominoes that are exactly enumerable. 
+This is also the motivating force behind the class of stacked directed animals that we will define in this section.
+
+\begin{definition}[Lattice animals]\label{def:lattice_animals}
+  A \textit{polyomino} of area $n$ is a connected union of $n$ cells on a lattice. 
+  The corresponding \textit{lattice animal} then lives on the dual lattice obtained by taking the center of each cell.
+\end{definition}
+
+The polyominoes we care about in this section have square or hexagonal cells, as illustrated in Figure \ref{fig:lattice_animals}. 
+We start now with the definition of a subclass of polyominoes that has already been exactly enumerated by Dhar in \cite{DirectedAnimals}.
+
+\begin{definition}[Directed animals]
+  A \textit{directed animal} on the square grid is a lattice animal, where one vertex has been designated the \textit{source} and all other vertices are connected to the source via a directed path consisting only of \textbf{N}- and \textbf{E}-steps, and visiting only vertices belonging to the animal.
+  On the triangular grid, one similarly defines the three possible directions of increase to be \textbf{NW}, \textbf{N}, and \textbf{NE}.
+\end{definition}
+
+The easiest description for the class of stacked directed animals, however, does not build directly upon the above definition. 
+Instead, it defines them indirectly via a one-to-one correspondence to a natural class of heaps of dimers, which are a powerful tool in the enumeration of directed animals. 
+These heaps are simple combinatorial structures first introduced by Viennot \cite{Heaps}. 
+This new approach greatly simplifies the derivation of the corresponding generating function and also serves as an intermediary step for our bijection to Motzkin excursions with alternative catastrophes.
+
+\begin{figure}[hbt!]
+  \centering
+  \begin{subfigure}{0.24 \textwidth}
+    \centering
+    \includegraphics{images/ipe/heap of dimers}
+    \caption{A general heap.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.24 \textwidth}
+    \centering
+    \includegraphics{images/ipe/strict heap}
+    \caption{A strict heap.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.24 \textwidth}
+    \centering
+    \includegraphics{images/ipe/pyramid}
+    \caption{A pyramid.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.24 \textwidth}
+    \centering
+    \includegraphics{images/ipe/half pyramid}
+    \caption{A half-pyramid.}
+  \end{subfigure}
+  \caption{Heaps of dimers.}
+  \label{fig:heaps}
+\end{figure}
+
+\begin{definition}[Heaps of dimers]
+  A \textit{dimer} consists of two adjacent vertices on a lattice. 
+  A \textit{heap of dimers} is obtained by dropping a finite number of dimers towards a horizontal axis, where each dimer falls until it either touches the horizontal axis or another dimer. 
+  The \textit{width} of a heap is the number of non-empty columns. The dimers that touch the $x$-axis are called \textit{minimal}.
+  A heap is called
+  \begin{itemize}
+    \item \textit{strict}, if no dimer has another dimer directly above it;
+    \item \textit{connected}, if its orthogonal projection on the horizontal axis is connected;
+    \item a \textit{pyramid}, if it has only one minimal dimer;
+    \item a \textit{half-pyramid}, if its only minimal dimer lies in the rightmost non-empty column.
+  \end{itemize}
+  The \textit{right width} of a pyramid is the number of non-empty columns to the right of the minimal dimer with the \textit{left width} being defined symmetrically.
+  Note that pyramids and half-pyramids are always connected.
+  These definitions are illustrated in Figure \ref{fig:heaps}.
+\end{definition}
+
+Now we will describe a construction from \cite[p.~240]{LatticeAnimals} that maps directed animals on the square lattice to strict pyramids of dimers, as well as directed animals on the triangular lattice to general pyramids of dimers.
+
+\begin{figure}[hbt!]
+  \centering
+  \begin{subfigure}{0.47 \textwidth}
+    \centering
+    \includegraphics{images/ipe/directed polyomino}
+    \caption{A directed lattice animal $D_s$ on the square grid with its source highlighted in grey.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.47 \textwidth}
+    \centering
+    \includegraphics{images/ipe/transformation to pyramid}
+    \caption{The corresponding strict pyramid $V(D_s)$.}
+  \end{subfigure}
+  \begin{subfigure}{0.47 \textwidth}
+    \centering
+    \includegraphics{images/ipe/directed hexagonal polyomino}
+    \caption{A directed lattice animal $D_t$ on the triangular grid with its source highlighted in grey.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.47 \textwidth}
+    \centering
+    \includegraphics{images/ipe/transformation to general pyramid}
+    \caption{The corresponding general pyramid $V(D_t)$.}
+  \end{subfigure}
+  \caption[Constructing pyramids from directed lattice animals.]{Constructing the strict (general) pyramid from a directed lattice animal on the square (triangular) grid.}
+  \label{fig:directed_animals_correspondence}
+\end{figure}
+
+\begin{definition}[Mapping from directed animals to heaps]
+  Let $\mathcal{D}_A$ denote the class of directed lattice animals on the square (triangular) lattice, let $\mathcal{P}$ denote the class of strict (general) pyramids and let $D \in \mathcal{D}_A$ be a directed lattice animal. 
+  We now define a mapping $V \colon \mathcal{D}_A \to \mathcal{P}$ as follows:
+  \begin{enumerate}
+    \item Rotate $D$ by $45^\circ$ degrees counter-clockwise, if $D$ is an animal on the square grid.
+    \item Replace each individual cell in $D$ by a dimer.
+  \end{enumerate}
+  This results in a pyramid $V(D)$ with the source of the lattice animal being the only minimal dimer; see Figure \ref{fig:directed_animals_correspondence}.
+\end{definition}
+
+\begin{remark} \label{remark:bijection}
+  It was observed by Viennot in \cite{Heaps} that this mapping induces a bijection between directed animals on the square (triangular) lattice and strict (general) pyramids of dimers and we denote the inverse mapping by $\overline{V}$.
+  This can be easily verified by recalling that any vertex in $D$ lies on a directed path consisting only of \textbf{N} and \textbf{E} steps from the source, visiting only other vertices in $D$. 
+  Hence, the corresponding dimer in $V(D)$ lies on a directed path of dimers lying diagonally to the left or the right above each other. 
+  In the case of directed animals on the triangular lattice, the additional possible direction translates to dimers lying directly above each other.
+  As the next definition will show, it only takes a small adaptation to extend this mapping to general lattice animals.
+\end{remark}
+
+\begin{figure}[hbt!]
+  \centering
+  \begin{subfigure}{0.45 \textwidth}
+    \centering
+    \includegraphics{images/ipe/general polyomino}
+    \caption{A lattice animal on the square grid.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.45 \textwidth}
+    \centering
+    \includegraphics{images/ipe/rotated animal}
+    \caption{Rotate the animal by $45^\circ$ degrees and replace each cell by a dimer.}
+  \end{subfigure}
+  \vskip\baselineskip
+  % \begin{subfigure}{0.4 \textwidth}
+  %   \centering
+  %   \includegraphics{images/ipe/transformation to heap}
+  %   \caption{Replace each cell by a dimer.}
+  % \end{subfigure}
+  \centering
+  \begin{subfigure}{0.45 \textwidth}
+    \centering
+    \includegraphics{images/ipe/drop}
+    \caption{Let the dimers fall.}
+  \end{subfigure}
+  \caption[Constructing a connected heap from a square lattice animal.]{Constructing the connected heap $V(A)$ from an animal $A$ on the square grid.}
+  \label{fig:connected_heap}
+\end{figure}
+
+\newpage
+
+\begin{definition}[Mapping from lattice animals to heaps]
+  Let $\mathcal{A}$ denote the class of lattice animals on the square (triangular) lattice, $\mathcal{H}$ the class of connected heaps and
+  let $A \in \mathcal{A}$ be a directed lattice animal. 
+  We now define a mapping $V: \mathcal{A} \to \mathcal{H}$ as follows:
+  \begin{enumerate}
+    \item Rotate $A$ by $45^\circ$ degrees counter-clockwise, if $A$ is an animal on the square grid.
+    \item Replace each individual cell in $A$ by a dimer.
+    \item Let the dimers fall.
+  \end{enumerate}
+  We call the resulting heap $V(A)$; see Figure \ref{fig:connected_heap} for an example of this procedure.
+\end{definition}
+
+Thus, $V$ maps lattice animals to connected heaps and in the case of triangular lattice animals, the following construction will show that the mapping is even surjective. 
+
+\begin{figure}
+  \centering
+  \begin{subfigure}{0.48 \textwidth}
+    \centering
+    \includegraphics{images/ipe/connected heap elephant}
+    \caption{A strict, connected heap $H$ with three minimal dimers.}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}{0.48 \textwidth}
+    \centering
+    \includegraphics{images/ipe/stacked pyramids elephant}
+    \caption{We partition the heap into three pyramids by iteratively pushing all minimal dimers except the rightmost one up.}
+  \end{subfigure}
+  \vskip\baselineskip
+  % \begin{subfigure}{0.4 \textwidth}
+  %   \centering
+  %   \includegraphics{images/ipe/transformation to heap}
+  %   \caption{Replace each cell by a dimer.}
+  % \end{subfigure}
+  \centering
+  \begin{subfigure}{0.6 \textwidth}
+    \centering
+    \includegraphics{images/ipe/elephant}
+    \caption{We construct $V(\overline{H})$ by iteratively translating the separated pyramids to directed lattice animals and pushing them together to obtain a connected lattice animal.}
+  \end{subfigure}
+  \caption[Constructing a square lattice animal from a strict, connected heap.]{Constructing the square lattice animal $\overline{V}(H)$ from a strict, connected heap $H$.}
+  \label{fig:stacked_directed_animals}
+\end{figure}
+
+\begin{definition}[Multi-directed animals]
+\label{def:multi_directed_animals}
+  Let $H$ be an arbitrary connected heap. We now construct an extension of $\overline{V}$ to connected heaps via induction over the number of minimal dimers $k$ of $H$:
+  \begin{itemize}
+    \item For $k = 1$, the heap $H$ reduces to a simple pyramid and thus, according to Remark~\ref{remark:bijection}, $\overline{V}(H)$ is already well-defined.
+    \item If instead $H$ has $k > 1$ minimal dimers, we push the $(k-1)$ leftmost pyramids upwards, producing a connected heap $H'$ with $k-1$ minimal dimers, placed far above the remaining pyramid $P_k$. Now recursively replace $H'$ by $\overline{V}(H')$ and $P_k$ by $\overline{V}(P_k)$.
+    \item Finalize the construction by pushing $\overline{V}(H')$ downwards until it connects to $\overline{V}(P_k)$.
+  \end{itemize}
+  We define $\overline{V}(H)$ as the resulting animal and call the class of triangular lattice animals obtainable in this way \textit{triangular multi-directed animals}.
+  The case of square lattice animals is a bit more delicate, since $V$ does not necessarily map them to strict heaps, as illustrated in Figure \ref{fig:connected_heap}. However, the converse is still valid: If we apply $\overline{V}$ to a strict heap $H$, we obtain a square lattice animal. This is guaranteed by the fact that $\overline{V}$ maps strict pyramids to directed square animals. 
+  Hence, we restrict the above procedure to strict, connected heaps to obtain the class of \textit{square multi-directed animals}; see Figure \ref{fig:stacked_directed_animals}.
+\end{definition}
+
+We will now finally define the class of stacked directed animals as a subclass of multi-directed animals that is easier to enumerate.
+
+\begin{definition}[Stacked directed animals]
+  Take a connected heap $H$ with $k$ minimal dimers. Let us denote by $P_1,P_2,\dots,P_k$, from left to right, the corresponding pyramidal factors of $H$ from the construction in Definition \ref{def:multi_directed_animals}. Let us call \textit{stacked pyramids} the connected heaps such that for $2 \leq i \leq k$, the horizontal projection of $P_i$ intersects the horizontal projection of $P_{i-1}$. Then, \textit{stacked directed animals} are defined as the image of the set of stacked pyramids under $\overline{V}$.
+  We define the \textit{right width} of a stacked pyramid to be the right width of its rightmost pyramidal factor. 
+\end{definition}
+
+These lattice animals are easier to enumerate due to their recursive description. This description translates easily into algebraic equations for their generating functions, and will also prove to be vital for the construction of our correspondence to the set of Motzkin excursions with alternative catastrophes.
+
+% \begin{figure}[hbt!]
+%   \centering
+%   \begin{tikzcd}[remember picture]
+%     \mathcal{D}_A \arrow[r, bend left, "V"] & \mathcal{P}_s \arrow[l, bend left, "\overline{V}"]\\
+%     \mathcal{S}_A & \mathcal{S}_s \arrow[l, "\overline{V}"']\\
+%     \mathcal{M}_A & \mathcal{H} \arrow[l, "\overline{V}"']\\
+%   \end{tikzcd}
+%   \begin{tikzpicture}[overlay,remember picture]
+%     \path (\tikzcdmatrixname-1-1) to node[midway,sloped]{$\subset$}
+%     (\tikzcdmatrixname-2-1);
+%     \path (\tikzcdmatrixname-1-2) to node[midway,sloped]{$\subset$}
+%     (\tikzcdmatrixname-2-2);
+%     \path (\tikzcdmatrixname-2-1) to node[midway,sloped]{$\subset$}
+%     (\tikzcdmatrixname-3-1);
+%     \path (\tikzcdmatrixname-2-2) to node[midway,sloped]{$\subset$}
+%     (\tikzcdmatrixname-3-2);
+%   \end{tikzpicture}
+%   \caption{Overview of the relation between the different classes of lattice animals.}
+%   \label{fig:commutative_diagram}
+% \end{figure}
+
+\subsection{Generating functions}
+
+\begin{theorem}[Generating functions of directed animals {\cite[Proposition 1]{LatticeAnimals}}]\label{thm:gf_directed_animals}
+  The generating functions $Q_s(z)$ and $Q_t(z)$ for strict and general half-pyramids, respectively, are given by
+  \begin{align*}
+    Q_s(z) &= \frac{1 - z - \sqrt{(1+z)(1-3z)}}{2z}, \\
+    Q_t(z) &= Q_s\left(\frac{z}{1-z}\right) = \frac{1 - 2z - \sqrt{1 - 4z}}{2z}.
+  \end{align*}
+  The generating function for strict and general pyramids, with $z$ counting their number of dimers and $u$ counting their right width is
+  \begin{equation} \label{eq:gf_pyramids}
+    P(z,u) = \frac{Q(z)}{1 - uQ(z)}
+  \end{equation}
+  with $Q$ denoting the respective generating function for strict or general half-pyramids.
+  In particular, the generating functions $P_s(z,1)$ and $P_t(z,1)$ for directed animals on the square and the triangular lattice, respectively, are given by
+  \begin{align*}
+    P_s(z,1) &= \frac{1}{2}\left(\sqrt{\frac{1+z}{1-3z}}-1\right), \\
+    P_t(z,1) &= P_s\left(\frac{z}{1-z},1\right) = \frac{1}{2}\left(\frac{1}{\sqrt{1-4z} - 1}\right).
+  \end{align*}
+\end{theorem}
+
+\begin{figure}[hbt!]
+  \centering
+  \begin{subfigure}{\textwidth}
+    \includegraphics[width = \linewidth]{images/Half pyramids factorisation.png}
+    \caption{The factorization of strict half-pyramids.}
+    \label{fig:factorisation_half_pyramids}
+  \end{subfigure}
+  \begin{subfigure}{\textwidth}
+    \includegraphics[width = \linewidth]{images/Pyramids factorisation.png}
+    \caption{The factorization of strict pyramids.}
+    \label{fig:factorisation_pyramids}
+  \end{subfigure}
+  \caption{The factorizations of strict half-pyramids and pyramids.}
+  \label{fig:factorisation}
+\end{figure}
+
+\begin{proof}
+The factorization of strict half-pyramids, depicted in Figure \ref{fig:factorisation_half_pyramids}, directly yields the functional equation $Q_s(z) = z + Q_s(z) + Q_s(z)^2$. Solving this quadratic equation yields 
+$$
+  Q_s(z) = \frac{1 - z - \sqrt{(1+z)(1-3z)}}{2z},
+$$ 
+which we recognize as the generating function of the Motzkin numbers; see \href{https://oeis.org/A001006}{\texttt{OEIS A001006}}. 
+
+For the generating function of general heaps we simply note that a general heap can be built from a strict heap by replacing each dimer with $k \geq 1$ dimers lying on top of each other. This expansion operation does not change the right width and thus preserves the property of being a half-pyramid. This immediately gives 
+$$
+  Q_t(z) = Q_s\left(\frac{z}{1-z}\right) = \frac{1 - 2z - \sqrt{1 - 4z}}{2z},
+$$ 
+which again corresponds to the generating function of a famous combinatorial sequence: the Catalan numbers, see \href{https://oeis.org/A000108}{\texttt{OEIS A000108}}. 
+
+The factorization of pyramids shown in Figure \ref{fig:factorisation_pyramids} leads us to the functional equation $P(z,u) = Q(z)(1 + uP(z,u))$, where we observe that the half-pyramids involved do not contribute to the right width of the pyramid. Further, the factorization is also valid for general pyramids, if we exchange strict half-pyramids for general half-pyramids.
+
+For strict pyramids we thus obtain
+\begin{align*}
+  P_s(z,1) &= \frac{1 - z -\sqrt{-3 z^{2}-2 z +1}}{2 z + z - 1 + \sqrt{-3 z^{2}-2 z +1}} \\
+  &= \frac{\left(z -1+\sqrt{-3 z^{2}-2 z +1}\right) \left(-3 z +1+\sqrt{-3 z^{2}-2 z +1}\right)}{4 z \left(3 z -1\right)} \\
+  &= \frac{1}{2}\left( \sqrt{\frac{1+z}{1-3z}} - 1\right) \\
+  &= z + 2z^2 + 5z^3 + 13z^4 + 35z^5 + 96z^6 + 267z^7 + \mathcal{O}(z^{8}).
+\end{align*}
+The counting sequence corresponds to \href{https://oeis.org/A005773}{\texttt{OEIS A005773}} shifted by one unit. In Corollary \ref{cor:motzkin_meanders} we already observed this sequence to count the number of Motzkin meanders. Hence, the class of strict pyramids of size $n + 1$ corresponds not only to the class of directed animals of size $n + 1$, but also to the class of Motzkin meanders of length $n$.
+\end{proof}
+
+\begin{corollary}[Asymptotics of directed animals {\cite[Proposition 1]{LatticeAnimals}}]
+  The number of $n$-celled directed animals on the square and the triangular lattice, respectively, is asymptotically equal to
+  \begin{equation*}
+    s_n = \frac{1}{\sqrt{3\pi}}\frac{3^n}{\sqrt{n}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right), \qquad
+    t_n = \frac{1}{\sqrt{4\pi}}\frac{4^n}{\sqrt{n}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right).
+  \end{equation*}
+  Their average width is asymptotically equal to $6\sqrt{3\pi n}$ and $16\sqrt{\pi n}$, respectively.
+\end{corollary}
+
+\begin{proof}
+  The dominant singularity of $P_s(z,1)$ is a square root singularity at $\rho = 1/3$, leading to the asymptotic expansion
+  $$
+  s_n = \frac{1}{\sqrt{3\pi}}\frac{3^n}{\sqrt{n}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right).
+  $$
+  To calculate the average right width, we differentiate \eqref{eq:gf_pyramids} with respect to $u$ and apply singularity analysis to the function $\frac{1}{P(z,1)}\left(\frac{\partial}{\partial u} P(z,u)\right)\big|_{u=1}.$ By symmetry, the average width is then simply twice the average right width plus one. For general pyramids we have
+  \begin{equation*}
+    P_t(z,1) = P_s\left(\frac{z}{1-z},1\right)
+    = \frac{1}{2}\left(\frac{1}{\sqrt{1-4z}} - 1\right),
+  \end{equation*}
+  and thus a simple application of the standard function scale (Theorem \ref{thm:standard_function_scale}) combined with the Transfer Theorem \ref{thm:transfer} gives the desired result.
+\end{proof}
+
+\begin{theorem}[Generating functions of stacked directed animals {\cite[Proposition 2]{LatticeAnimals}}]
+  Let $Q(z)$ denote the generating function for strict and general half-pyramids, respectively. Let $P(z,u)$ denote the bivariate generating function for strict and general pyramids, respectively, with $u$ counting the right width of the pyramid. Then, the generating function for square and triangular stacked directed animals, respectively, with $z$ enumerating the number of dimers, $u$ the right width and $t$ the number of minimal dimers, is given by
+  $$
+    S(z,u,t) = \frac{t P(z,u)}{1 - t P(z,1)^2} 
+    = \frac{t Q(1 - Q)^2}{(1 - uQ)((1- Q)^2 - tQ^2)}.
+  $$
+  In particular, the generating function for square and triangular stacked directed animals, respectively, is given by 
+  \begin{align*}
+    S_s(z) &= \frac{(1-z)(1-3z) - (1-4z)\sqrt{(1-3z)(1+z)}}{2z(2 - 7z)}, \\
+    S_t(z) &= S_s\left(\frac{z}{1-z}\right) = \frac{(1-3z)(1-4z) - (1-5z)\sqrt{1-4z}}{2z(2-9z)}.
+  \end{align*}
+\end{theorem}
+
+\begin{proof}
+  Let $H$ be an arbitrary stacked pyramid. Either it has only one minimal piece and is thus a single pyramid, or it is the product of a pyramid $P$ with a stacked pyramid $H'$ placed above $P$. The number of ways that $P$ can be placed below $H'$ equals the right width of $H'$. Further, by definition the right width of $P$ determines the right width of $H$. Translating this construction into the language of generating functions yields
+  $$
+    S(z,u,t) = tP(z,u)\left(1 + \frac{\partial S}{\partial u}(z,1,t)\right).
+  $$
+  To compute the derivative $\frac{\partial S}{\partial u}(z,1,t)$, we differentiate the equation with respect to $u$ and set $u$ to 1:
+  $$
+  \frac{\partial S}{\partial u}(z,1,t) = t\frac{\partial P}{\partial u}(z,1)\left(1 + \frac{\partial S}{\partial u}(z,1,t)\right).
+  $$
+  Further, differentiating Equation \eqref{eq:gf_pyramids} lets us calculate
+  $$
+  \frac{\partial P}{\partial u}(z,u) = \frac{Q(z)^2}{(1 - uQ(z))^2} = P(z,u)^2.
+  $$
+  Hence, we obtain
+  \begin{equation*}
+    S(z,u,t) = tP(z,u)\left(1 + \frac{t\frac{\partial P}{\partial u}(z,1)}{1 -  t\frac{\partial P}{\partial u}(z,1)}\right)
+    = \frac{tP(z,u)}{1 -  tP(z,1)^2}. \qedhere
+  \end{equation*}
+\end{proof}
+
+Another standard application of the process of singularity analysis yields the asymptotic growth rates of stacked directed animals.
+
+\begin{corollary}[Asymptotics of stacked directed animals {\cite[Proposition 2]{LatticeAnimals}}]
+  The number of $n$-celled stacked directed animals on the square and triangular lattice, respectively, is asymptotically equal to
+  \begin{equation*}
+    s_n = \frac{3}{28} \left(\frac{7}{2}\right)^n\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right), \qquad
+    t_n = \frac{1}{12} \left(\frac{9}{2}\right)^n\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right).
+  \end{equation*}
+  The number of minimal dimers in the corresponding stacked pyramids, which is a lower bound on their width, is asymptotically equal to $\frac{3}{28}n$ and $\frac{1}{12}n$, respectively. The width is trivially bounded above by $n$.
+\end{corollary}
+
+\begin{theorem}
+  The generating function of stacked directed animals of size $n+1$ on the square lattice coincides with the generating function of Motzkin paths with alternative catastrophes of length $n$.
+\end{theorem}
+
+\begin{proof}
+  Let $E_{\mathcal{M}}(z)$ be the generating function of Motzkin excursions and $Q_s(z)$ be the generating function of strict half-pyramids.
+  Then, Theorem \ref{thm:gf_directed_animals} shows that 
+  \begin{equation}\label{eq:Qs}
+    Q_s(z) = zE_\mathcal{M}(z).
+  \end{equation}
+  Furthermore, for the bivariate generating function of strict pyramids $P_s(z,u)$, with $u$ marking the right width of the pyramid we have 
+  $$
+    P_s(z,u) = \frac{Q_s(z)}{1-uQ_s(z)} = \frac{zE_\mathcal{M}(z)}{1-uzE_\mathcal{M}(z)}.
+  $$
+  % This generating function can also be interpreted as the generating function for the set of Motzkin excursions ending with their first catastrophe with $u$ counting the height of the catastrophe.
+  This generating function also has a lattice path interpretation.
+  Let $\omega$ be a Motzkin excursion, with catastrophes only at altitude zero and let $u$ count the number of catastrophes in~$\omega$. We split $\omega$ before each catastrophe. This partitions $\omega$ into a Motzkin excursion without catastrophes, counted by $E_\mathcal{M}(z)$, followed by a possibly empty sequence of Motzkin excursions without catastrophes, each preceded by a catastrophe, counted by $u z \cdot E_\mathcal{M}(z)$.
+  Hence, their generating function $F(z,u)$ satisfies
+  \begin{equation}\label{eq:Ps}
+    F(z,u) = \frac{E_\mathcal{M}(z)}{1-uzE_\mathcal{M}(z)} = \frac{P_s(z,u)}{z}.
+  \end{equation}
+  % Differentiating the equation with respect to $u$ yields 
+  % $$
+  %   \frac{\partial P_s(z,u)}{\partial u} = \frac{Q(z)^2}{(1-uQ(z))^{2}} = P_s(z,u)^2.
+  % $$
+  % This equation can also be interpreted with the symbolic method. Multiplying both sides with $u$ yields the pointing-operator $u \frac{\partial}{\partial u}(\cdot)$ on the left hand side.
+  % In this case, the pointing operator points on the height $k$ of the catastrophe and we can point at each of the $k$ up-steps visible from the catastrophe, which is the last time the path leaves a given altitude before the catastrophe.
+  % We cut the path after the marked up-step and turn the up-step into a catastrophe. This yields two Motzkin excursions ending with their first catastrophe.
+  % The sum of the height of the two catastrophes is exactly one less than the height of the original catastrophe.
+  Further, the generating function for stacked directed animals reads 
+  \begin{equation}\label{eq:S}
+    S(z,1,1) = \frac{P(z,1)}{1-P(z,1)^{2}} = \frac{\frac{Q_s(z)}{1 - Q_s(z)}}{1 - \frac{Q(z)^2}{(1-Q(z))^2}} = \frac{Q_s(z)}{1 - Q_s(z) - \frac{Q_s(z)^2}{1 - Q_s(z)}}
+    = \frac{Q_s(z)}{1 - \frac{Q_s(z)}{1 - Q_s(z)}}.
+  \end{equation}
+  Next, we observe that the generating function of Motzkin meanders satisfies
+  \begin{equation}\label{eq:motzkin_meanders_animals}
+    M_\mathcal{M}(z) = \frac{E_\mathcal{M}(z)}{1-zE_\mathcal{M}(z)}.
+  \end{equation}
+  To wit, consider a last passage decomposition of a Motzkin meander $\omega$. This splits $\omega$ into an initial excursion, counted by $E_{\mathcal{M}}(z)$, followed by a sequence of paths going from altitude $i$ to altitude $i + 1$, while staying above the line $y = i$, counted by $z E_\mathcal{M}(z)$.
+  Finally, combining \eqref{eq:S}, \eqref{eq:Qs} and \eqref{eq:motzkin_meanders_animals}, we obtain
+  \begin{equation*}
+    S(z,1,1) = \frac{Q_s(z)}{1 - \frac{Q_s(z)}{1 - Q_s(z)}} = \frac{zE_\mathcal{M}(z)}{1 - z\frac{E_\mathcal{M}(z)}{1-zE_\mathcal{M}(z)}} = \frac{zE_\mathcal{M}(z)}{1 - zM_\mathcal{M}(z)} = zM_\mathcal{M}(z). \qedhere
+  \end{equation*}
+  % which coincides with the generating function for Motzkin excursions with alternative catastrophes derived in Example \ref{ex:motzkin_excursions} except for an additional factor $z$.
+\end{proof}
+
+In the following subsection we will present a bijective interpretation of this result.
+
+\subsection{Bijection to Motzkin excursions with alternative catastrophes}
+\label{subsection:bijection}
+
+\begin{lemma} \label{lemma:half_pyramids}
+  The set of strict half-pyramids of size $n+1$ is in bijection with the set of Motzkin excursions of length $n$.
+\end{lemma}
+
+\begin{figure}[hbt!]
+  \centering
+  \includegraphics[width = \linewidth]{images/Half pyramids.png}
+  \caption{The factorizations of half-pyramids and Motzkin excursions.}
+  \label{fig:half_pyramids}
+\end{figure}
+
+\begin{proof}
+  We already observed in \eqref{eq:Qs} that strict half-pyramids are counted by the Motzkin numbers. Now we will make the combinatorial origin of this connection explicit, by recursively constructing a bijection $\omega$ between these combinatorial classes. The recursive descriptions of both classes are pictured in Figure \ref{fig:half_pyramids}.
+
+  Let $Q$ be a strict half-pyramid. It is either just a minimal dimer, or it consists of multiple dimers. In the first case, we set $\omega(Q)$ to be the empty path. 
+  In the latter case, we further distinguish whether there is more than one dimer in the rightmost column of the half-pyramids. If there is just one, then $Q$ is just the product of its minimal dimer and a half-pyramid $Q'$ lying above the minimal dimer on its left side. In this case, we define $\omega(Q) := \textbf{E}\, \omega(Q')$.
+  Otherwise, we push the lowest non-minimal dimer of the rightmost column upwards to obtain a factorization into the minimal dimer and two half-pyramids $Q_1$ and $Q_2$. This leads to the recursive rule $\omega(Q):= \textbf{NE}\,\omega(Q_1) \textbf{SE}\, \omega(Q_2)$.
+  
+  For the inverse direction, let $M$ be a Motzkin excursion. It is either just the empty walk or it consists of at least one step. In the first case, we set $\omega^{-1}(M)$ to be a single dimer.
+  In the latter case, we further distinguish by the first step in $M$.
+  If $M = \textbf{E}\, M'$, we place a single dimer on the $x$-axis and recursively build $\omega^{-1}(M')$ diagonally right above the minimal dimer.
+  If otherwise $M$ starts with a \textbf{NE}-step, we identify the first \textbf{SE}-step that returns to the $x$-axis and partition $M = \textbf{NE}\, M_1 \textbf{SE}\, M_2$. Here we again start by placing a dimer on the $x$-axis and recursively building $\omega^{-1}(M_1)$ diagonally left above it. Once the construction of $\omega^{-1}(M_1)$ is complete, we place $\omega^{-1}(M_2)$ in the same column as the minimal dimer, diagonally right above $\omega^{-1}(M_1)$.
+\end{proof}
+
+\begin{lemma}\label{lemma:pyramids}
+  The set of strict pyramids of size $n+1$ is in bijection with the set of 2-Motzkin excursions of length $n$ (with black and red \textbf{E}-steps), such that no red {\color{catred}\textbf{E}}-step occurs at positive height $h > 0$.
+  Equivalently, we could describe it as the set of Motzkin excursions of length $n$ with catastrophes only occurring at height $h = 0$.
+\end{lemma}
+
+\begin{figure}[hbt!]
+  \centering
+  \includegraphics[width = \linewidth]{images/Pyramids.png}
+  \caption[The factorization of Motzkin excursions with only horizontal catastrophes.]{The factorizations of strict pyramids and Motzkin excursions with only horizontal catastrophes.}
+  \label{fig:pyramids}
+\end{figure}
+
+
+\begin{proof}
+  We already observed in \eqref{eq:Ps} that the generating functions of these two combinatorial classes coincide. Now we present a combinatorial argument for this fact, by constructing an explicit bijection $\omega$.
+  Let $P$ be a strict pyramid. It either has zero right width and is thus a half-pyramid, or there exists a dimer exactly one step to the right of the minimal dimer at some height $h > 0$. In the first case, we already know how to construct $\omega(P)$ from Lemma \ref{lemma:half_pyramids}.
+  In the second case, we partition $P$ into a lower half-pyramid $Q$ and an upper pyramid $P$, by pushing the lowest non-minimal dimer in the column of the minimal dimer upwards; see Figure~\ref{fig:pyramids}. In this case we apply the recursive rule $\omega(P) = \omega(Q) {\color{catred} \textbf{E}}\, \omega(P')$.
+
+  For the reverse direction, consider a 2-Motzkin excursion $M$ with no red {\color{catred}\textbf{E}}-steps at positive height $h > 0$. If it has no red {\color{catred} \textbf{E}}-step, it is simply a regular Motzkin excursion and Lemma \ref{lemma:half_pyramids} applies. In the other case, we recursively split it at the first red {\color{catred} \textbf{E}}-step into an initial Motzkin excursion, followed by a red {\color{catred} \textbf{E}}-step and a final 2-Motzkin excursion and apply Lemma \ref{lemma:half_pyramids} to the first part.
+\end{proof}
+
+\begin{theorem} \label{thm:bijection}
+  The set of Motzkin excursions with alternative catastrophes of length~$n$ is in bijection with the set of stacked directed animals of size $n +1$ on the square grid.
+  Furthermore, the set of 2-Motzkin excursions (with black and blue \textbf{E}-steps) with alternative catastrophes of length $n$ is in bijection with the set of stacked directed animals of size $n + 1$ on the triangular grid.
+\end{theorem}
+
+\begin{figure}[hbt!]
+  \centering
+  \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics{images/ipe/stacked_directed_animal_example}
+    \caption{Stacked directed animal of size 18.}
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}{\textwidth}
+    \centering
+    \includegraphics{images/Stacked pyramids correspondence 2}
+    \caption{Motzkin excursion with alternative catastrophes of length 17.}
+  \end{subfigure}
+  \caption[Bijection involving stacked directed animals.]{A stacked directed animal and their corresponding Motzkin excursion with alternative catastrophes. The dimers are numbered according to the order of their corresponding steps in the lattice path.}
+  \label{fig:stacked_directed_animals_example}
+\end{figure}
+
+\begin{proof}
+Let $H$ be the connected heap of dimers representing a stacked directed animal on the square grid and denote with $P_1,P_2,\dots,P_k$ the corresponding pyramidal factors of $H$. We start our translation into lattice paths with the rightmost pyramid $P_k$. If $k = 1$, we simply apply Lemma \ref{lemma:pyramids} to translate $H$ into a Motzkin excursion with catastrophes only occurring at height $h = 0$.
+% With the help of the previous two lemmata we can already translate pyramids into Motzkin excursions with catastrophes only at height $0$, where we reinterpret the {\color{catred} red} \textbf{E}-steps in Lemma \ref{lemma:pyramids} as horizontal catastrophes. 
+Otherwise, if $k > 1$, after we have drawn $P_k$,
+the so far unused catastrophes from heights $h > 0$ will now encode the position where $P_k$ is placed below $P_{k-1}$. 
+Recall that the number of ways that $P_k$ can be placed equals the right width of $P_{k-1}$. 
+We will now define the distance between the two pyramids as the horizontal distance between the leftmost dimer of $P_k$ and the minimal dimer of $P_{k-1}$. Let us denote this distance with $\ell$, which will correspond to the height of the following catastrophe. 
+We now make the first $\ell$ recursive factorizations of $P_{k-1}$ explicit. This yields $\ell$ half-pyramids $Q_{k-1,1},\dots,Q_{k-1,\ell}$ stacked diagonally to the right on top of each other and a final pyramid $P_{k-1}^\prime$ above them as illustrated in Figure \ref{fig:stacked_pyramids}. Note that the minimal dimer of $P_{k-1}^\prime$ is the first dimer whose horizontal projection intersects with the horizontal projection of $P_k$, thus connecting the pyramids.
+Now we need to deviate from the construction presented in Lemma \ref{lemma:pyramids}, as we need to introduce $\ell$ additional \textbf{NE}-steps in order to offset the height lost with the new catastrophe. 
+Hence, the start of each of the half-pyramids $Q_i$ will be marked with a \textbf{NE}-step instead of with a horizontal catastrophe, like in Lemma \ref{lemma:pyramids}. 
+In particular, this means that the start of a new pyramid is always marked with an additional \textbf{NE}-step. 
+This additional step is important, as otherwise each pyramid consisting of $m$ dimers would be translated to a lattice path of length $m - 1$, and the final length of the lattice path would depend on the number of pyramids.
+% In particular, this means that the minimal dimer of $P_{k-1}$ will be translated to a \textbf{NE}-step.
+The half-pyramids themselves are then simply translated according to the recursion rules from Lemma \ref{lemma:half_pyramids}. 
+Note that these rules remain legitimate on altitude $i > 0$, as they do not involve horizontal catastrophes, which may only happen at height $0$.
+% The horizontal projection of the right vertex of the minimal dimer of $P_{k-1}^\prime$ then equals the horizontal projection of the left vertex of the leftmost dimer of $P_k$. A distance of $n$ thus translates to a catastrophe from height $n$.
+Thus, the last half-pyramid $Q_{k-1,\ell}$ before $P_{k-1}'$ will be represented by a Motzkin excursion starting and ending at height $\ell$. 
+After that, a catastrophe from height $\ell$ will usher in the start of the image of $P_{k-1}'$, which can now again be drawn according to the rules of Lemma \ref{lemma:pyramids}, as it no longer starts at a positive height.
+This procedure, illustrated in Figure \ref{fig:stacked_pyramids}, can now be iterated over all pyramidal factors of $H$ to obtain the final lattice path image of $H$.
+
+\begin{figure}[hbt!]
+  \centering
+  \includegraphics[width = \linewidth]{images/Stacked pyramids_v6.png}
+  \caption[Recursive construction of stacked pyramids.]{The recursive constructions of stacked pyramids and Motzkin excursions with alternative catastrophes.}
+  \label{fig:stacked_pyramids}
+\end{figure}
+
+For the inverse mapping, let $M$ be a Motzkin excursion with alternative catastrophes. If $M$ does not contain any non-horizontal catastrophes, we may simply apply Lemma \ref{lemma:pyramids} to translate $M$ to a single pyramid. Otherwise, we split $M$ at every non-horizontal catastrophe. This yields a set of excursions $E_1,E_2,\dots,E_k$, with $k > 1$, each having exactly one non-horizontal catastrophe at their very end.
+Consider the first of these excursions $E_1$, which will correspond to the rightmost pyramid $P_k$ of $H$ and the start of the next pyramid $P_{k-1}$. To recover $P_k$, it suffices to apply the procedure described in Lemma \ref{lemma:pyramids}.
+However, this alone does not yet tell us, at which point we need to start drawing $P_{k-1}$. For that we need to look ahead to the non-horizontal catastrophe, which signals the end of $E_1$. The start of $P_{k-1}$ then corresponds to the last time $E_1$ leaves altitude zero before its final catastrophe, which can be intuitively described as the first \textbf{NE}-step visible from the viewpoint of the next catastrophe. The next question we need to answer is where to place the minimal dimer of $P_{k-1}$. 
+For this we start at the horizontal projection of the leftmost dimer of $P_k$ and move $\ell + 1$ units to the left, where $\ell$ is the height of the catastrophe at the end of $E_1$. This is where we place the minimal dimer of $P_{k-1}$ and start building the first half-pyramid $Q_{k-1,1}$.
+Similarly, the last time $E_1$ leaves altitude one marks the start of the next half-pyramid $Q_{k-1,i+1}$. The minimal dimer of $Q_{k-1,i+1}$ needs to be placed diagonally right above the highest dimer in the rightmost column of $Q_{k-1,i}$.
+Now we can iterate this process until we hit the catastrophe, which marks the start of the pyramid $P_{k-1}'$. 
+Now the process repeats, as we draw $P_{k-1}'$ until we reach the first \textbf{NE}-step visible from the next non-horizontal catastrophe; see Figure \ref{fig:stacked_directed_animals_example} for an example of this correspondence.
+
+In the case of stacked directed animals on the triangular grid, we are now working with general pyramids. We reduce this case to strict pyramids by simply inserting a blue {\color{blue}\textbf{E}}-step for every dimer lying directly above another dimer.
+\end{proof}

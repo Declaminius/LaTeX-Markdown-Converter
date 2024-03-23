@@ -12,4 +12,4 @@ A heap is called
 - a *half-pyramid*, if its only minimal dimer lies in the rightmost non-empty column.
 The *right width* of a pyramid is the number of non-empty columns to the right of the minimal dimer with the *left width* being defined symmetrically.
 Note that pyramids and half-pyramids are always connected.
-These definitions are illustrated in Figure [[Heaps of dimers]].
+These definitions are illustrated in Figure [[Figure. Heaps of dimers]].

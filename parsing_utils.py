@@ -3,9 +3,9 @@ import re
 import warnings
 
 def sanitize_filename(filename):
-    filename = re.sub('[\\\\/:"*?<>|\{\}$]+', "", filename)
-    if len(filename) > 240:
-        filename = filename[:240]
+    filename = re.sub('[\\\\/:"*?<>|\{\}$^]+', "", filename)
+    if len(filename) > 100:
+        filename = filename[:100]
     while filename[-1] in (".", " "):
         filename = filename[:-1]
     return filename
