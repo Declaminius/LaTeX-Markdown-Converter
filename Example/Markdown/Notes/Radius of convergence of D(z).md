@@ -2,6 +2,9 @@
 tags:
   - Lemma
 label: lemma:radius_conv
+Sources:
+  - "[[Lattice paths with catastrophes|Banderier & Wallner, 2017]]"
+Location: Lemma 4.2
 ---
 Let $P(u)$ be an aperiodic characteristic polynomial and let $\rho =  1/P(\tau)$ be the structural radius defined in Proposition [[Properties of the characteristic curve]].
 Further, consider the set 
@@ -21,6 +24,6 @@ Q(\rho) < 1 & \iff \text{$\rho_D = \rho$and $\mathcal{Z}$is empty.} \\
 \end{cases}
 \end{align*}$$
 
-`egin{proof}`
+`\begin{proof}`
 ![[Radius of convergence of D(z). Proof|no-title]]
 `\end{proof}`

@@ -6,7 +6,7 @@ def sanitize_filename(filename):
     filename = re.sub('[\\\\/:"*?<>|\{\}$^]+', "", filename)
     if len(filename) > 100:
         filename = filename[:100]
-    while filename[-1] in (".", " "):
+    while (len(filename) > 0) and (filename[-1] in (".", " ")):
         filename = filename[:-1]
     return filename
 
@@ -23,6 +23,21 @@ def match_until_closing_curly_brace(start_index, paragraph):
         i += 1
         matched_text += char
     return matched_text[:-1], i
+
+def match_until_closing_square_bracket(paragraph):
+    start_index = paragraph.index("[") + 1
+    level = 1
+    i = start_index
+    matched_text = ""
+    while level > 0:
+        char = paragraph[i]
+        if char == "[":
+            level += 1
+        elif char == "]":
+            level -= 1
+        i += 1
+        matched_text += char
+    return matched_text[:-1]
 
 def read_linking_dictionary(dict_file):
     linking_dict = {}

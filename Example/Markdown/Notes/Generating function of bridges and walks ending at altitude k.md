@@ -2,6 +2,9 @@
 tags:
   - Theorem
 label: thm:gf_bridges
+Sources:
+  - "[[Basic analytic combinatorics of directed lattice paths|Banderier & Flajolet, 2002]]"
+Location: Theorem~1, p.~45
 ---
 Let 
 $$
@@ -25,6 +28,6 @@ and for $-d < k < \infty$,
 ![[Wk2|no-title]]
 where $v_1, \dots, v_d$ are the large branches of the characteristic curve.
 
-`egin{proof}`
+`\begin{proof}`
 ![[Generating function of bridges and walks ending at altitude k. Proof|no-title]]
 `\end{proof}`

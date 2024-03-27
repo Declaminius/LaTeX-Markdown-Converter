@@ -9,7 +9,7 @@ Solving this equation for $u$ yields the unique small branch
 $$
 u_{1} = \frac{1 - \sqrt{1 - 4z^{2}}}{2z}.
 $$
-Applying Theorem [[Theorem 2.2.5]] we find the generating function for Dyck meanders to be 
+Applying Theorem [[Generating function of meanders and excursions]] we find the generating function for Dyck meanders to be 
 $$
 M_\mathcal{D}(z,u) = \frac{u - u_1(z)}{u(1 - zP(u))}
 = \frac{1 - 2zu - \sqrt{1 - 4z^2}}{2z(z(1 + u^2) - u)}.

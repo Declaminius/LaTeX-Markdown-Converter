@@ -1,6 +1,9 @@
 ---
 tags:
   - Theorem
+Sources:
+  - "[[Analytic combinatorics|Flajolet & Sedgewick, 2009]]"
+Location: Theorem VI.2, p.~385
 ---
 Let $\alpha \in \C \setminus \Z_{\leq 0}$. Then, the coefficient of $z^n$ in the function
 $$

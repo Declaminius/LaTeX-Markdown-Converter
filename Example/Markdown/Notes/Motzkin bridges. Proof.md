@@ -11,7 +11,7 @@ u_1(z) = \frac{1}{2z}\left(1 - z - \sqrt{1-2z-3z^{2}}\right), \qquad
 u_2(z) = \frac{1}{2z}\left(1 - z + \sqrt{1-2z-3z^{2}}\right). 
 \end{equation*}$$
 Due to $\sqrt{1-2z-3z^{2}} = 1 - z + \mathcal{O}(z^2)$, we conclude that $u_1(z)$ is the only small branch of the characteristic curve.
-Now we may apply Theorem [[Theorem 2.2.2]] to obtain the generating function 
+Now we may apply Theorem [[Generating function of bridges and walks ending at altitude k]] to obtain the generating function 
 $$\begin{equation*} 
 B_\mathcal{M}(z) = z\frac{u_1'(z)}{u_{1}(z)}
 = z\frac{1-z-\sqrt{1-2z-3z^{2}}}{2z^{2}\sqrt{1-2z-3z^{2}}} \frac{2z}{1-z-\sqrt{1-2z-3z^{2}}} 

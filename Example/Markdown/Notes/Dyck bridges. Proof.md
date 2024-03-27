@@ -17,7 +17,7 @@ since
 $$
 \sqrt{1 - 4z^2} = \sum_{n \geq 0} \binom{1/2}{n} (-4)^n z^{2n} = 1 - 2z^2 + \mathcal{O}(z^4).
 $$
-After applying Theorem [[Theorem 2.2.2]] we get 
+After applying Theorem [[Generating function of bridges and walks ending at altitude k]] we get 
 $$\begin{align*}
 B_\mathcal{D}(z) &= z \frac{u_1'(z)}{u_1(z)} 
 = \frac{1}{\sqrt{1 - 4z^2}} \\

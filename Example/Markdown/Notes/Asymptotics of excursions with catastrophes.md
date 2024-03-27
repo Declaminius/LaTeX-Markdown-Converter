@@ -2,6 +2,9 @@
 tags:
   - Theorem
 label: thm:asym_excursions
+Sources:
+  - "[[Lattice paths with catastrophes|Banderier & Wallner, 2017]]"
+Location: Theorem 4.4
 ---
 The number of excursions with (alternative) catastrophes $e_n$ is asymptotically equal to
 $$\begin{equation*}
@@ -23,6 +26,6 @@ e_n =
 \end{cases}
 \end{equation*}$$
 
-`egin{proof}`
+`\begin{proof}`
 ![[Asymptotics of excursions with catastrophes. Proof|no-title]]
 `\end{proof}`

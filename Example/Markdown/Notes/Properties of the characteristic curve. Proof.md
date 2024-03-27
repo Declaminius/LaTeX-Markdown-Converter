@@ -12,7 +12,7 @@ The kernel equation yields
 $$
 u = X(p_{-c} + p_{-c+1}u + \cdots + p_{d-1}u^{c+d-1} + p_d u^{c+d})^{1/c}
 $$
-with $X = \omega_c^j z^{1/c}$ for $j = 0,\dots, c - 1$. In this form, we see that the Lagrange inversion formula (Theorem [[Theorem 3.2.1]]) guarantees a unique power series solution $u(X)$ to this equation. Substituting $X = \omega_c^j z^{1/c}$ into this power series yields the claim.
+with $X = \omega_c^j z^{1/c}$ for $j = 0,\dots, c - 1$. In this form, we see that the Lagrange inversion formula (Theorem [[Lagrange inversion formula]]) guarantees a unique power series solution $u(X)$ to this equation. Substituting $X = \omega_c^j z^{1/c}$ into this power series yields the claim.
 8. Since we assumed all weights to be positive, we have
 $$
 P''(u) = \sum_{k = -c}^d k(k - 1) p_k u^{k - 2} > 0
@@ -24,7 +24,7 @@ $$
 z = \frac{1}{P(u^+(z))} \qquad \text{for $z \in [0,\rho]$}.
 $$
 Due to the reality condition on $u_1(z)$ we see that this positive solution $u^+(z)$ must coincide with the branch $u_1(z)$ of the characteristic curve for $z \to 0^+$. 
-Further, the implicit function theorem [[Theorem 1.4.10]] guarantees the analyticity of $u^+(z)$ in the interval $(0, \rho)$ and with the identity theorem [[Theorem 1.4.3]] we obtain $u^+ \equiv u_1$ in $(0, \rho)$. 
+Further, the implicit function theorem [[Implicit function theorem]] guarantees the analyticity of $u^+(z)$ in the interval $(0, \rho)$ and with the identity theorem [[Identity theorem]] we obtain $u^+ \equiv u_1$ in $(0, \rho)$. 
 Next, we use the fact that $P(u)$ is an aperiodic Laurent polynomial with positive coefficients, which according to Lemma [[Strong triangle inequality]] leads to the strict inequality
 ![[strong_triangle_inequality|no-title]]
 Let $x \leq \rho$ be a real positive number and fix $z = x$. Then, let $w$ be an arbitrary solution of the kernel equation $1 - xP(w) = 0$ that is at most $\tau$ in modulus and **not** equal to $u_1(x)$. Hence $w \notin \R_{> 0}$ and by [[strong_triangle_inequality]] one has
@@ -54,5 +54,5 @@ u_1(z) &= \tau - \sqrt{2\frac{P(\tau)}{P''(\tau)}}\sqrt{1 - z/\rho} + \mathcal{O
 v_1(z) &= \tau + \sqrt{2\frac{P(\tau)}{P''(\tau)}}\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho),
 \end{split} \qquad z \to \rho^{-},
 \end{equation*}$$
-corresponding to the dominant small root $u_1$ and the dominant large root $v_1$. In order to expand this informal discussion into a full proof, we refer to the theory of Newton-Puiseux expansions presented in Theorem [[Theorem 2.1.5]].
+corresponding to the dominant small root $u_1$ and the dominant large root $v_1$. In order to expand this informal discussion into a full proof, we refer to the theory of Newton-Puiseux expansions presented in Theorem [[Newton-Puiseux theorem]].
 50. See \[[[Basic analytic combinatorics of directed lattice paths|Banderier & Flajolet, 2002, Theorem 3, p.~61–64]]\] and \[[[Basic analytic combinatorics of directed lattice paths|Banderier & Flajolet, 2002, Theorem 6, pp.~72–75]]\]. {\qquad\blacksquare}

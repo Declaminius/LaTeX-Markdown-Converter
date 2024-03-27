@@ -1,91 +1,91 @@
 fig:lattices?Figure. Examples of lattices
 fig:plane_tree?Subfigure. Plane tree
 fig:Łukasiewicz correspondence?Subfigure. Łukasiewicz excursion
+fig:reflected_path?Figure. The reflection principle
 ex:ballot_problem?André’s reflection principle
-ex:formal_topology?Example 1.2.3
+ex:formal_topology?Diplomarbeit. Example 1.2.3
 ex:dyck_walks?Number of Dyck walks
 fig:dyck_walks?Figure. Dyck walks of length 4, line width scaled according to the number of lattice paths
-thm:symbolic_method?Theorem 1.3.10
-ex:catalan_numbers?Example 1.3.11
-thm:identity?Theorem 1.4.3
+thm:symbolic_method?Basic admissibility
+ex:catalan_numbers?Counting sequence of Dyck excursions
+thm:identity?Identity theorem
 thm:newton?Newton's generalized binomial theorem
-thm:implicit_function?Theorem 1.4.10
-def:resultant?Definition 1.4.11
+thm:implicit_function?Implicit function theorem
+def:resultant?Resultant
 chapter:introduction?1 Introduction
 section:kernel_method?2.1 Kernel method
 lemma:strong_triangle_inequality?Strong triangle inequality
 prop:kernel_method?Properties of the characteristic curve
 fig:characteristic_curve?Figure. Graphs of the characteristic curve
-thm:puiseux?Theorem 2.1.5
+thm:puiseux?Newton-Puiseux theorem
 section:generating_functions?2.2 Generating functions
-thm:gf_walks?Theorem 2.2.1
-thm:gf_bridges?Theorem 2.2.2
-thm:gf_meanders_excursions?Theorem 2.2.5
-corr:gf_meanders_k?Corollary 2.2.7
+thm:gf_walks?Generating function of walks
+thm:gf_bridges?Generating function of bridges and walks ending at altitude k
+thm:gf_meanders_excursions?Generating function of meanders and excursions
+corr:gf_meanders_k?Diplomarbeit. Corollary 2.2.7
 cor:motzkin_meanders?Motzkin meanders
 section:singularity_analysis?2.3 Singularity analysis
 fig:contours?Figure. The contours mathcalC_R(n) and mathcalH(n)
-thm:standard_function_scale?Theorem 2.3.1
+thm:standard_function_scale?Standard function scale
 tab:standard_function_scale?Table of standard function scale
-thm:transfer?Theorem 2.3.4
+thm:transfer?mathcalO-Transfer
 fig:integration_contour_transfer_theorem?Figure. The integration contour gamma in the domain Delta(phi,R)
-remark:o_transfer?Theorem 2.3.6
-lemma:singular_points?Lemma 2.3.10
+remark:o_transfer?o-Transfer, logarithms
+lemma:singular_points?Existence of singular points
 chapter:directed_lattice_paths_kernel_method?2 Directed lattice paths and the kernel method
 table:4paths?The four types of directed paths
-lemma:gf_positive_basketball_walks?Lemma 3.1.2
-thm:gf_positive_basketball_walks?Theorem 3.1.3
+lemma:gf_positive_basketball_walks?Diplomarbeit. Lemma 3.1.2
+thm:gf_positive_basketball_walks?Diplomarbeit. Theorem 3.1.3
 fig:basketball_decomposition?Figure. The decomposition of a basketball walk counted by G_j,k(z)
-ex:G01,2?Example 3.1.4
-thm:new_proof_basketball?Proposition 3.1.5
+ex:G01,2?Diplomarbeit. Example 3.1.4
+thm:new_proof_basketball?Diplomarbeit. Proposition 3.1.5
 fig:basketball_walks?Figure. Decompositions of a basketball walk ending at altitude ell
-thm:lagrange_inversion?Theorem 3.2.1
-lemma:lagrange_inversion_variant?Lemma 3.2.2
-prop:G11?Proposition 3.2.5
+thm:lagrange_inversion?Lagrange inversion formula
+lemma:lagrange_inversion_variant?Variant of Lagrange inversion formula
+prop:G11?Closed-form expression for the coefficients of G_1,1(z)
 table:basketball_walks?Table of coefficients of different basketball walks
 chapter:basketball_walks?3 Basketball walks
 section:gf_catastrophes?4.1 Generating functions
-ex:dyck_meanders_alt_cats?Example 4.1.1
+ex:dyck_meanders_alt_cats?Diplomarbeit. Example 4.1.1
 fig:dyck_meanders_bijection?Figure. Bijection involving Dyck meanders with alternative catastrophes
 fig:dyck_meanders_bijection2?Figure. Bijection involving Dyck meanders with alternative catastrophes
-thm:dyck_meanders_bijection?Theorem 4.1.3
+thm:dyck_meanders_bijection?Diplomarbeit. Theorem 4.1.3
 fig:motzkin_meanders_bijection?Figure. Bijection involving Motzkin meanders with alternative catastrophes
 fig:motzkin_meanders_symmetric_arches?Figure. Bijection involving Motzkin meanders with alternative catastrophes
-ex:motzkin_excursions?Example 4.1.8
+ex:motzkin_excursions?Diplomarbeit. Example 4.1.8
 tab:OEIS_cat?Table of lattice paths with catastrophes
 tab:OEIS_alt?Table of lattice paths with alternative catastrophes
-thm:gf_catastrophes?Theorem 4.1.11
+thm:gf_catastrophes?Generating function for meanders and excursions with catastrophes
 fig:catastrophes_decomposition?Figure. The decomposition of a meander with catastrophes
 thm:gf_walks_bridges_catastrophes?Generating  function of walks and bridges with resets to zero
 fig:dyck_period?Figure. All vertices accessible from the origin by Dyck excursions of length 10
-lemma:radius_conv?Lemma 4.2.4
-thm:asym_D(z)?Theorem 4.2.5
-thm:asym_excursions?Theorem 4.2.6
-thm:asym_meanders?Theorem 4.2.7
-cor:dyck_asym?Corollary 4.2.8
+lemma:radius_conv?Radius of convergence of D(z)
+thm:asym_D(z)?Asymptotics of excursions ending with a catastrophe
+thm:asym_excursions?Asymptotics of excursions with catastrophes
+thm:asym_meanders?Asymptotics of meanders with catastrophes
+cor:dyck_asym?Diplomarbeit. Corollary 4.2.8
 tab:asym_alt_cat?Asymptotics of lattice paths with alternative catastrophes
-thm:asym_k_motzkin?Theorem 4.2.11
+thm:asym_k_motzkin?Diplomarbeit. Theorem 4.2.11
 chapter:catastrophes?4 Lattice paths with catastrophes
-thm:gf_directed_animals?Theorem 5.1.1
+thm:gf_directed_animals?Generating functions of directed animals
 fig:factorisation_half_pyramids?Subfigure. The factorization of strict half-pyramids
 fig:factorisation_pyramids?Subfigure. The factorization of strict pyramids
 fig:factorisation?Figure. The factorizations of strict half-pyramids and pyramids
 subsection:bijection?5.1.2 Bijection to Motzkin excursions with alternative catastrophes
-lemma:half_pyramids?Lemma 5.1.6
+lemma:half_pyramids?Diplomarbeit. Lemma 5.1.6
 fig:half_pyramids?Figure. The factorizations of half-pyramids and Motzkin excursions
-lemma:pyramids?Lemma 5.1.7
+lemma:pyramids?Diplomarbeit. Lemma 5.1.7
 fig:pyramids?Figure. The factorization of Motzkin excursions with only horizontal catastrophes
-thm:bijection?Theorem 5.1.8
+thm:bijection?Diplomarbeit. Theorem 5.1.8
 fig:stacked_directed_animals_example?Figure. Bijection involving stacked directed animals
 fig:stacked_pyramids?Figure. Recursive construction of stacked pyramids
 fig:lattice_animals?Figure. Polyominoes and matching lattice animals
 def:lattice_animals?Lattice animals
 fig:heaps?Figure. Heaps of dimers
 fig:directed_animals_correspondence?Figure. Constructing pyramids from directed lattice animals
-remark:bijection?Remark 5.1.13
+remark:bijection?Diplomarbeit. Remark 5.1.13
 fig:connected_heap?Figure. Constructing a connected heap from a square lattice animal
 fig:stacked_directed_animals?Figure. Constructing a square lattice animal from a strict, connected heap
 def:multi_directed_animals?Multi-directed animals
 fig:commutative_diagram?Figure. Overview of the relation between the different classes of lattice animals
 chapter:stacked_directed_animals?5 Links to other combinatorial problems
-fig:reflected_path?Figure. The reflection principle

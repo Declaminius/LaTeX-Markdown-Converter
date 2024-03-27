@@ -27,6 +27,7 @@ highest_level_of_document_structure = 0
 
 latex_path = "Example/LaTeX"
 latex_main_file = "Analytic Combinatorics and Bijections for Directed Lattice Paths.tex"
+title = "Diplomarbeit"
 bib_file = "literature.bib"
 
 # Markdown Paths

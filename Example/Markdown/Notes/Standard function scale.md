@@ -2,6 +2,9 @@
 tags:
   - Theorem
 label: thm:standard_function_scale
+Sources:
+  - "[[Analytic combinatorics|Flajolet & Sedgewick, 2009]]"
+Location: Theorem VI.1, p.~381
 ---
 Let $\alpha$ be an arbitrary complex number in $\mathbb{C} \setminus \mathbb{Z}_{\leq 0}$. The coefficient of $z^n$ in $f(z) = (1-z)^{-\alpha}$ admits for large $n$ a complete asymptotic expansion in descending powers of $n$:
 $$
@@ -16,6 +19,6 @@ $$\begin{equation*}
 \end{equation*}$$
 The quantity $e_k$ is a polynomial in $\alpha$ that is divisible by $\alpha(\alpha - 1)\cdots(\alpha -k)$, in accordance with the fact that the asymptotic expansion terminates when $\alpha \in \mathbb{Z}_{\geq 0}$. The formula is even valid (but not very meaningful) for $\alpha \in \Z_{\leq 0}$, as $1/\Gamma(\alpha) = 0$ and the coefficients $[z^n](1-z)^{-\alpha}$ are zero for $n > -\alpha$.
 
-`egin{proof}`
+`\begin{proof}`
 ![[Standard function scale. Proof|no-title]]
 `\end{proof}`

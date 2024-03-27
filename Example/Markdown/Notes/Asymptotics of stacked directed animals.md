@@ -1,6 +1,9 @@
 ---
 tags:
   - Corollary
+Sources:
+  - "[[Lattice animals and heaps of dimers|Bousquet-Mélou & Rechnitzer, 2002]]"
+Location: Proposition 2
 ---
 The number of $n$-celled stacked directed animals on the square and triangular lattice, respectively, is asymptotically equal to
 $$\begin{equation*}

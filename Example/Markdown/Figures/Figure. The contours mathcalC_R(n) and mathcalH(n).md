@@ -23,7 +23,7 @@ tags:
 \centering
 \includegraphics{images/ipe/ContourC2}
 \end{subfigure}
-\caption[The contours $\mathcal{C_R}(n)$ and $\mathcal{H}(n)$.]{The contours $\mathcal{C_R}(n)$ and $\mathcal{H}(n)$ used for estimating the coefficients of functions from the standard function scale \[[[Analytic combinatorics|Flajolet & Sedgewick, 2009, Figure VI.2, p.~381]]\].}
+\caption[The contours $\mathcal{C_R}(n)$ and $\mathcal{H}(n)$.]{The contours $\mathcal{C_R}(n)$ and $\mathcal{H}(n)$ used for estimating the coefficients of functions from the standard function scale \cite[Figure VI.2, p.~381]{AnalyticCombinatorics}.}
 \label{fig:contours}
 \end{figure}
 ```

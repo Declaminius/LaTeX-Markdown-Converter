@@ -1,6 +1,9 @@
 ---
 tags:
   - Definition
+Sources:
+  - "[[Lattice path combinatorics|Wallner, 2013]]"
+Location: Definition 1.8
 ---
 Let $R$ be a ring with unity. The ring of *formal power series* $R[[z]]$ consists of all formal sums of the form 
 $$

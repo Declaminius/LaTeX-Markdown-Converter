@@ -10,7 +10,8 @@ Further, in Section [[2.3 Singularity analysis]] we present an introduction into
 For this part we follow closely the clear presentation in the definite treatment on the topic: 
 The monograph *Analytic Combinatorics* by Flajolet and Sedgewick \[[[Analytic combinatorics|Flajolet & Sedgewick, 2009]]\].
 
-![[The four types of directed paths#Table The four types of directed paths]]
+> [!tip]+ Table: The four types of directed paths
+> ![[Table. The four types of directed paths#Table|no-h]]
 
 
 

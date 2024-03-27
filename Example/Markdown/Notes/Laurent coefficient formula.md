@@ -1,6 +1,9 @@
 ---
 tags:
   - Theorem
+Sources:
+  - "[[Funktionentheorie Eine Einführung Sechste Auflage|Jänich, 2004]]"
+Location: Satz 16
 ---
 Let $f(z) = \sum_{n=-\infty}^{\infty}c_{n}z^{n}$ be a convergent Laurent series on a open annulus 
 $$

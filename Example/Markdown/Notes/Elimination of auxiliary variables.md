@@ -1,6 +1,9 @@
 ---
 tags:
   - Remark
+Sources:
+  - "[[Analytic combinatorics|Flajolet & Sedgewick, 2009]]"
+Location: p.~740
 ---
 Given a system of polynomial equations
 $$

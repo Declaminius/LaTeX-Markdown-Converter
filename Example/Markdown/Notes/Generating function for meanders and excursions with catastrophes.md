@@ -2,6 +2,9 @@
 tags:
   - Theorem
 label: thm:gf_catastrophes
+Sources:
+  - "[[Lattice paths with catastrophes|Banderier & Wallner, 2017]]"
+Location: Theorem 2.1
 ---
 Let $c_{n,k}$ be the number of meanders with catastrophes of length $n$ ending at altitude $k$, relative to a simple step set $\mathcal{S}$, with characteristic polynomial $P(u) = \sum_{k=-c}^d p_ku^k$.
 Further, let $u_1,\dots,u_c$ denote the small roots and $v_1,\dots,v_d$ the large roots of the kernel equation.
@@ -24,6 +27,6 @@ Q^\mathrm{cat}(z) = q z \left(M(z) - E(z) - \sum_{\substack{s > 0, \\ -s\in \mat
 Q^\mathrm{alt}(z) = q z \cdot M(z). 
 \end{equation*}$$
 
-`egin{proof}`
+`\begin{proof}`
 ![[Generating function for meanders and excursions with catastrophes. Proof|no-title]]
 `\end{proof}`

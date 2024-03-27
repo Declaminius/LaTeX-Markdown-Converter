@@ -2,6 +2,9 @@
 tags:
   - Theorem
 label: thm:symbolic_method
+Sources:
+  - "[[Analytic combinatorics|Flajolet & Sedgewick, 2009]]"
+Location: Theorem I.1, p.~27
 ---
 The constructions of union, Cartesian product, sequence, powerset, multiset and cycle are all admissible. The associated operators are as follows:
 $$\begin{equation*}
@@ -18,6 +21,6 @@ $$\begin{equation*}
 where $\phi$ denotes Euler's totient function.
 For the sequence, powerset, multiset and cycle translations, it is assumed that $b_0 = 0$.
 
-`egin{proof}`
+`\begin{proof}`
 ![[Basic admissibility. Proof|no-title]]
 `\end{proof}`

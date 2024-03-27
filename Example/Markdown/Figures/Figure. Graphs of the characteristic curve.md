@@ -30,7 +30,7 @@ tags:
 \includegraphics[width=\textwidth]{images/char_curve.eps}
 \caption{Graph of the two small branches $u_1, u_2$ of order $\pm z^{1/2}$ and the only real large branch $v_1$ of order $z^{-1/3}$ of the characteristic curve.}
 \end{subfigure}
-\caption[Graphs of the characteristic curve.]{Graphs of $P(u) = u^{-2} + u^{-1} + 1 + u + u^2 + u^3$, the inverse $1/P(u)$ and the three real branches of the characteristic curve $1 - zP(u)$ associated with the set of jumps $\mathcal{S} = \{-2,-1,0,1,2,3\}$ {\[[[Basic analytic combinatorics of directed lattice paths|Banderier & Flajolet, 2002, Figure 3]]\]}.}
+\caption[Graphs of the characteristic curve.]{Graphs of $P(u) = u^{-2} + u^{-1} + 1 + u + u^2 + u^3$, the inverse $1/P(u)$ and the three real branches of the characteristic curve $1 - zP(u)$ associated with the set of jumps $\mathcal{S} = \{-2,-1,0,1,2,3\}$ {\cite[Figure 3]{Basic}}.}
 \label{fig:characteristic_curve}
 \end{figure}
 ```

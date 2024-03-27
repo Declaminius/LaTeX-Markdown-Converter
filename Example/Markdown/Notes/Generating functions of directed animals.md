@@ -2,6 +2,9 @@
 tags:
   - Theorem
 label: thm:gf_directed_animals
+Sources:
+  - "[[Lattice animals and heaps of dimers|Bousquet-Mélou & Rechnitzer, 2002]]"
+Location: Proposition 1
 ---
 The generating functions $Q_s(z)$ and $Q_t(z)$ for strict and general half-pyramids, respectively, are given by
 $$\begin{align*}
@@ -18,6 +21,6 @@ P_t(z,1) &= P_s\left(\frac{z}{1-z},1\right) = \frac{1}{2}\left(\frac{1}{\sqrt{1-
 \end{align*}$$
 > [!tip]+ Figure: The factorizations of strict half-pyramids and pyramids
 > ![[Figure. The factorizations of strict half-pyramids and pyramids#Figure The factorizations of strict half-pyramids and pyramids|no-h4]]
-`egin{proof}`
+`\begin{proof}`
 ![[Generating functions of directed animals. Proof|no-title]]
 `\end{proof}`

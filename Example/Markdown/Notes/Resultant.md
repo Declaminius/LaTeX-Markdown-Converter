@@ -2,6 +2,9 @@
 tags:
   - Definition
 label: def:resultant
+Sources:
+  - "[[Analytic combinatorics|Flajolet & Sedgewick, 2009]]"
+Location: p.~739
 ---
 Consider a field of coefficients $\K$ and two polynomials 
 $$

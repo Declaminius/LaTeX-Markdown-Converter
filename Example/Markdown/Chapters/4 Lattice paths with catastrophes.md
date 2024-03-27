@@ -15,8 +15,8 @@ As a baseline, Banderier and Wallner, in their article \[[[Lattice paths with ca
 However, it might also make sense to allow catastrophes, even when they would coincide with regular jumps, as well as catastrophes at height zero.
 This conveniently leads to a model that is easier to handle, simplifying some of the more tedious calculations. To distinguish these two models we will refer to catastrophes of the second kind as *alternative catastrophes*.
 
-> [!definition]+ Definition 4.3.2
-> ![[Definition 4.3.2|no-title]]
+> [!definition]+ 
+> ![[Diplomarbeit. Definition 4.3.2|no-title]]
 
 
 ## 4.1 Generating functions

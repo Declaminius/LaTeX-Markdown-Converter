@@ -2,6 +2,9 @@
 tags:
   - Theorem
 label: thm:implicit_function
+Sources:
+  - "[[Analytic combinatorics|Flajolet & Sedgewick, 2009]]"
+Location: Appendix B.5
 ---
 Let $F(z,u)$ be bivariate analytic in two complex variables $(z.u)$ near $(0,0)$ in the sense that it admits a convergent power series in a polydisk
 $$

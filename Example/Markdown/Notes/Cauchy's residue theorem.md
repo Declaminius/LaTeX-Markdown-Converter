@@ -1,6 +1,9 @@
 ---
 tags:
   - Theorem
+Sources:
+  - "[[Analytic combinatorics|Flajolet & Sedgewick, 2009]]"
+Location: Theorem IV.3, p.~234
 ---
 Let $h(z)$ be meromorphic in the region $\Omega$, let $S \subset \Omega$ be the set of isolated singularities of $h(z)$ and let $\gamma$ be a positively oriented simple loop in $\Omega$ along which $h(z)$ is analytic. 
 Then it holds that

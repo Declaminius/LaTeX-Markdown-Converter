@@ -1,6 +1,9 @@
 ---
 tags:
   - Corollary
+Sources:
+  - "[[Lattice animals and heaps of dimers|Bousquet-Mélou & Rechnitzer, 2002]]"
+Location: Proposition 1
 ---
 The number of $n$-celled directed animals on the square and the triangular lattice, respectively, is asymptotically equal to
 $$\begin{equation*}
@@ -9,6 +12,6 @@ t_n = \frac{1}{\sqrt{4\pi}}\frac{4^n}{\sqrt{n}}\left(1 + \mathcal{O}\left(\frac{
 \end{equation*}$$
 Their average width is asymptotically equal to $6\sqrt{3\pi n}$ and $16\sqrt{\pi n}$, respectively.
 
-`egin{proof}`
+`\begin{proof}`
 ![[Asymptotics of directed animals. Proof|no-title]]
 `\end{proof}`

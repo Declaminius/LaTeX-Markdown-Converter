@@ -2,6 +2,9 @@
 tags:
   - Example
 label: ex:catalan_numbers
+Sources:
+  - "[[Analytic combinatorics|Flajolet & Sedgewick, 2009]]"
+Location: pp.~318–321
 ---
 In Example~[[André’s reflection principle]] we already derived the counting sequence of Dyck excursions to be $d_{2n} = \frac{1}{n + 1}\binom{2n}{n}$, also known as the Catalan numbers. Now we will present an alternative way to derive this result, using the symbolic method:
 

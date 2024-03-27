@@ -36,6 +36,24 @@ class Counter:
         self.theorem = 1
         self.subsection = 0
 
+class Theorem:
+
+    def __init__(self, env: str, filename: str, has_title: bool):
+        self.env = env
+        self.filename = filename
+        self.has_title = has_title
+        self.has_source = False
+        self.has_label = False
+
+    def add_source(self, source, location_in_source):
+        self.source = source
+        self.location_in_source = location_in_source
+        self.has_source = True
+    
+    def add_label(self, label):
+        self.label = label
+        self.has_label = True
+
 def translate_textstyles(content):
     math = False
     translated_content = ""
@@ -71,6 +89,7 @@ def translate_textstyles(content):
 def basic_textstyles_translation(content):
     content = re.sub("\\\\textit\{(.+?)\}", r"*\1*", content)
     content = re.sub("\\\\textbf\{(.+?)\}", r"**\1**", content)
+    content = re.sub("\\\\emph\{(.+?)\}", r"**\1**", content)
     content = re.sub("(\\\\textsc\{.+?\})", r"$\1$", content)
     content = re.sub("(\\\\texttt\{.+?\})", r"$\1$", content)
     return content
@@ -162,13 +181,41 @@ def isolate_tables(block, counter):
         table_links = []
         for table in tables:
             table_name, table_label = parse_label_and_caption("Table", table, counter)
-            write_table_markdown(table, table_name, table_label)
+            rows = decompose_table(table)
+            write_table_markdown(table, rows, table_name, table_label)
             counter.table += 1
-            table_links.append("![["+ table_name + "#Table " + table_name + "]]")
+            table_links.append("> [!tip]+ Table: " + table_name + "\n" + "> ![[Table. "+ table_name + "#Table|no-h]]")
+            table_links.append("![["+ table_name + "#Table]]")
         block_without_tables = re.split(table_regex, block, flags = re.DOTALL)
         return block_without_tables[0] + "\n".join([a + b for a, b in zip(table_links, block_without_tables[1:])]) + "\n\n"
     else:
         return block
+
+def decompose_table(table):
+    table_match = re.search("\\\\begin\{(tabular|array)\}.*?\n(.+?)\\\\end\{(?:tabular|array)\}", table, flags = re.DOTALL)
+    rows = []
+    if table_match is not None:
+        table_contents = table_match.group(2)
+        table_contents = re.sub("\\\\hline", "", table_contents)
+        table_contents = re.sub("\n", "", table_contents)
+        table_contents = re.sub("\$\s+", "$", table_contents)
+        table_contents = re.sub("\s+\$", "$", table_contents)
+        raw_rows = table_contents.split("\\\\")
+        for row in raw_rows:
+            if table_match.group(1) == "tabular":
+                rows.append([cell.strip() for cell in row.split("&")])
+            elif table_match.group(1) == "array":
+                parsed_row = []
+                for cell in row.split("&"):
+                    cell = cell.strip()
+                    if (cell == "") or (cell[0] == "*"):
+                        parsed_row.append(cell)
+                    else:
+                        parsed_row.append("$" + cell.strip() + "$")
+                rows.append(parsed_row)
+    if len(rows[-1]) == 1:
+        rows = rows[:-1]
+    return rows
 
 def isolate_proofs(block, theorem_name):
     proofs = re.findall("\\\\begin\{proof\}(.+?)\\\\end\{proof\}", block, flags = re.DOTALL)
@@ -282,7 +329,6 @@ def convert_eqrefs(block):
     return block
 
 def convert_citations(block):
-    # Citations without additional information
     citations = re.findall("(\\\\cite(?:\[(.*?)\])?\{(.+?)\})", block)
     if len(citations) > 0:
         linking_dict = parsing_utils.read_linking_dictionary(config.cite_keys_dictionary_file)
@@ -295,7 +341,8 @@ def convert_citations(block):
                 block = block.replace(citation[0], "\[" + link_to_file + "\]")
     return block
 
-def convert_block(block, counter):
+
+def convert_block(block: str, counter: Counter):
     block = block.strip()
     block = isolate_titlepage(block)
     block = isolate_unnumbered_equations(block)
@@ -307,26 +354,24 @@ def convert_block(block, counter):
     block = convert_refs(block)
     block = convert_eqrefs(block)
     block = convert_lists(block)
-    block = convert_citations(block)
     block = isolate_tables(block, counter)
     block = isolate_figures(block, counter)
 
     match_env = re.match("\\\\begin\{(.+?)\}", block)
     if match_env is not None:
         env = match_env.group(1)
-        label, name = parse_theorem_label_and_name(block, env, counter)
-        name = parsing_utils.sanitize_filename(name)
-        if label is not None:
-            parsing_utils.write_linking_dictionary(label, name, config.label_dictionary_file)
+        theorem = parse_theorem_label_and_name(block, env, counter)
+        if theorem.has_label:
+            parsing_utils.write_linking_dictionary(theorem.label, theorem.filename, config.label_dictionary_file)
         if env in config.amsthm_environments:
             block = re.sub("\\\\begin\{" + env + "\}.*", "", block)
             block = re.sub("\\\\end\{" + env + "\}", "", block)
             block = re.sub("\\\\label\{.+?\}", "", block)
     else:
-        env = None
-        name = None
-        label = None
-    return block, env, name, label
+        theorem = None
+
+    block = convert_citations(block)
+    return block, theorem
 
 def parse_label_and_caption(type, fig, counter, subfig_counter = None):
     if type == "Figure":
@@ -345,7 +390,7 @@ def parse_label_and_caption(type, fig, counter, subfig_counter = None):
             caption = type + " " + str(counter.chapter) + "." + str(block_counter) + string.ascii_lowercase[subfig_counter]
         else:
             caption = type + " " + str(counter.chapter) + "." + str(block_counter)
-        warnings.warn(f"Figure without caption: {caption}. \nUsing figure number instead of caption as the filename.")
+        # warnings.warn(f"Figure without caption: {caption}. \nUsing figure number instead of caption as the filename.")
     label_match = re.search("\\\\label\{(.+?)\}", fig)
     caption = parsing_utils.sanitize_filename(caption)
     if label_match is not None:
@@ -356,26 +401,33 @@ def parse_label_and_caption(type, fig, counter, subfig_counter = None):
     return caption, label
 
 def parse_theorem_label_and_name(block, env, counter):
-    name_match_extended_citation = re.match("\\\\begin\{.+?\}\[([^\{]+?)\{\\\\cite\[.+?\]\{.+?\}\}\]", block)
-    name_match_citation = re.match("\\\\begin\{.+?\}\[([^\{]+?)\{\\\\cite\{.+?\}\}\]", block)
-    name_match_no_citation = re.match("\\\\begin\{.+?\}\[([^\{]+?)\]", block)
+    name_match = re.match("\\\\begin\{.+?\}\[", block)
+    filename = ""
+
+    if name_match:
+        content = parsing_utils.match_until_closing_square_bracket(block)
+
+        filename = re.sub("\\\\cite(?:\[.*?\])?\{.*?\}", "", content)
+        filename = re.sub("[\{\}]+", "", filename)
+        filename = parsing_utils.sanitize_filename(filename)
+        theorem = Theorem(env, filename, has_title = True)
+
+        citation = re.search("\\\\cite(?:\[(.*?)\])?\{(.*?)\}", content)
+        if citation is not None:
+            location_in_source = citation.group(1)
+            source = citation.group(2)
+            theorem.add_source(source, location_in_source)
+    
+    if filename.strip() == "":
+        filename = config.title + ". " + env.capitalize() + " " + str(counter.chapter) + "." + str(counter.section) + "." + str(counter.theorem) 
+        theorem = Theorem(env, filename, has_title = False)
+
     label_match = re.search("\\\\label\{(.+?)\}", block)
-
-    if name_match_extended_citation is not None:
-        name = name_match_extended_citation.group(1)
-    elif name_match_citation is not None:
-        name =  name_match_citation.group(1)
-    elif name_match_no_citation is not None:
-        name = name_match_no_citation.group(1)
-    else:
-        name = env.capitalize() + " " + str(counter.chapter) + "." + str(counter.section) + "." + str(counter.theorem)   
-
     if label_match is not None:
         label = label_match.group(1)
-    else:
-        label = None
+        theorem.add_label(label)
 
-    return label, name
+    return theorem
 
 def write_subfigure_markdown(subfigure, figure_name, name, label):
     with open(os.path.join(config.figures_path, "Subfigure. " + name + ".md"), "w", encoding="utf-8") as file:
@@ -421,7 +473,7 @@ def write_figure_markdown(figure, subfigures, name, label):
         file.write("\n")
         file.write("```")
 
-def write_table_markdown(table, name, label):
+def write_table_markdown(table, rows, name, label):
     with open(os.path.join(config.tables_path, name + ".md"), "w", encoding="utf-8") as file:
         file.write("---\n")
         if label is not None:
@@ -431,7 +483,12 @@ def write_table_markdown(table, name, label):
         file.write("  - Table\n")
         file.write("---\n")
         # Todo write actual markdown table
-        # but: potential issues with figures inside of a table
+        file.write("#### Table\n")
+        headers = rows[0]
+        file.write("| " + " | ".join(headers) + " |\n")
+        file.write("| - "*len(headers) + "|\n")
+        for row in rows[1:]:
+            file.write("| " + " | ".join(row) + " |\n")
         file.write("#### Sourcecode\n")
         file.write("\n")
         file.write("```\n")
@@ -475,13 +532,20 @@ def write_numbered_equation_markdown(equation, name, labels):
         file.write(equation)
         file.write("$$")
 
-def write_block_markdown(filename, env, label, block):
-    with open(os.path.join(config.notes_path, filename + ".md"), "w", encoding="utf-8") as file:
+def write_block_markdown(theorem: Theorem, block):
+    with open(os.path.join(config.notes_path, theorem.filename + ".md"), "w", encoding="utf-8") as file:
         file.write("---\n")
         file.write("tags:\n")
-        file.write("  - " + env.capitalize() + "\n")
-        if label is not None:
-            file.write("label: " + label + "\n")
+        file.write("  - " + theorem.env.capitalize() + "\n")
+        if theorem.has_label:
+            file.write("label: " + theorem.label + "\n")
+        if theorem.has_source:
+            linking_dict = parsing_utils.read_linking_dictionary(config.cite_keys_dictionary_file)
+            if theorem.source in linking_dict.keys():
+                file.write('Sources:\n  - "[[' + linking_dict[theorem.source] + ']]"\n')
+            else:
+                file.write("Sources:\n  - " + theorem.source + "\n")
+            file.write("Location: " + theorem.location_in_source + "\n")
         file.write("---\n")
         file.write(block.strip())
         file.write("\n")
@@ -499,8 +563,8 @@ def write_proof_to_theorem(block, prev_thm_name):
     return block_without_proofs[-1]
 
 def write_block_to_section(file, block, prev_thm_name, counter):
-    block, env, name, label = convert_block(block, counter)
-    if env not in config.amsthm_environments:
+    block, theorem = convert_block(block, counter)
+    if theorem is None or (theorem.env not in config.amsthm_environments):
         proof_match = re.search("\\\\begin\{proof\}", block)
         if proof_match is not None:
             block = write_proof_to_theorem(block, prev_thm_name)
@@ -508,11 +572,14 @@ def write_block_to_section(file, block, prev_thm_name, counter):
         file.write("\n")
         return None
     else:
-        file.write("> [!" + env  + "]+ " + name + "\n")
-        file.write("> ![[" + name + "|no-title]]\n\n")
-        write_block_markdown(name, env, label, block)
+        if theorem.has_title:
+            file.write("> [!" + theorem.env  + "]+ " + theorem.filename + "\n")
+        else:
+            file.write("> [!" + theorem.env  + "]+ " + "\n")
+        file.write("> ![[" + theorem.filename + "|no-title]]\n\n")
+        write_block_markdown(theorem, block)
         counter.theorem += 1
-        return name
+        return theorem.filename
 
 def split_into_blocks(section_content):
     blocks = [section_content]
@@ -523,7 +590,6 @@ def split_into_blocks(section_content):
             new_blocks += split_envs
         blocks = [x for x in new_blocks if x != ""]
     return blocks
-
 
 def write_subsection_markdown(counter, subsection_content, subsection_title):
     if (heading_match := re.search("\\\\subsection\{(.*?)\}", subsection_title)) is not None:
@@ -602,7 +668,7 @@ def write_section_markdown(counter, section_content, section_title):
             file.write("\n")
     
     print(f"Chapter {counter.chapter}, Section {counter.section} done!")
-    return section_filename, counter
+    return section_filename, subsection_filenames, counter
 
 def write_chapter_markdown(chapter, heading, counter):
     counter.new_chapter()
@@ -620,8 +686,8 @@ def write_chapter_markdown(chapter, heading, counter):
     
     section_filenames = []
     for section_content, section_title in zip(contents, titles):
-        filename, counter = write_section_markdown(counter, section_content, section_title)
-        section_filenames.append(filename)
+        filename, subsection_filenames, counter = write_section_markdown(counter, section_content, section_title)
+        section_filenames.append((filename, subsection_filenames))
 
     # Write the markdown file for this chapter
     with open(os.path.join(config.chapters_path, markdown_file + ".md"), "w", encoding="utf-8") as file:
@@ -639,7 +705,7 @@ def write_chapter_markdown(chapter, heading, counter):
         for block in blocks:
             prev_thm_name = write_block_to_section(file, block, prev_thm_name, counter)
 
-        for filename in section_filenames:
+        for filename, subsection_filenames in section_filenames:
             file.write("## " + filename + "\n")
             file.write("\n")
             file.write("![[" + filename + "|no-title]]\n")
@@ -647,14 +713,19 @@ def write_chapter_markdown(chapter, heading, counter):
     
     with open(os.path.join(config.markdown_path, "Table of contents" + ".md"), "a", encoding="utf-8") as file:
         file.write("# [[" + markdown_file + "]]\n\n")
-        for filename in section_filenames:
+        for filename, subsection_filenames in section_filenames:
             file.write("## [[" + filename + "]]\n")
             file.write("\n")
+            for subfilename in subsection_filenames:
+                file.write("### [[" + subfilename + "]]\n")
+                file.write("\n")
 
     return markdown_file
 
 def write_markdown():
     counter = Counter()
+    # Reset table of contents
+    open(os.path.join(config.markdown_path, "Table of contents" + ".md"), "w", encoding="utf-8").close()
 
     with open(os.path.join(config.latex_path, config.latex_main_file), "r", encoding="utf-8") as file:
         content = file.read()

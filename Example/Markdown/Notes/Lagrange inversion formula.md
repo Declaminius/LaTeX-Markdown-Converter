@@ -2,6 +2,9 @@
 tags:
   - Theorem
 label: thm:lagrange_inversion
+Sources:
+  - "[[Analytic combinatorics|Flajolet & Sedgewick, 2009]]"
+Location: Appendix A.6., p. 732
 ---
 Let $F(z)$ be a formal power series which satisfies $F(z) = z\phi(F(z))$, where $\phi(z)$ is a power series with $\phi(0) \neq 0$. Then, for any Laurent series $H(z) = \sum_{n \geq a}H_nz^n$ and for all non-zero integers $n$, we have
 $$

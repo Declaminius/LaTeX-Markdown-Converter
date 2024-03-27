@@ -12,5 +12,5 @@ which implies
 $$
 A(z) = 1 + B(z) + B(z)^2 + \cdots = \frac{1}{1 - B(z)},
 $$
-where the final equality is to be interpreted as convergence in the formal topology, which we have shown in Example [[Example 1.2.3]].
+where the final equality is to be interpreted as convergence in the formal topology, which we have shown in Example [[Diplomarbeit. Example 1.2.3]].
 For a thorough treatment of these combinatorial constructions, the author recommends the treatise in \[[[Analytic combinatorics|Flajolet & Sedgewick, 2009, Section I.2]]\] by Flajolet and Sedgewick.

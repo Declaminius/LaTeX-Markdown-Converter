@@ -45,4 +45,4 @@ C_0(z) &= \frac{E(\rho)}{1 - Q(\rho)} -
 \frac{1}{\tau}\sqrt{2\frac{P(\tau)}{P''(\tau)}} + \eta D(\rho)
 \right)\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho).
 \end{align*}$$
-Now the results follow from the standard function scale (Theorem [[Standard function scale]]) and the Transfer Theorem [[Theorem 2.3.4]].
+Now the results follow from the standard function scale (Theorem [[Standard function scale]]) and the Transfer Theorem [[mathcalO-Transfer]].

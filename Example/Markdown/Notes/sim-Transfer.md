@@ -1,6 +1,9 @@
 ---
 tags:
   - Corollary
+Sources:
+  - "[[Analytic combinatorics|Flajolet & Sedgewick, 2009]]"
+Location: Corollary VI.1, p.~392
 ---
 Assume that $f(z)$ is $\Delta$-analytic and
 $$
@@ -11,6 +14,6 @@ $$
 [z^n]f(z) \sim \frac{n^{\alpha - 1}}{\Gamma(\alpha)}.
 $$
 
-`egin{proof}`
+`\begin{proof}`
 ![[sim-Transfer. Proof|no-title]]
 `\end{proof}`

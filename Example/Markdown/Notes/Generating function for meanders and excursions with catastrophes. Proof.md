@@ -18,4 +18,4 @@ with $q$ denoting the weight of a catastrophe. In the model of alternative catas
 $$\begin{equation*}
 Q^{\mathrm{alt}}(z) = q z \cdot M(z).
 \end{equation*}$$
-For the generating function of meanders with catastrophes ending at a fixed altitude $k$, it suffices to replace the bivariate generating function for meanders $M(z,u)$ with the generating function $M_k(z)$ of meanders ending at altitude $k$. The expression for $M_k(z)$ has been derived in Corollary [[Corollary 2.2.7]].
+For the generating function of meanders with catastrophes ending at a fixed altitude $k$, it suffices to replace the bivariate generating function for meanders $M(z,u)$ with the generating function $M_k(z)$ of meanders ending at altitude $k$. The expression for $M_k(z)$ has been derived in Corollary [[Diplomarbeit. Corollary 2.2.7]].

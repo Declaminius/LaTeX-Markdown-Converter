@@ -13,4 +13,4 @@ $$\begin{equation*}
 P_t(z,1) = P_s\left(\frac{z}{1-z},1\right)
 = \frac{1}{2}\left(\frac{1}{\sqrt{1-4z}} - 1\right),
 \end{equation*}$$
-and thus a simple application of the standard function scale (Theorem [[Standard function scale]]) combined with the Transfer Theorem [[Theorem 2.3.4]] gives the desired result.
+and thus a simple application of the standard function scale (Theorem [[Standard function scale]]) combined with the Transfer Theorem [[mathcalO-Transfer]] gives the desired result.
