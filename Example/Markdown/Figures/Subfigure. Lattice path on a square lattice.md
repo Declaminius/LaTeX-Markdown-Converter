@@ -1,5 +1,5 @@
 ---
-Figure: "[[Examples of lattices]]"
+Figure: "[[Figure. Examples of lattices]]"
 tags:
   - Figure
 ---

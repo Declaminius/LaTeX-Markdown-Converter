@@ -1,5 +1,5 @@
 ---
-Figure: "[[The contours mathcalC_R(n) and mathcalH(n)]]"
+Figure: "[[Figure. The contours mathcalC_R(n) and mathcalH(n)]]"
 tags:
   - Figure
 ---

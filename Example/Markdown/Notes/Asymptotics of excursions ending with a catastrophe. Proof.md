@@ -25,7 +25,7 @@ For $\delta > 0$ the new dominant singularity instead happens to be a simple pol
 $$
 d_n = \frac{\rho_0^{-n}}{\rho_0Q'(\rho_0)} + \mathcal{O}(P(1)^n).
 $$
-20. In the case that $\rho_0 = \rho$, the branching point of $u_1(z)$ leads to a square root behavior in the Puiseux expansion of $Q(z)$ for $z \to \rho$:
+2. In the case that $\rho_0 = \rho$, the branching point of $u_1(z)$ leads to a square root behavior in the Puiseux expansion of $Q(z)$ for $z \to \rho$:
 $$
 1 - Q(z) = \underbrace{(1 - Q(\rho_0))}_{=0} +\, \eta\sqrt{1 - z/\rho} + \mathcal{O}(1 - z/\rho).
 $$
@@ -39,7 +39,7 @@ $$
 d_n = [z^n]\frac{1}{\eta\sqrt{1 - z/\rho}}\left(1 + \mathcal{O}\left(\sqrt{1 - z/\rho}\right)\right)
 = \frac{\rho^{-n}}{\eta\sqrt{\pi n}}\left(1 + \mathcal{O}\left(\frac{1}{n}\right)\right).
 $$
-34. In the case that $\mathcal{Z}$ is empty, the constant term does not vanish. Instead we expand the right-hand side into a geometric series:
+3. In the case that $\mathcal{Z}$ is empty, the constant term does not vanish. Instead we expand the right-hand side into a geometric series:
 $$\begin{align*}
 D(z) &= \left(1 - \left(Q(\rho) - \eta\sqrt{1 - z/\rho} + \mathcal{O}(1-z/\rho_0)\right)\right)^{-1} \\
 &= \sum_{k = 0}^\infty \left(Q(\rho) - \eta\sqrt{1 - z/\rho} + \mathcal{O}(1-z/\rho_0)\right)^k \\

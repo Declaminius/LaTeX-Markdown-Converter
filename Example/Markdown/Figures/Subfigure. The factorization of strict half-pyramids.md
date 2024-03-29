@@ -1,6 +1,6 @@
 ---
 label: fig:factorisation_half_pyramids
-Figure: "[[The factorizations of strict half-pyramids and pyramids]]"
+Figure: "[[Figure. The factorizations of strict half-pyramids and pyramids]]"
 tags:
   - Figure
 ---

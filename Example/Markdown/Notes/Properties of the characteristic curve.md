@@ -32,8 +32,8 @@ B\left(
 \end{equation*}$$
 In summary, the $u_j$ and $v_k$ organize themselves into two cycles of $c$ and $d$ elements; see Figure [[Figure. Graphs of the characteristic curve]] for an example.
 For determinacy, one restricts attention to the complex plane slit along the negative real axis, which allows us to talk freely of the individual branches in the sequel.
-27. The characteristic polynomial $P(u)$ admits a unique positive minimum at a real number $\tau > 0$, called the *structural constant*. This value then defines the *structural radius* $\rho := 1/P(\tau)$. 
-28. There is a *dominant small root* $u_1(z)$ and a *dominant large root* $v_1(z)$, determined by the reality conditions
+2. The characteristic polynomial $P(u)$ admits a unique positive minimum at a real number $\tau > 0$, called the *structural constant*. This value then defines the *structural radius* $\rho := 1/P(\tau)$. 
+3. There is a *dominant small root* $u_1(z)$ and a *dominant large root* $v_1(z)$, determined by the reality conditions
 $$
 u_1(z) \sim \gamma z^{1/c}, \qquad v_1(z) \sim \delta z^{-1/d}, \qquad (z \to 0^+)
 $$
@@ -46,12 +46,12 @@ Further, on the circle of convergence $|z| = \rho$ we have
 $$
 |u_i(z)| < u_1(\rho) = v_1(\rho) < |v_j(z)|.
 $$
-41. The dominant small root $u_1(z)$ and the dominant large root $v_1(z)$ are conjugated to each other at their dominant singularity occuring at the structural radius $\rho$:
+4. The dominant small root $u_1(z)$ and the dominant large root $v_1(z)$ are conjugated to each other at their dominant singularity occuring at the structural radius $\rho$:
 $$\begin{equation*}
 u_1(z) \sim \tau + \sum_{n = 1}^\infty a_n (\rho - z)^{n/2}, \qquad 
 v_1(z) \sim \tau + \sum_{n = 1}^\infty (-1)^n a_n (\rho - z)^{n/2}.
 \end{equation*}$$
-46. The product 
+5. The product 
 $$
 Y_1(z) := \prod_{i=2}^c u_i(z)
 $$ 

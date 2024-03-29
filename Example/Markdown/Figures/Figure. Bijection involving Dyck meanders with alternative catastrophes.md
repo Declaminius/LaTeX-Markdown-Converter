@@ -1,5 +1,5 @@
 ---
-label: fig:dyck_meanders_bijection2
+label: fig:dyck_meanders_bijection
 subfigures:
 tags:
   - Figure
@@ -11,10 +11,10 @@ tags:
 #### Sourcecode
 
 ```
-\begin{figure}[hbt!]          
+\begin{figure}[hbt!]
 \centering
-\includegraphics{images/symmetric_arches v2}
-\caption[Bijection involving Dyck meanders with alternative catastrophes.]{Bijection between Dyck meanders with alternative catastrophes of length $n$ and Dyck excursions with symmetric arches of length $2(n+1)$.}
-\label{fig:dyck_meanders_bijection2}
+\includegraphics{images/dyck_meanders_bijection v2}
+\caption[Bijection involving Dyck meanders with alternative catastrophes.]{Bijection between Dyck meanders with alternative catastrophes and 2-Motzkin excursions with no **E**-steps at positive height.}
+\label{fig:dyck_meanders_bijection}
 \end{figure}
 ```

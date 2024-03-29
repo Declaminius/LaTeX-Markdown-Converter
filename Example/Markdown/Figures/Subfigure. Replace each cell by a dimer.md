@@ -1,5 +1,5 @@
 ---
-Figure: "[[Constructing a square lattice animal from a strict, connected heap]]"
+Figure: "[[Figure. Constructing a square lattice animal from a strict, connected heap]]"
 tags:
   - Figure
 ---

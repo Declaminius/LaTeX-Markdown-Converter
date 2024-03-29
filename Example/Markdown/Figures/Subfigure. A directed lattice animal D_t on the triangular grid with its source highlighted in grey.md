@@ -1,5 +1,5 @@
 ---
-Figure: "[[Constructing pyramids from directed lattice animals]]"
+Figure: "[[Figure. Constructing pyramids from directed lattice animals]]"
 tags:
   - Figure
 ---

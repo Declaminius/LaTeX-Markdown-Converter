@@ -1,6 +1,6 @@
 ---
 label: fig:plane_tree
-Figure: "[[Łukasiewicz correspondence]]"
+Figure: "[[Figure. Łukasiewicz correspondence]]"
 tags:
   - Figure
 ---

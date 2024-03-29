@@ -1,5 +1,5 @@
 ---
-Figure: "[[Heaps of dimers]]"
+Figure: "[[Figure. Heaps of dimers]]"
 tags:
   - Figure
 ---

@@ -1,5 +1,5 @@
 ---
-Figure: "[[Bijection between Dyck meanders with alternative catastrophes and 2-Motzkin excursions with no E-ste]]"
+Figure: "[[Figure. Bijection between Dyck meanders with alternative catastrophes and 2-Motzkin excursions with no E-ste]]"
 tags:
   - Figure
 ---

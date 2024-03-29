@@ -1,5 +1,5 @@
 ---
-Figure: "[[Graphs of the characteristic curve]]"
+Figure: "[[Figure. Graphs of the characteristic curve]]"
 tags:
   - Figure
 ---

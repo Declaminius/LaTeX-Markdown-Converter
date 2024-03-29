@@ -43,6 +43,6 @@ $$
 \big| f_n^{(2)} \big| = \mathcal{O}(n^{\alpha - 1})
 $$
 and similar arguments show the same bound for $f_n^{(4)}$.
-23. Finally we consider the contribution from the integral along the outer circle $\gamma_3$. There the integrand remains bounded while $z^{-n}$ is of order $\mathcal{O}(r^{-n})$. Hence, $f_n^{(3)}$ is exponentially small and negligible in the scale of the problem.
+3. Finally we consider the contribution from the integral along the outer circle $\gamma_3$. There the integrand remains bounded while $z^{-n}$ is of order $\mathcal{O}(r^{-n})$. Hence, $f_n^{(3)}$ is exponentially small and negligible in the scale of the problem.
 
 In summary, each of the four integrals of the split contour are bounded by $\mathcal{O}\left(n^{\alpha - 1}\right)$ and thus the statement of the theorem follows.

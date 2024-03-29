@@ -262,9 +262,12 @@ def convert_lists(block):
         else:
             if numbered:
                 new_block += re.sub("\\\\item", "\t"*(nested_counter - 1) + str(number) + ".", line) + "\n"
-                number += 1
+                if re.search("\\\\item", line) is not None:
+                    number += 1
+       
             else:
                 new_block += re.sub("\\\\item", "\t"*(nested_counter - 1) + "-", line) + "\n"
+
     return new_block
 
 def convert_quotes(block):
@@ -411,16 +414,17 @@ def parse_theorem_label_and_name(block, env, counter):
         filename = re.sub("[\{\}]+", "", filename)
         filename = parsing_utils.sanitize_filename(filename)
         theorem = Theorem(env, filename, has_title = True)
+    
+    if filename.strip() == "":
+        filename = config.title + ". " + env.capitalize() + " " + str(counter.chapter) + "." + str(counter.section) + "." + str(counter.theorem) 
+        theorem = Theorem(env, filename, has_title = False)
 
+    if name_match:
         citation = re.search("\\\\cite(?:\[(.*?)\])?\{(.*?)\}", content)
         if citation is not None:
             location_in_source = citation.group(1)
             source = citation.group(2)
             theorem.add_source(source, location_in_source)
-    
-    if filename.strip() == "":
-        filename = config.title + ". " + env.capitalize() + " " + str(counter.chapter) + "." + str(counter.section) + "." + str(counter.theorem) 
-        theorem = Theorem(env, filename, has_title = False)
 
     label_match = re.search("\\\\label\{(.+?)\}", block)
     if label_match is not None:
@@ -435,7 +439,7 @@ def write_subfigure_markdown(subfigure, figure_name, name, label):
         if label is not None:
             parsing_utils.write_linking_dictionary(label, "Subfigure. " + name, config.label_dictionary_file)
             file.write("label: " + label + "\n")
-        file.write("Figure: " + '"[[' + figure_name + ']]"' + "\n")
+        file.write("Figure: " + '"[[Figure. ' + figure_name + ']]"' + "\n")
         file.write("tags:\n")
         file.write("  - Figure\n")
         file.write("---\n")

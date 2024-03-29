@@ -48,10 +48,10 @@ chapter:basketball_walks?3 Basketball walks
 section:gf_catastrophes?4.1 Generating functions
 ex:dyck_meanders_alt_cats?Diplomarbeit. Example 4.1.1
 fig:dyck_meanders_bijection?Figure. Bijection involving Dyck meanders with alternative catastrophes
-fig:dyck_meanders_bijection2?Figure. Bijection involving Dyck meanders with alternative catastrophes
+fig:dyck_meanders_bijection2?Figure. Bijection involving Dyck meanders with alternative catastrophes and symmetric arches
 thm:dyck_meanders_bijection?Diplomarbeit. Theorem 4.1.3
 fig:motzkin_meanders_bijection?Figure. Bijection involving Motzkin meanders with alternative catastrophes
-fig:motzkin_meanders_symmetric_arches?Figure. Bijection involving Motzkin meanders with alternative catastrophes
+fig:motzkin_meanders_symmetric_arches?Figure. Bijection involving Motzkin meanders with alternative catastrophes and symmetric arches
 ex:motzkin_excursions?Diplomarbeit. Example 4.1.8
 tab:OEIS_cat?Table of lattice paths with catastrophes
 tab:OEIS_alt?Table of lattice paths with alternative catastrophes

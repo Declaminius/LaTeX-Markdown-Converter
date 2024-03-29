@@ -1,5 +1,5 @@
 ---
-Figure: "[[Polyominoes and matching lattice animals]]"
+Figure: "[[Figure. Polyominoes and matching lattice animals]]"
 tags:
   - Figure
 ---

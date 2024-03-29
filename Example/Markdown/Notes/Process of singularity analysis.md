@@ -16,7 +16,7 @@ f(z) = \sigma(z/\rho) + \mathcal{O}(\tau(z/\rho))
 \qquad \text{as $z \to \rho$}.
 $$
 In order to proceed to the next step, the functions $\sigma$ and $\tau$ should belong to the standard scale of functions.
-11. Translate the main term $\sigma(z)$ using the standard function scale (Theorem [[Standard function scale]]), transfer the error term using the Transfer Theorem [[mathcalO-Transfer]] and conclude that
+4. Translate the main term $\sigma(z)$ using the standard function scale (Theorem [[Standard function scale]]), transfer the error term using the Transfer Theorem [[mathcalO-Transfer]] and conclude that
 $$
 [z^n] f(z) = \rho^{-n}\sigma_n + \mathcal{O}(\rho^{-n}\tau_n),
 $$

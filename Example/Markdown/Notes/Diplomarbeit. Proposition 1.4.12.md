@@ -1,6 +1,9 @@
 ---
 tags:
   - Proposition
+Sources:
+  - "[[Analytic combinatorics|Flajolet & Sedgewick, 2009]]"
+Location: pp.~739-740
 ---
 Let $\mathbf{R} = \mathbf{R}(P(x),Q(x),x)$ be the resultant of $P(x), Q(x) \in \K[x]$ and let $\overline{\K}$ be the algebraic closure of $\K$. Then the following statements hold:
 - If $P(x)$ and $Q(x)$ have a common root in $\overline{\K}$, then $\mathbf{R}(P(x),Q(x),x) = 0$.

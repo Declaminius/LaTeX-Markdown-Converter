@@ -1,6 +1,6 @@
 ---
 label: fig:Łukasiewicz correspondence
-Figure: "[[Łukasiewicz correspondence]]"
+Figure: "[[Figure. Łukasiewicz correspondence]]"
 tags:
   - Figure
 ---

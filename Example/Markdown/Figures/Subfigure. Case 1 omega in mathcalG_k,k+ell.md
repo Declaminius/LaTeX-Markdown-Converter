@@ -1,5 +1,5 @@
 ---
-Figure: "[[Decompositions of a basketball walk ending at altitude ell]]"
+Figure: "[[Figure. Decompositions of a basketball walk ending at altitude ell]]"
 tags:
   - Figure
 ---

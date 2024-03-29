@@ -2,6 +2,9 @@
 tags:
   - Proposition
 label: thm:new_proof_basketball
+Sources:
+  - "[[Explicit formulas for enumeration of lattice paths basketball and the kernel method|Banderier et. al., 2019]]"
+Location: Proposition 6.4
 ---
 Let $G_{j,k}(z)$ be the generating function for positive basketball walks starting at altitude $j > 0$ and ending at altitude $k > 0$. Then^[The formula in \[[[Explicit formulas for enumeration of lattice paths basketball and the kernel method|Banderier et. al., 2019, Proposition 6.4]]\] contains some typos, as some signs are incorrectly flipped.]
 ![[Gjk_alternative|no-title]]

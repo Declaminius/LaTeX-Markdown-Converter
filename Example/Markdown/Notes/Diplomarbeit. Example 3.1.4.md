@@ -2,6 +2,9 @@
 tags:
   - Example
 label: ex:G01,2
+Sources:
+  - "[[Explicit formulas for enumeration of lattice paths basketball and the kernel method|Banderier et. al., 2019]]"
+Location: p.~92
 ---
 We use the general formula [[G0k, Gjk]] to compute explicit expressions for $G_{0,1}(z)$ and $G_{0,2}(z)$. By substituting $k = 1, 2$ we get
 $$\begin{align*}

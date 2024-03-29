@@ -1,5 +1,5 @@
 ---
-Figure: "[[Bijection involving stacked directed animals]]"
+Figure: "[[Figure. Bijection involving stacked directed animals]]"
 tags:
   - Figure
 ---
